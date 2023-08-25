@@ -1,0 +1,35 @@
+{
+	"name": "ecss-stylelint-config",
+	"version": "0.0.1",
+	"description": "Linting rules for ECSS",
+	"main": ".stylelintrc.js",
+	"directories": {
+		"test": "tests"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/efficientcss/stylelint-config.git"
+	},
+	"peerDependencies": {
+		"stylelint": "^15.10.3",
+		"stylelint-z-index-value-constraint": "^1.3.0",
+		"stylelint-csstree-validator": "^3.0.0",
+		"stylelint-declaration-block-no-ignored-properties": "^2.7.0",
+		"stylelint-declaration-strict-value": "^1.9.2",
+		"stylelint-magic-numbers": "^1.0.5",
+		"stylelint-file-max-lines": "^1.0.0"
+	},
+	"keywords": [
+		"stylelint",
+		"linting",
+		"config",
+		"css",
+		"ecss"
+	],
+	"author": "Marc-André Charpentier",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/efficientcss/stylelint-config/issues"
+	},
+	"homepage": "https://github.com/efficientcss/stylelint-config#readme"
+}
