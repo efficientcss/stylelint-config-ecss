@@ -3,9 +3,6 @@
 	"version": "0.0.1",
 	"description": "Linting rules for ECSS",
 	"main": ".stylelintrc.js",
-	"directories": {
-		"test": "tests"
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/efficientcss/stylelint-config.git"
