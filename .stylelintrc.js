@@ -87,13 +87,10 @@ const createRuleMessages = (selector, prop, selectorList) => {
 
 			let keywordsArray = null;
 
-			for (let k = 0; k < matchedObject.length; k += 1) {
-				for (let i = 0; i < matchedObject[k].properties.length; i += 1) {
-					if (matchedObject[k].properties[i].test(prop)) {
-						keywordsArray = matchedObject[k].keywords;
-						message = printComment(keywordsArray) + " -> `"+selector+" et "+prop+"`";
-					}
-				}
+			const matchedProperties = matchedObject.find(item => item.properties.some(item => prop.match(item)));
+			if (matchedProperties) {
+				keywordsArray = matchedProperties.keywords;
+				message = printComment(keywordsArray) + " -> `"+selector+" et "+prop+"`";
 			}
 		}
 	}
