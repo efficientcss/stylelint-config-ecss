@@ -1,5 +1,23 @@
+const { lang } = require("./configLang.js");
+const chosenLang = () => {
+	let messageLang;
+	let osLang = Intl.DateTimeFormat().resolvedOptions().locale;
+
+	if(lang == "auto" && (osLang.includes("en-") || osLang.includes("fr-"))){
+		messageLang = osLang
+	} else if(lang == "fr" || lang == "en") {
+		messageLang = lang;
+	} else {
+		messageLang = "en";
+	}
+	return messageLang.split("-")[0];
+}
+
+const rootDir = __dirname;
+const messageFile = rootDir+"/messages/"+chosenLang()+".txt";
+
 const fs = require("fs");
-const global_data = fs.readFileSync("commentaires.txt").toString();
+const messageData = fs.readFileSync(messageFile).toString();
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
@@ -20,11 +38,32 @@ const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectors+'
 const notImage_selectors = new RegExp('^((?!'+image_selectors+').)*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
-let data_array = global_data.split(/\r?\n/);
-var keywords = ['répét', 'css'];
+let messageArray = messageData.split(/\r?\n/);
 
-let printComment = (keywords) => {
-	let results = data_array.filter((line) => keywords.every(keyword => line.toLowerCase().includes(keyword)));
+const selPropDisallowedList = {
+	text_selectors: [
+		{ regex: text_selectors },
+		{ properties: [/margin(?!-top|-bottom)/], keywords: ["rythme", "vertical", "texte"] },
+		{ properties: [/padding/], keywords: ["dégagement", "inégal"] },
+		{ generic: ['propriété', 'sélecteur', 'éviter'] }
+	],
+	tag_selectors: [
+		{ regex: tag_selectors },
+		{ properties: [/padding/], keywords: ["dégagement", "inégal"] }
+	],
+	component_selectors: [
+		{ regex: component_selectors },
+		{ properties: [/margin/], keywords: ['composante', 'extérieur'] },
+		{ properties: [/^width/, /^height/], keywords: ["beaucoup", "code"] }
+	],
+	notImage_selectors: [
+		{ regex: notImage_selectors },
+		{ properties: [/^width/, /^height/], keywords: ["rapatrier", "dossier"] }
+	]
+}
+
+const printComment = (keywords) => {
+	let results = messageArray.filter((line) => keywords.every(keyword => line.toLowerCase().includes(keyword)));
 	results = results[0].split(': ')[1];
 	return results;
 }
@@ -40,28 +79,30 @@ const propCases = (prop, cases = []) => {
 	return comment;
 }
 
+const createRuleMessages = (selector, prop, selectorList) => {
+	for (const selectors in selectorList) {
+		const selectorsRegex = selectorList[selectors].find(rule => rule.regex).regex;
+		if(selectorsRegex.test(selector) && selectorList[selectors].find(item => item.keywords)){
+			const matchedObject = selectorList[selectors].filter(item => item.properties);
 
-const selPropDisallowedList = {
-	text_selectors: [
-		{ regex: text_selectors },
-		{ properties: [/margin(?!-top|-bottom)/], keywords: ["rythme", "vertical", "texte"] },
-		{ properties: [/padding/], keywords: ["dégagement", "inégal"] },
-		{ generic: ['propriété', 'sélecteur', 'éviter'] }
-	],
-	tag_selectors: [
-		{ regex: tag_selectors },
-		{ properties: [/padding/], keywords: ["dégagement", "inégal"] }
-	],
-	component_selectors: [
-		{ regex: component_selectors },
-		{ properties: [/margin/] },
-		{ properties: [/^width/, /^height/] }
-	],
-	notImage_selectors: [
-		{ regex: notImage_selectors },
-		{ properties: [/^width/, /^height/] }
-	]
+			let keywordsArray = null;
+
+			for (let k = 0; k < matchedObject.length; k += 1) {
+				for (let i = 0; i < matchedObject[k].properties.length; i += 1) {
+					if (matchedObject[k].properties[i].test(prop)) {
+						keywordsArray = matchedObject[k].keywords;
+						message = printComment(keywordsArray) + " -> `"+selector+" et "+prop+"`";
+					}
+				}
+			}
+		}
+	}
+
+	return message;
+
 }
+
+
 
 const createRuleSelectors = (selectorList) => {
 	let object = {};
@@ -113,21 +154,8 @@ module.exports = {
 		"rule-selector-property-disallowed-list": [
 			createRuleSelectors(selPropDisallowedList), {
 				"splitList": true,
-				"message": (selector, prop) => {
-					let comment = '';
-					if(selector.match(text_selectors)){
-						comment = propCases(prop, [
-							{ properties: [/margin(?!-top|-bottom)/], keywords: ["rythme", "vertical", "texte"] },
-							{ properties: [/padding/], keywords: ["dégagement", "inégal"] },
-							{ generic: ['propriété', 'sélecteur', 'éviter'] }
-						]);
-					} else if(selector.match(component_selectors)){
-						comment = printComment(['composante', 'extérieur']);
-
-					}
-					comment += " -> `"+selector+" et "+prop+"`"
-					return comment;
-				}
+				"message": (selector, prop) => { 
+					return createRuleMessages(selector, prop, selPropDisallowedList) }
 			}
 		],
 	}
