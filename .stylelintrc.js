@@ -1,7 +1,7 @@
 const { lang } = require("./configLang.js");
 const chosenLang = () => {
 	let messageLang;
-	let osLang = Intl.DateTimeFormat().resolvedOptions().locale;
+	const osLang = Intl.DateTimeFormat().resolvedOptions().locale;
 
 	if(lang == "auto" && (osLang.includes("en-") || osLang.includes("fr-"))){
 		messageLang = osLang
@@ -15,9 +15,13 @@ const chosenLang = () => {
 
 const rootDir = __dirname;
 const messageFile = rootDir+"/messages/"+chosenLang()+".txt";
-
 const fs = require("fs");
 const messageData = fs.readFileSync(messageFile).toString();
+const messageArray = messageData.split(/\r?\n/);
+
+const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
+const structureTag_selectorPart = 'div|header|footer|section|aside|article'
+const image_selectorPart = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|after$';
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
@@ -28,17 +32,11 @@ const pseudoClass_selectors = /:.*/;
 const childPseudoClass_selectors = /:.*[child]/;
 const typePseudoClass_selectors = /:.*[]/;
 const prefixedClass_selectors = /.is-*/;
-
-const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
-const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const image_selectors = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|after$';
 const notWithClasses_selectors = /(:not\(.*\.)/;
-
-const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectors+')[a-zA-Z-_]+("?\])?$');
-const notImage_selectors = new RegExp('^((?!'+image_selectors+').)*$');
+const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectorPart+')[a-zA-Z-_]+("?\])?$');
+const notImage_selectors = new RegExp('^((?!'+image_selectorPart+').)*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
-let messageArray = messageData.split(/\r?\n/);
 
 const selPropDisallowedList = {
 	text_selectors: [
@@ -62,7 +60,7 @@ const selPropDisallowedList = {
 	]
 }
 
-const printComment = (keywords) => {
+const printMessage = (keywords) => {
 	let results = messageArray.filter((line) => keywords.every(keyword => line.toLowerCase().includes(keyword)));
 	results = results[0].split(': ')[1];
 	return results;
