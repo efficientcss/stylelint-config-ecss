@@ -43,32 +43,54 @@ const printMessage = (keywords) => {
 	return results;
 }
 
-const createRuleMessages = (selector, prop, selectorList) => {
-	for (const selectors in selectorList) {
-		const selectorsRegex = selectorList[selectors].find(rule => rule.regex).regex;
-		if(selectorsRegex.test(selector)){
-			const matchedObject = selectorList[selectors].filter(item => item.properties);
+const createRuleMessages = (selector, prop, dataList) => {
+	let message = "";
+	for (const data in dataList) {
+		const selectorsRegex = dataList[data].find(rule => rule.regex)?.regex;
+			const matchedObject = dataList[data].filter(item => item.properties);
 			const matchedProperties = matchedObject.find(item => item.properties.some(item => prop.match(item)));
-			const keywordsArray = matchedProperties?.keywords || ["fonctionnalité", "inutile"];
-
-			message = printMessage(keywordsArray) + " -> `"+selector+" et "+prop+"`";
+		if(selectorsRegex && selectorsRegex.test(selector)){
+			if(matchedProperties) {
+				const keywordsArray = matchedProperties?.keywords || ["erreur", "générique"];
+				message = printMessage(keywordsArray) + " -> `"+selector+" & "+prop+"`";
+			} else {
+				const keywordsArray = dataList[data][0].keywords || ["erreur", "générique"];
+				message = printMessage(keywordsArray) + " -> `"+selector+"`";
+			}
+		} else if(!selectorsRegex) {
+			const valuesArray = dataList[data].filter(prop => prop.values).flatMap(prop => prop.values);
+			const propertiesArray = dataList[data][0].properties;
+			const propertyRegex = new RegExp(propertiesArray);
+			const keywordsArray = dataList[data][0].keywords;
+			if(propertyRegex.test(selector)) {
+				message = printMessage(keywordsArray) + " -> `"+selector+" & "+prop+"`";
+			}
 		}
 	}
 
 	return message;
 }
 
-
-
-const createRuleSelectors = (selectorList) => {
+const createRuleData = (dataList) => {
 	let object = {};
-
-	for (const selectors in selectorList) {
-		const selectorsRegex = selectorList[selectors].find(rule => rule.regex).regex;
-		const propertiesArray = selectorList[selectors].filter(prop => prop.properties).flatMap(prop => prop.properties);
-		object[selectorsRegex] = propertiesArray;
+	let array = [];
+	let result;
+	for (const data in dataList) {
+		const selectorsRegex = dataList[data].find(rule => rule.regex)?.regex;
+		const valuesArray = dataList[data].filter(prop => prop.values).flatMap(prop => prop.values);
+		const propertiesArray = dataList[data].filter(prop => prop.properties).flatMap(prop => prop.properties);
+		if(selectorsRegex && propertiesArray.length > 0){
+			object[selectorsRegex] = propertiesArray;
+			result = object;
+		} else if(propertiesArray.length > 0 && valuesArray.length > 0) {
+			object[propertiesArray] = valuesArray;
+			result = object;
+		} else if(selectorsRegex) {
+			array.push(selectorsRegex);
+			result = array;
+		}
 	}
-	return object;
+	return result;
 }
 
 const selPropDisallowedList = [
