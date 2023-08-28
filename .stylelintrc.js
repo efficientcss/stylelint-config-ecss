@@ -125,17 +125,23 @@ const selDisallowedList = [
 ]
 
 module.exports = {
+	"extends": ["stylelint-config-clean-order"],
+	"ignoreFiles": ["**/normalize.css", "**/unused/*.css", "**/build.css", "**/build/*.css", "**/x-*.css", "**/*min.css", "**/*quarantine.css"],
+	"plugins": [
+		"./plugins/stylelint-selector-starts-with-filename",
+		"./plugins/stylelint-declaration-block-conjoined-properties",
+		"stylelint-z-index-value-constraint",
+		"stylelint-csstree-validator",
+		"stylelint-declaration-block-no-ignored-properties",
+		"stylelint-declaration-strict-value",
+		"stylelint-magic-numbers",
+		"stylelint-file-max-lines"
+	],
 	"rules": {
-		"declaration-property-value-disallowed-list": [{
-			"position": "/absolute|fixed/",
-			"/margin|padding/": "/^-?([7-9]\\d|\\d{3,})/",
-			"float": "/left|right/",
-			"translate": "/50%/",
-			"flex": "/[0-9]/",
-			"transform": "/translate\\(-50%/",
-			"overflow": "hidden"
-		},{ 
-			"message": "`%s: %d` — Utilisation inappropriée de propriétés. voir [https://ecss.info](https://ecss.info)",
+		"declaration-property-value-disallowed-list": [
+		createRuleData(propValDisallowedList), { 
+			"message": (selector, prop) => { 
+					return createRuleMessages(selector, prop, propValDisallowedList) },
 			"severity": "warning"
 		}],
 		"property-disallowed-list": [
@@ -152,20 +158,96 @@ module.exports = {
 				"severity": "warning"
 			}],
 		"selector-disallowed-list": [
-			[numberedClass_selectors,
-				notWithClasses_selectors,
-				unprefixedDescendant_selectors,
-				unprefixedCombinedClass_selectors,
-				overlyStructuredChildren_selectors], {
-					"message": "Sélecteur inadéquat.`%s`",
+			createRuleData(selDisallowedList), {
+			"message": (selector, prop) => { 
+					return createRuleMessages(selector, prop, selDisallowedList) },
 					"splitList": true
 				}],
 		"rule-selector-property-disallowed-list": [
-			createRuleSelectors(selPropDisallowedList), {
+			createRuleData(selPropDisallowedList), {
 				"splitList": true,
 				"message": (selector, prop) => { 
 					return createRuleMessages(selector, prop, selPropDisallowedList) }
 			}
 		],
+		"plugin/selector-starts-with-filename": true,
+		"plugin/declaration-block-conjoined-properties": true,
+		"declaration-no-important": true,
+		"plugin/file-max-lines": [200, {"ignore": ["comments", "blankLines"]}],
+		"plugin/z-index-value-constraint": {
+			"min": 1,
+			"max": 10
+		},
+		"function-calc-no-unspaced-operator": true,
+		"function-no-unknown": true,
+		"unit-no-unknown": true,
+		"csstree/validator": [{
+			"ignoreProperties": ["/container/"],
+			"ignoreAtrules": ["container"]
+		}, {
+			"message": "Attention à la validité de votre CSS.`%s`"
+		}],
+		"number-max-precision": [5, {
+			"ignoreUnits": ["em", "rem", "/v/", "s"],
+			"ignoreProperties": ["/--/"]
+		}],
+		"selector-no-vendor-prefix": true,
+		"declaration-block-no-duplicate-custom-properties": true,
+		"declaration-block-no-duplicate-properties": [true, {
+			"message": "Ne répétez pas les propriétés dans un même ensemble.`%s`"
+		}],
+		"custom-property-no-missing-var-function": true,
+		"plugin/declaration-block-no-ignored-properties": true,
+		"block-no-empty": true,
+		"no-descending-specificity": null,
+		"unit-disallowed-list": [
+			["vh", "vw"],
+			{
+				"message": "Utilisation d'unités inappropriées.`%s`",
+				"severity": "warning",
+				"ignoreFunctions": ["clamp"]
+			}
+		],
+		"declaration-property-unit-disallowed-list": [{
+			"height": ["vh"]
+		},{
+			"message": "Propriété et unité inappropriées. `%s: %d`"
+		}],
+		"declaration-no-important": true,
+		"selector-max-compound-selectors": [5, {
+			"message": "Sélecteur trop complexe.`%s`"
+		}],
+		"selector-max-class": [3, {
+			"message": "Évitez d'enchaîner autant de classes.`%s`"
+		}],
+		"selector-max-type": [4, {
+			"message": "Évitez d'enchaîner autant de sélecteurs de balise.`%s`"
+		}],
+		"selector-max-universal": [2, {
+			"message": "Évitez d'enchaîner autant de sélecteurs universels.`%s`"
+		}],
+		"no-duplicate-at-import-rules": true,
+		"no-irregular-whitespace": true,
+		"selector-max-specificity": ["0,2,4", {
+			"message": "Spécificité trop élevée pour le sélecteur.`%s`",
+			"ignoreSelectors": ["/:.*/", "/.is-*/"]
+		}],
+
+		"selector-no-qualifying-type": [null, {
+			"ignore": ["attribute"],
+			"message": "Attention de ne pas surqualifier vos sélecteurs.`%s`"
+		}],
+		"selector-max-id": [0,
+			{
+				"message": "Évitez les sélecteurs d'identifiants.`%s`"
+			}
+		],
+		"magic-numbers/magic-colors": null,
+		"magic-numbers/magic-numbers": [true, {
+			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+/"],
+			"acceptedNumbers": [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100]
+		}, {
+			"message": "Évitez les chiffres magiques.`%s`"
+		}]
 	}
 }
