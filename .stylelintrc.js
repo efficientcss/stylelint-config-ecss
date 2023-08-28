@@ -37,29 +37,6 @@ const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectorPar
 const notImage_selectors = new RegExp('^((?!'+image_selectorPart+').)*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
-
-const selPropDisallowedList = {
-	text_selectors: [
-		{ regex: text_selectors },
-		{ properties: [/margin(?!-top|-bottom)/], keywords: ["rythme", "vertical", "texte"] },
-		{ properties: [/padding/], keywords: ["dégagement", "inégal"] },
-		{ generic: ['propriété', 'sélecteur', 'éviter'] }
-	],
-	tag_selectors: [
-		{ regex: tag_selectors },
-		{ properties: [/padding/], keywords: ["dégagement", "inégal"] }
-	],
-	component_selectors: [
-		{ regex: component_selectors },
-		{ properties: [/margin/], keywords: ['composante', 'extérieur'] },
-		{ properties: [/^width/, /^height/], keywords: ["beaucoup", "code"] }
-	],
-	notImage_selectors: [
-		{ regex: notImage_selectors },
-		{ properties: [/^width/, /^height/], keywords: ["rapatrier", "dossier"] }
-	]
-}
-
 const printMessage = (keywords) => {
 	let results = messageArray.filter((line) => keywords.every(keyword => line.toLowerCase().includes(keyword)));
 	results = results[0].split(': ')[1];
@@ -93,6 +70,37 @@ const createRuleSelectors = (selectorList) => {
 	}
 	return object;
 }
+
+const selPropDisallowedList = [
+	[ { regex: text_selectors },
+		{ properties: [/margin(?!-top|-bottom)/], keywords: ["marge", "vertical", "contenu"] },
+		{ properties: [/padding/], keywords: ["dégagement", "contenu", "conteneur"] } ],
+	[ { regex: tag_selectors },
+		{ properties: [/padding/], keywords: ["dégagement", "large"] } ],
+	[ { regex: component_selectors },
+		{ properties: [/margin/], keywords: ['composante', 'extérieur'] },
+		{ properties: [/^width/, /^height/], keywords: ["forcez", "dimensions", "composante"] } ],
+	[ { regex: notImage_selectors },
+		{ properties: [/^width/, /^height/], keywords: ["images", "dimensions"] } ]
+]
+
+const propValDisallowedList = [
+	[{ properties: ["position"], values: "/absolute|fixed/", keywords: ["position", "valeur"] }],
+	[{ properties: ["/margin|padding/"], values: "/^-?([7-9]\\d|\\d{3,})/", keywords: ["espacement", "large", "problème"] }],
+	[{ properties: ["float"], values: "/left|right/", keywords: ["flottement", "image"]}],
+	[{ properties: ["translate"],  values: "/-50%/", keywords: ["Méthode", "centrer", "désuète"]}],
+	[{ properties: ["flex"], values: "/[0-9]/", keywords: ["Valeur", "invalide", "propriété"]}],
+	[{ properties: ["transform"], values: "/translate\(-50%/", keywords: ["Méthode", "centrer", "désuète"]}],
+	[{ properties: ["overflow"], values: "hidden", keywords: ["masquer", "défilement"]}]
+]
+
+const selDisallowedList = [
+	[{ regex: numberedClass_selectors, keywords: ["proscrire", "chiffre", "classe"] }],
+	[{ regex: notWithClasses_selectors, keywords: ["entité", "sélecteur", "not"] }],
+	[{ regex: unprefixedDescendant_selectors, keywords: ["descendant", "préfixé"] }],
+	[{ regex: unprefixedCombinedClass_selectors, keywords: ["combiné", "préfixé"] }],
+	[{ regex: overlyStructuredChildren_selectors, keywords: ["sélecteur", "nécessaire"] }]
+]
 
 module.exports = {
 	"rules": {
