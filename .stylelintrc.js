@@ -66,17 +66,6 @@ const printMessage = (keywords) => {
 	return results;
 }
 
-const propCases = (prop, cases = []) => {
-	let defaultComment = cases.filter(i => i.generic).map(i => i.generic)[0];
-	let comment = printComment(defaultComment);
-	for(let i = 0; i < cases.length; i += 1){
-		if(cases[i].properties && cases[i].properties.some(regex => regex.test(prop))){
-			comment = printComment(cases[i].keywords)
-		}
-	}
-	return comment;
-}
-
 const createRuleMessages = (selector, prop, selectorList) => {
 	for (const selectors in selectorList) {
 		const selectorsRegex = selectorList[selectors].find(rule => rule.regex).regex;
