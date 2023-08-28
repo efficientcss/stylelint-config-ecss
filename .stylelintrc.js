@@ -69,21 +69,16 @@ const printMessage = (keywords) => {
 const createRuleMessages = (selector, prop, selectorList) => {
 	for (const selectors in selectorList) {
 		const selectorsRegex = selectorList[selectors].find(rule => rule.regex).regex;
-		if(selectorsRegex.test(selector) && selectorList[selectors].find(item => item.keywords)){
+		if(selectorsRegex.test(selector)){
 			const matchedObject = selectorList[selectors].filter(item => item.properties);
-
-			let keywordsArray = null;
-
 			const matchedProperties = matchedObject.find(item => item.properties.some(item => prop.match(item)));
-			if (matchedProperties) {
-				keywordsArray = matchedProperties.keywords;
-				message = printComment(keywordsArray) + " -> `"+selector+" et "+prop+"`";
-			}
+			const keywordsArray = matchedProperties?.keywords || ["fonctionnalité", "inutile"];
+
+			message = printMessage(keywordsArray) + " -> `"+selector+" et "+prop+"`";
 		}
 	}
 
 	return message;
-
 }
 
 
