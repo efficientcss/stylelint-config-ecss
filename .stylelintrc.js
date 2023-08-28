@@ -39,7 +39,7 @@ const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_s
 
 const printMessage = (keywords) => {
 	let results = messageArray.filter((line) => keywords.every(keyword => line.toLowerCase().includes(keyword)));
-	results = results[0].split(': ')[1];
+	results = results[0];
 	return results;
 }
 
