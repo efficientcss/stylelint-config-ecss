@@ -113,7 +113,7 @@ const propValDisallowedList = [
 	[{ properties: ["float"], values: "/left|right/", keywords: ["flottement", "image"]}],
 	[{ properties: ["translate"],  values: "/-50%/", keywords: ["Méthode", "centrer", "désuète"]}],
 	[{ properties: ["flex"], values: "/[0-9]/", keywords: ["Valeur", "invalide", "propriété"]}],
-	[{ properties: ["transform"], values: "/translate\(-50%/", keywords: ["Méthode", "centrer", "désuète"]}],
+	[{ properties: ["transform"], values: "/translate\\(-50%/", keywords: ["Méthode", "centrer", "désuète"]}],
 	[{ properties: ["overflow"], values: "hidden", keywords: ["masquer", "défilement"]}]
 ]
 
