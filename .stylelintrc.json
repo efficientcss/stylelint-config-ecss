@@ -2,7 +2,7 @@
 	"extends": ["./.stylelintrc.js"],
 	"overrides": [
 		{
-			"files": "*",
+			"files": ["*"],
 			"rules": {
 				"declaration-empty-line-before": null,
 				"order/properties-order": null
