@@ -44,27 +44,25 @@ const printMessage = (keywords) => {
 	return results;
 }
 
-const createRuleMessages = (selector, prop, dataList) => {
+const createRuleMessages = (source, problem, dataList) => {
 	let message = "";
 	for (const data in dataList) {
 		const selectorsRegex = dataList[data].find(rule => rule.regex)?.regex;
-			const matchedObject = dataList[data].filter(item => item.properties);
-			const matchedProperties = matchedObject.find(item => item.properties.some(item => prop.match(item)));
-		if(selectorsRegex && selectorsRegex.test(selector)){
-			if(matchedProperties) {
-				const keywordsArray = matchedProperties?.keywords || ["erreur", "générique"];
-				message = printMessage(keywordsArray) + " -> `"+selector+" & "+prop+"`";
-			} else {
-				const keywordsArray = dataList[data][0].keywords || ["erreur", "générique"];
-				message = printMessage(keywordsArray) + " -> `"+selector+"`";
-			}
+		const matchedObject = dataList[data].filter(item => item.properties);
+		const matchedProperties = matchedObject.find(item => item.properties.some(item => problem.match(item)));
+		if(selectorsRegex && selectorsRegex.test(source) && matchedProperties){
+			const keywordsArray = matchedProperties?.keywords || ["erreur", "générique"];
+			message = printMessage(keywordsArray) + " -> `"+source+" & "+problem+"`";
+		} else if(selectorsRegex && selectorsRegex.test(source) && !matchedObject[0]?.properties) {
+			const keywordsArray = dataList[data][0].keywords || ["erreur", "générique"];
+			message = printMessage(keywordsArray) + " -> `"+source+"`";
 		} else if(!selectorsRegex) {
-			const valuesArray = dataList[data].filter(prop => prop.values).flatMap(prop => prop.values);
+			const valuesArray = dataList[data].filter(problem => problem.values).flatMap(problem => problem.values);
 			const propertiesArray = dataList[data][0].properties;
 			const propertyRegex = new RegExp(propertiesArray);
 			const keywordsArray = dataList[data][0].keywords;
-			if(propertyRegex.test(selector)) {
-				message = printMessage(keywordsArray) + " -> `"+selector+" & "+prop+"`";
+			if(propertyRegex.test(source)) {
+				message = printMessage(keywordsArray) + " -> `"+source+" & "+problem+"`";
 			}
 		}
 	}
