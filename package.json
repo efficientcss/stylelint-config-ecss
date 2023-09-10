@@ -10,6 +10,9 @@
 	"peerDependencies": {
 		"stylelint": "^15.10.3"
 	},
+	"scripts": {
+		"postinstall": "patch-package"
+	},
 	"keywords": [
 		"stylelint",
 		"linting",
