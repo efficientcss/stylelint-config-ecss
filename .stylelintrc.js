@@ -1,4 +1,5 @@
 const { lang } = require("./configLang.js");
+const messages = require("./messages.js");
 const chosenLang = () => {
 	let messageLang;
 	const osLang = Intl.DateTimeFormat().resolvedOptions().locale;
