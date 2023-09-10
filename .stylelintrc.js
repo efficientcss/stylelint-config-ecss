@@ -139,16 +139,28 @@ module.exports = {
 		"stylelint-file-max-lines"
 	],
 	"rules": {
-		"declaration-property-value-disallowed-list": [
-		createRuleData(propValDisallowedList), { 
-			"message": (selector, prop) => { 
-					return createRuleMessages(selector, prop, propValDisallowedList) },
-			"severity": "warning"
+		"max-nesting-depth": [1, {
+			message: "Un seul niveau d'imbrication est accepté."
 		}],
+		"no-unknown-custom-properties": [true, {
+			message: "Variable non-définie `%s`"
+		}],
+		"declaration-property-value-disallowed-list": [
+			createRuleData(propValDisallowedList), { 
+				"message": (selector, prop) => { 
+					return createRuleMessages(selector, prop, propValDisallowedList) },
+				"severity": "warning"
+			}],
 		"property-disallowed-list": [
 			["/padding-/"], {
-				"message": "Les dégagements devraient être uniformes et nécessiter un arrière-plan. Optez pour une marge sinon. -> %s"
+				"message": "Les dégagements devraient être uniformes. Optez pour une marge sinon. -> %s"
 			}],
+		"scale-unlimited/declaration-strict-value": [
+			["/margin/", "/padding/", "/color/", "/gap/"],
+		{
+			message: "Utilisez les variables de langage graphique prédéfinies pour `${property}: ${value}`"
+		}
+		],
 		"selector-max-specificity": ["0,2,4", {
 			"message": "Spécificité trop élevée pour le sélecteur.`%s`",
 			"ignoreSelectors": [pseudoClass_selectors, prefixedClass_selectors]
@@ -160,10 +172,10 @@ module.exports = {
 			}],
 		"selector-disallowed-list": [
 			createRuleData(selDisallowedList), {
-			"message": (selector, prop) => { 
+				"message": (selector, prop) => { 
 					return createRuleMessages(selector, prop, selDisallowedList) },
-					"splitList": true
-				}],
+				"splitList": true
+			}],
 		"rule-selector-property-disallowed-list": [
 			createRuleData(selPropDisallowedList), {
 				"splitList": true,
@@ -186,7 +198,7 @@ module.exports = {
 			"ignoreProperties": ["/container/"],
 			"ignoreAtrules": ["container"]
 		}, {
-			"message": "Attention à la validité de votre CSS.`%s`"
+			"message": "Attention à la validité de votre CSS.`%s: %d`"
 		}],
 		"number-max-precision": [5, {
 			"ignoreUnits": ["em", "rem", "/v/", "s"],
@@ -198,7 +210,9 @@ module.exports = {
 			"message": "Ne répétez pas les propriétés dans un même ensemble.`%s`"
 		}],
 		"custom-property-no-missing-var-function": true,
-		"plugin/declaration-block-no-ignored-properties": true,
+		"plugin/declaration-block-no-ignored-properties": [true, {
+			"message": "Combinaison de propriétés exclusives `%s & %d`"
+		}],
 		"block-no-empty": true,
 		"no-descending-specificity": null,
 		"unit-disallowed-list": [
@@ -246,9 +260,8 @@ module.exports = {
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
 			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+/"],
-			"acceptedNumbers": [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100]
-		}, {
-			"message": "Évitez les chiffres magiques.`%s`"
+			"acceptedNumbers": [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100],
+			"message": "Évitez les chiffres magiques.`%s: %d`"
 		}]
 	}
 }
