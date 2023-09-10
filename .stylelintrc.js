@@ -78,8 +78,8 @@ const createRuleData = (dataList) => {
 	let result;
 	for (const data in dataList) {
 		const selectorsRegex = dataList[data].find(rule => rule.regex)?.regex;
-		const valuesArray = dataList[data].filter(prop => prop.values).flatMap(prop => prop.values);
-		const propertiesArray = dataList[data].filter(prop => prop.properties).flatMap(prop => prop.properties);
+		const valuesArray = dataList[data].filter(item => item.values).flatMap(item => item.values);
+		const propertiesArray = dataList[data].filter(item => item.properties).flatMap(item => item.properties);
 		if(selectorsRegex && propertiesArray.length > 0){
 			object[selectorsRegex] = propertiesArray;
 			result = object;
