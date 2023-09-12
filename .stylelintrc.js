@@ -67,16 +67,16 @@ const createRuleMessages = (source, problem, dataList) => {
 		const matchedProperties = matchedObject.find(item => item.properties.some(item => problem.match(item)));
 		if(selectorsRegex && selectorsRegex.test(source) && matchedProperties){
 			const keywordId = matchedProperties?.keywordId || ["generic-error"];
-			message = printMessage(keywordId) + " -> `"+source+" & "+problem+"`";
+			message = printMessage(keywordId, source, problem);
 		} else if(selectorsRegex && selectorsRegex.test(source) && !matchedObject[0]?.properties) {
 			const keywordId = dataList[data][0].keywordId || ["generic-error"];
-			message = printMessage(keywordId) + " -> `"+source+"`";
+			message = printMessage(keywordId, source);
 		} else if(!selectorsRegex) {
 			const valuesArray = dataList[data].filter(problem => problem.values).flatMap(problem => problem.values);
 			const propertyRegex = dataList[data][0].properties[0];
 			const keywordId = dataList[data][0].keywordId;
 			if(propertyRegex.test(source)) {
-				message = printMessage(keywordId) + " -> `"+source+" & "+problem+"`";
+				message = printMessage(keywordId, source, problem);
 			}
 		}
 	}
@@ -151,7 +151,7 @@ module.exports = {
 	],
 	"rules": {
 		"max-nesting-depth": [1, {
-			message: "Un seul niveau d'imbrication est accepté."
+			message: printMessage("nesting-level")
 		}],
 		"declaration-property-value-disallowed-list": [
 			createRuleData(propValDisallowedList), { 
@@ -161,22 +161,23 @@ module.exports = {
 			}],
 		"property-disallowed-list": [
 			["/padding-/"], {
-				"message": "Les dégagements devraient être uniformes. Optez pour une marge sinon. -> %s"
+				"message": (selector, prop) => { 
+					return printMessage("padding-irregular", selector)}
 			}],
 		"scale-unlimited/declaration-strict-value": [
-			["/margin/", "/padding/", "/color/", "/gap/"],
-		{
-			message: "Utilisez les variables de langage graphique prédéfinies pour `${property}: ${value}`"
-		}
+			["/margin/", "/padding/", "/color/", "/gap/"]
 		],
 		"selector-max-specificity": ["0,2,4", {
-			"message": "Spécificité trop élevée pour le sélecteur.`%s`",
+			"message": (selector, prop) => { 
+					return printMessage("specificity-max", selector)},
 			"ignoreSelectors": [pseudoClass_selectors, prefixedClass_selectors]
 		}],
 
 		"selector-pseudo-class-disallowed-list": [
 			[childPseudoClass_selectors, typePseudoClass_selectors], {
-				"severity": "warning"
+				"severity": "warning",
+				"message": (selector, prop) => { 
+					return printMessage("pseudo-disallowed", selector)}
 			}],
 		"selector-disallowed-list": [
 			createRuleData(selDisallowedList), {
@@ -191,42 +192,82 @@ module.exports = {
 					return createRuleMessages(selector, prop, selPropDisallowedList) }
 			}
 		],
-		"plugin/selector-starts-with-filename": true,
-		"plugin/declaration-block-conjoined-properties": true,
-		"declaration-no-important": true,
-		"plugin/file-max-lines": [200, {"ignore": ["comments", "blankLines"]}],
-		"plugin/z-index-value-constraint": {
+		"plugin/selector-starts-with-filename": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("component-selector", selector, prop)}
+		}],
+		"plugin/declaration-block-conjoined-properties": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("property-conjoined", selector, prop)}
+		}],
+		"declaration-no-important": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("declaration-important", selector)}
+		}],
+		"plugin/file-max-lines": [200, {
+			"ignore": ["comments", "blankLines"],
+			"message": printMessage("file-lines")
+		}],
+		"plugin/z-index-value-constraint": [{
 			"min": 1,
 			"max": 10
-		},
-		"function-calc-no-unspaced-operator": true,
-		"function-no-unknown": true,
-		"unit-no-unknown": true,
+		}, {
+			"message": (selector, prop) => { 
+					return printMessage("z-index-band", selector, prop)}
+		}],
+		"function-calc-no-unspaced-operator": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("calc-unspaced", selector, prop)}
+		}],
+		"function-no-unknown": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("function-unknown", selector)}
+		}],
+
+		"unit-no-unknown": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("unit-unknown", selector, prop)}
+		}],
+
 		"csstree/validator": [{
 			"ignoreProperties": ["/container/"],
 			"ignoreAtrules": ["container"]
 		}, {
-			"message": "Attention à la validité de votre CSS.`%s: %d`"
+			"message": (selector, prop) => { 
+					return printMessage("syntax-invalid", selector, prop)}
 		}],
 		"number-max-precision": [5, {
 			"ignoreUnits": ["em", "rem", "/v/", "s"],
-			"ignoreProperties": ["/--/"]
+			"ignoreProperties": ["/--/"],
+			"message": (selector, prop) => { 
+					return printMessage("floating-max", selector, prop)}
 		}],
-		"selector-no-vendor-prefix": true,
-		"declaration-block-no-duplicate-custom-properties": true,
+		"declaration-block-no-duplicate-custom-properties": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("custom-property-duplicate", selector)}
+		}],
 		"declaration-block-no-duplicate-properties": [true, {
-			"message": "Ne répétez pas les propriétés dans un même ensemble.`%s`"
+			"message": (selector, prop) => { 
+					return printMessage("property-duplicate", selector)}
 		}],
-		"custom-property-no-missing-var-function": true,
+		"custom-property-no-missing-var-function": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("var-function-missing", selector, prop)}
+		}],
 		"plugin/declaration-block-no-ignored-properties": [true, {
-			"message": "Combinaison de propriétés exclusives `%s & %d`"
+			"message": (selector, prop) => { 
+					return printMessage("property-ignored", selector, prop)}
 		}],
-		"block-no-empty": true,
-		"no-descending-specificity": null,
+		"block-no-empty": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("block-empty")}
+		}],
+
 		"unit-disallowed-list": [
 			["vh", "vw"],
 			{
-				"message": "Utilisation d'unités inappropriées.`%s`",
+				"message": (selector, prop) => { 
+					return printMessage("unit-disallowed", selector, prop)},
 				"severity": "warning",
 				"ignoreFunctions": ["clamp"]
 			}
@@ -234,42 +275,53 @@ module.exports = {
 		"declaration-property-unit-disallowed-list": [{
 			"height": ["vh"]
 		},{
-			"message": "Propriété et unité inappropriées. `%s: %d`"
+			"message": (selector, prop) => { 
+					return printMessage("property-unit-disallowed", selector, prop)}
 		}],
-		"declaration-no-important": true,
-		"selector-max-compound-selectors": [5, {
-			"message": "Sélecteur trop complexe.`%s`"
-		}],
-		"selector-max-class": [3, {
-			"message": "Évitez d'enchaîner autant de classes.`%s`"
-		}],
-		"selector-max-type": [4, {
-			"message": "Évitez d'enchaîner autant de sélecteurs de balise.`%s`"
-		}],
-		"selector-max-universal": [2, {
-			"message": "Évitez d'enchaîner autant de sélecteurs universels.`%s`"
-		}],
-		"no-duplicate-at-import-rules": true,
-		"no-irregular-whitespace": true,
-		"selector-max-specificity": ["0,2,4", {
-			"message": "Spécificité trop élevée pour le sélecteur.`%s`",
-			"ignoreSelectors": ["/:.*/", "/.is-*/"]
+		"declaration-no-important": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("declaration-important", selector, prop)}
 		}],
 
+		"selector-max-compound-selectors": [5, {
+			"message": (selector, prop) => { 
+					return printMessage("selector-max", selector, prop)}
+		}],
+		"selector-max-class": [3, {
+			"message": (selector, prop) => { 
+					return printMessage("class-max", selector, prop)}
+		}],
+		"selector-max-type": [4, {
+			"message": (selector, prop) => { 
+					return printMessage("type-max", selector, prop)}
+		}],
+		"selector-max-universal": [2, {
+			"message": (selector, prop) => { 
+					return printMessage("universal-max", selector, prop)}
+		}],
+		"no-duplicate-at-import-rules": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("import-duplicate", selector, prop)}
+		}],
+		"no-irregular-whitespace": [true, {
+			"message": (selector, prop) => { 
+					return printMessage("whitespace-irregular", selector, prop)}
+		}],
 		"selector-no-qualifying-type": [null, {
 			"ignore": ["attribute"],
-			"message": "Attention de ne pas surqualifier vos sélecteurs.`%s`"
+			"message": (selector, prop) => { 
+					return printMessage("selector-qualified", selector, prop)}
 		}],
-		"selector-max-id": [0,
-			{
-				"message": "Évitez les sélecteurs d'identifiants.`%s`"
-			}
-		],
+		"selector-max-id": [0, {
+			"message": (selector, prop) => { 
+					return printMessage("selector-id", selector, prop)}
+		}],
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
 			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+/"],
 			"acceptedNumbers": [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100],
-			"message": "Évitez les chiffres magiques.`%s: %d`"
+			"message": (selector, prop) => { 
+					return printMessage("magic-number", selector, prop)}
 		}]
 	}
 }
