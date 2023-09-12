@@ -125,6 +125,7 @@ const rule = (actual) => {
 
 					if(!hasNeeded) {
 						report({
+							messageArgs: [neededDeclaration.map(decl => decl.property), decl.toString()],
 							message: messages.rejected(neededDeclaration.map(decl => decl.property), decl.toString()),
 							node: decl,
 							result,

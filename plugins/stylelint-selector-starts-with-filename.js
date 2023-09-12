@@ -25,6 +25,7 @@ const rule = () => {
 			rule.selectors.forEach((selector) => {
 				if(!selectorRegExp.test(selector)) {
 					report({
+						messageArgs: [selector, filename],
 						message: messages.rejected(selector, filename),
 						node: rule,
 						result,
