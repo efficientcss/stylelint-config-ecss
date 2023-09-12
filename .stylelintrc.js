@@ -140,9 +140,6 @@ module.exports = {
 		"max-nesting-depth": [1, {
 			message: "Un seul niveau d'imbrication est accepté."
 		}],
-		"no-unknown-custom-properties": [true, {
-			message: "Variable non-définie `%s`"
-		}],
 		"declaration-property-value-disallowed-list": [
 			createRuleData(propValDisallowedList), { 
 				"message": (selector, prop) => { 
