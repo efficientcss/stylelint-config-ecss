@@ -38,8 +38,8 @@ const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectorPar
 const notImage_selectors = new RegExp('^((?!'+image_selectorPart+').)*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
-const printMessage = (keywords) => {
-	let results = messages[keywords][chosenLang()];
+const printMessage = (keywordId) => {
+	let results = messages[keywordId][chosenLang()];
 	return results;
 }
 
@@ -51,17 +51,17 @@ const createRuleMessages = (source, problem, dataList) => {
 		const matchedObject = dataList[data].filter(item => item.properties);
 		const matchedProperties = matchedObject.find(item => item.properties.some(item => problem.match(item)));
 		if(selectorsRegex && selectorsRegex.test(source) && matchedProperties){
-			const keywordsArray = matchedProperties?.keywords || ["generic-error"];
-			message = printMessage(keywordsArray) + " -> `"+source+" & "+problem+"`";
+			const keywordId = matchedProperties?.keywordId || ["generic-error"];
+			message = printMessage(keywordId) + " -> `"+source+" & "+problem+"`";
 		} else if(selectorsRegex && selectorsRegex.test(source) && !matchedObject[0]?.properties) {
-			const keywordsArray = dataList[data][0].keywords || ["generic-error"];
-			message = printMessage(keywordsArray) + " -> `"+source+"`";
+			const keywordId = dataList[data][0].keywordId || ["generic-error"];
+			message = printMessage(keywordId) + " -> `"+source+"`";
 		} else if(!selectorsRegex) {
 			const valuesArray = dataList[data].filter(problem => problem.values).flatMap(problem => problem.values);
 			const propertyRegex = dataList[data][0].properties[0];
-			const keywordsArray = dataList[data][0].keywords;
+			const keywordId = dataList[data][0].keywordId;
 			if(propertyRegex.test(source)) {
-				message = printMessage(keywordsArray) + " -> `"+source+" & "+problem+"`";
+				message = printMessage(keywordId) + " -> `"+source+" & "+problem+"`";
 			}
 		}
 	}
@@ -92,33 +92,33 @@ const createRuleData = (dataList) => {
 
 const selPropDisallowedList = [
 	[ { regex: text_selectors },
-		{ properties: [/margin(?!-top|-bottom)/], keywords: ["content-margin"] },
-		{ properties: [/padding/], keywords: ["content-padding"] } ],
+		{ properties: [/margin(?!-top|-bottom)/], keywordId: "content-margin" },
+		{ properties: [/padding/], keywordId: "content-padding" } ],
 	[ { regex: tag_selectors },
-		{ properties: [/padding/], keywords: ["padding-large"] } ],
+		{ properties: [/padding/], keywordId: "padding-large" } ],
 	[ { regex: component_selectors },
-		{ properties: [/margin/], keywords: ['component-outside'] },
-		{ properties: [/^width/, /^height/], keywords: ["component-dimensions"] } ],
+		{ properties: [/margin/], keywordId: "component-outside" },
+		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ],
 	[ { regex: notImage_selectors },
-		{ properties: [/^width/, /^height/], keywords: ["selector-dimensions"] } ]
+		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ]
 ]
 
 const propValDisallowedList = [
-	[{ properties: [/position/], values: "/absolute|fixed/", keywords: ["position-sensitive"] }],
-	[{ properties: [/margin|padding/], values: "/^-?([7-9]\\d|\\d{3,})/", keywords: ["spacing-large"] }],
-	[{ properties: [/float/], values: "/left|right/", keywords: ["content-float"]}],
-	[{ properties: [/translate/],  values: "/-50%/", keywords: ["technique-centered"]}],
-	[{ properties: [/flex/], values: "/[0-9]/", keywords: ["flex-shorthand"]}],
-	[{ properties: [/transform/], values: "/translate\\(-50%/", keywords: ["technique-centered"]}],
-	[{ properties: [/overflow/], values: "hidden", keywords: ["overflow-hidden"]}]
+	[{ properties: [/position/], values: "/absolute|fixed/", keywordId: "position-sensitive" }],
+	[{ properties: [/margin|padding/], values: "/^-?([7-9]\\d|\\d{3,})/", keywordId: "spacing-large" }],
+	[{ properties: [/float/], values: "/left|right/", keywordId: "content-float"}],
+	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
+	[{ properties: [/flex/], values: "/[0-9]/", keywordId: "flex-shorthand"}],
+	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
+	[{ properties: [/overflow/], values: "hidden", keywordId: "overflow-hidden"}]
 ]
 
 const selDisallowedList = [
-	[{ regex: numberedClass_selectors, keywords: ["class-numbered"] }],
-	[{ regex: notWithClasses_selectors, keywords: ["not-class"] }],
-	[{ regex: unprefixedDescendant_selectors, keywords: ["class-child-prefix"] }],
-	[{ regex: unprefixedCombinedClass_selectors, keywords: ["class-combined-prefix"] }],
-	[{ regex: overlyStructuredChildren_selectors, keywords: ["selector-unnecessary"] }]
+	[{ regex: numberedClass_selectors, keywordId: "class-numbered" }],
+	[{ regex: notWithClasses_selectors, keywordId: "not-class" }],
+	[{ regex: unprefixedDescendant_selectors, keywordId: "class-child-prefix" }],
+	[{ regex: unprefixedCombinedClass_selectors, keywordId: "class-combined-prefix" }],
+	[{ regex: overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
 ]
 
 module.exports = {
