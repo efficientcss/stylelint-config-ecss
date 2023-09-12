@@ -38,8 +38,23 @@ const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectorPar
 const notImage_selectors = new RegExp('^((?!'+image_selectorPart+').)*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
-const printMessage = (keywordId) => {
+const printMessage = (keywordId, source, problem) => {
 	let results = messages[keywordId][chosenLang()];
+	if(source || problem) {
+		results += " ("
+	}
+	if(source) {
+		results += source
+	}
+	if(source && problem) {
+		results += " & "
+	}
+	if(problem) {
+		results += problem
+	}
+	if(source || problem) {
+		results += ")"
+	}
 	return results;
 }
 
