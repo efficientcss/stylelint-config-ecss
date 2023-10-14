@@ -1,0 +1,37 @@
+diff --git a/node_modules/stylelint-magic-numbers/LICENSE b/node_modules/stylelint-magic-numbers/LICENSE
+index a2de4d8..982962a 100644
+--- a/node_modules/stylelint-magic-numbers/LICENSE
++++ b/node_modules/stylelint-magic-numbers/LICENSE
+@@ -1,6 +1,7 @@
+ MIT License
+ 
+ Copyright (c) 2020 Julian Strecker
++Copyright (C) 2023 by Marc-André Charpentier
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+diff --git a/node_modules/stylelint-magic-numbers/dist/index.js b/node_modules/stylelint-magic-numbers/dist/index.js
+index 696de55..651a7f8 100644
+--- a/node_modules/stylelint-magic-numbers/dist/index.js
++++ b/node_modules/stylelint-magic-numbers/dist/index.js
+@@ -91,6 +91,8 @@ var numbersRule = function numbersRule(actual, config) {
+ 
+       _stylelint.utils.report({
+         index: decl.lastEach,
++
++			messageArgs: [prop, value],
+         message: numbersMessages.expected("\"".concat(prop, ": ").concat(value, "\" -> ").concat(failedValues, " failed")),
+         node: decl,
+         ruleName: numbersRuleName,
+diff --git a/node_modules/stylelint-magic-numbers/src/index.js b/node_modules/stylelint-magic-numbers/src/index.js
+index 84cb66c..4032026 100644
+--- a/node_modules/stylelint-magic-numbers/src/index.js
++++ b/node_modules/stylelint-magic-numbers/src/index.js
+@@ -69,6 +69,7 @@ export const numbersRule = (actual, config) => {
+             }
+ 
+             utils.report({
++					messageArgs: [prop, value],
+                 index: decl.lastEach,
+                 message: numbersMessages.expected(`"${prop}: ${value}" -> ${failedValues} failed`),
+                 node: decl,
