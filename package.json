@@ -2,7 +2,7 @@
 	"name": "@efficientcss/stylelint-config-ecss",
 	"version": "1.0.0-alpha",
 	"description": "Linting rules for EfficientCSS",
-	"main": ".stylelintrc.js",
+	"main": "index.js",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/efficientcss/stylelint-config.git"
