@@ -1,6 +1,6 @@
 {
 	"name": "ecss-stylelint-config",
-	"version": "0.0.1",
+	"version": "1.0.0-alpha",
 	"description": "Linting rules for EfficientCSS",
 	"main": ".stylelintrc.js",
 	"repository": {
