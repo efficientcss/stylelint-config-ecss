@@ -1,7 +1,7 @@
 {
 	"name": "ecss-stylelint-config",
 	"version": "0.0.1",
-	"description": "Linting rules for ECSS",
+	"description": "Linting rules for EfficientCSS",
 	"main": ".stylelintrc.js",
 	"repository": {
 		"type": "git",
@@ -15,9 +15,11 @@
 	},
 	"keywords": [
 		"stylelint",
+		"stylelint-config",
 		"linting",
 		"config",
 		"css",
+		"efficientcss",
 		"ecss"
 	],
 	"author": "Marc-André Charpentier",
