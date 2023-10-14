@@ -1,5 +1,5 @@
 {
-	"name": "ecss-stylelint-config",
+	"name": "@efficientcss/stylelint-config-ecss",
 	"version": "1.0.0-alpha",
 	"description": "Linting rules for EfficientCSS",
 	"main": ".stylelintrc.js",
