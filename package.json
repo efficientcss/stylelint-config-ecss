@@ -1,40 +1,45 @@
 {
-	"name": "@efficientcss/stylelint-config-ecss",
-	"version": "1.0.0-alpha",
-	"description": "Linting rules for EfficientCSS",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/efficientcss/stylelint-config.git"
-	},
-	"peerDependencies": {
-		"stylelint": "^15.10.3"
-	},
-	"scripts": {
-		"postinstall": "patch-package"
-	},
-	"keywords": [
-		"stylelint",
-		"stylelint-config",
-		"linting",
-		"config",
-		"css",
-		"efficientcss",
-		"ecss"
-	],
-	"author": "Marc-André Charpentier",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/efficientcss/stylelint-config/issues"
-	},
-	"homepage": "https://github.com/efficientcss/stylelint-config#readme",
-	"dependencies": {
-		"patch-package": "^8.0.0",
-		"stylelint-csstree-validator": "^3.0.0",
-		"stylelint-declaration-block-no-ignored-properties": "^2.7.0",
-		"stylelint-declaration-strict-value": "^1.9.2",
-		"stylelint-file-max-lines": "^1.0.0",
-		"stylelint-magic-numbers": "^1.0.5",
-		"stylelint-z-index-value-constraint": "^1.3.0"
-	}
+  "name": "@efficientcss/stylelint-config-ecss",
+  "version": "1.0.0-alpha",
+  "description": "Linting rules for EfficientCSS",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/efficientcss/stylelint-config-ecss.git"
+  },
+  "peerDependencies": {
+    "stylelint": "^15.10.3"
+  },
+  "scripts": {
+    "postinstall": "patch-package"
+  },
+  "keywords": [
+    "stylelint",
+    "stylelint-config",
+    "linting",
+    "config",
+    "css",
+    "efficientcss",
+    "ecss"
+  ],
+  "author": "Marc-André Charpentier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/efficientcss/stylelint-config-ecss/issues"
+  },
+  "homepage": "https://ecss.info",
+  "dependencies": {
+    "patch-package": "^8.0.0",
+    "stylelint-csstree-validator": "^3.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.7.0",
+    "stylelint-declaration-strict-value": "^1.9.2",
+    "stylelint-file-max-lines": "^1.0.0",
+    "stylelint-magic-numbers": "^1.0.5",
+    "stylelint-z-index-value-constraint": "^1.3.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "devDependencies": {}
 }
