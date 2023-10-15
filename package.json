@@ -40,6 +40,5 @@
   "directories": {
     "lib": "lib",
     "test": "tests"
-  },
-  "devDependencies": {}
+  }
 }
