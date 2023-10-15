@@ -18,7 +18,7 @@ Add this package to the `extend`{.json} array in your Stylelint configuration or
 
 ```json
 {
-	"extends": ["stylelint-config-ecss"]
+	"extends": ["@efficientcss/stylelint-config-ecss"]
 }
 ```
 
@@ -26,7 +26,7 @@ You can override and/or disable ECSS rules by using the Stylelint `overrides` ar
 
 ```json
 {
-	"extends": ["stylelint-config-ecss"],
+	"extends": ["@efficientcss/stylelint-config-ecss"]
 	"overrides": [
 		{
 			"files": ["*"],
