@@ -117,7 +117,7 @@ const propValDisallowedList = [
 	[{ properties: [/margin|padding/], values: "/^-?([7-9]\\d|\\d{3,})/", keywordId: "spacing-large" }],
 	[{ properties: [/float/], values: "/left|right/", keywordId: "content-float"}],
 	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
-	[{ properties: [/flex/], values: "/[0-9]/", keywordId: "flex-shorthand"}],
+	[{ properties: [/^flex$/], values: "/[0-9]/", keywordId: "flex-shorthand"}],
 	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
 	[{ properties: [/overflow/], values: "hidden", keywordId: "overflow-hidden"}]
 ]
