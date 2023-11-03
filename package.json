@@ -29,7 +29,10 @@
   },
   "homepage": "https://ecss.info",
   "dependencies": {
+    "glob": "^10.3.10",
+    "is-plain-object": "^5.0.0",
     "patch-package": "^8.0.0",
+    "stylelint-config-rational-order": "^0.1.2",
     "stylelint-csstree-validator": "^3.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.7.0",
     "stylelint-declaration-strict-value": "^1.9.2",
