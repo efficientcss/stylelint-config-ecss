@@ -1,5 +1,5 @@
 const matchesStringOrRegExp = require("./utils/matchesStringOrRegExp");
-const stylelint = require("/opt/homebrew/lib/node_modules/stylelint");
+const stylelint = require("stylelint");
 const report = stylelint.utils.report;
 const ruleMessages = stylelint.utils.ruleMessages;
 const validateOptions = stylelint.utils.validateOptions;
