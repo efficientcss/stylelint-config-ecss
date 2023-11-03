@@ -14,12 +14,6 @@ const chosenLang = () => {
 	return messageLang.split("-")[0];
 }
 
-const rootDir = __dirname;
-const messageFile = rootDir+"/messages/"+chosenLang()+".txt";
-const fs = require("fs");
-const messageData = fs.readFileSync(messageFile).toString();
-const messageArray = messageData.split(/\r?\n/);
-
 const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
 const structureTag_selectorPart = 'div|header|footer|section|aside|article'
 const image_selectorPart = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|after$';
