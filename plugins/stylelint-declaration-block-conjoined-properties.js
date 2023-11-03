@@ -40,7 +40,19 @@ const needed = [
 				value: ".*"
 			},
 			{
-				property: "border(-top|-right|-bottom|-left)",
+				property: "border",
+				value: ".*"
+			},
+			{
+				property: "margin",
+				value: ".*"
+			},
+			{
+				property: "box-sizing",
+				value: "border-box"
+			},
+			{
+				property: "overflow",
 				value: ".*"
 			}
 		],
