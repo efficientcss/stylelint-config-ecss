@@ -4,6 +4,8 @@
 
 **ECSS sets simple rules for simple styling.** No more naming everything, no more technological dependencies. Only intentional, consistent, simple, expressive, predictable, sustainable CSS.
 
+This config adds a more detailed messaging system.
+
 For the complete documentation, see [ecss.info](https://ecss.info).
 
 ## Installation
@@ -22,7 +24,7 @@ Add this package to the `extend`{.json} array in your Stylelint configuration or
 }
 ```
 
-You can override and/or disable ECSS rules by using the Stylelint `overrides` array.
+You can disable ECSS rules by using the Stylelint `overrides` array.
 
 ```json
 {
@@ -38,5 +40,9 @@ You can override and/or disable ECSS rules by using the Stylelint `overrides` ar
 	]
 }
 ```
+
+## Notes
+
+You can opt out of selector naming check by adding a digit (ie: 1.base.css) or "x-" prefix (ie: x-quarantine.css).
 
 For further usage instructions, please refer to the [Stylelint official documentation](https://stylelint.io).
