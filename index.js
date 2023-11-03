@@ -131,8 +131,8 @@ const selDisallowedList = [
 ]
 
 module.exports = {
-	"extends": ["stylelint-config-clean-order"],
-	"ignoreFiles": ["**/normalize.css", "**/unused/*.css", "**/build.css", "**/build/*.css", "**/x-*.css", "**/*min.css", "**/*quarantine.css"],
+	"extends": ["stylelint-config-rational-order"],
+	"ignoreFiles": ["**/normalize.css", "**/unused/*.css", "**/build.css", "**/build/*.css", "**/x-*.css", "**/*min.css"],
 	"plugins": [
 		"./plugins/stylelint-selector-starts-with-filename",
 		"./plugins/stylelint-declaration-block-conjoined-properties",
