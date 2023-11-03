@@ -20,7 +20,7 @@ const image_selectorPart = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|afte
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
-const numberedClass_selectors = /\.[a-zA-z-]*[0-9]/;
+const numberedClass_selectors = /\.(?!(h[1-6]|grid-[0-9]+|col-[0-9]+)$)[a-zA-Z-]*[0-9]+/;
 const unprefixedDescendant_selectors = /^[.][a-zA-Z-_]*\s[.](?!is).*$/;
 const unprefixedCombinedClass_selectors = /^.[a-zA-Z >]+[.](?!is-)/;
 const pseudoClass_selectors = /:.*/;
