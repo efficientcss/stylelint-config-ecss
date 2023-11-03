@@ -153,13 +153,10 @@ module.exports = {
 					return createRuleMessages(selector, prop, propValDisallowedList) },
 				"severity": "warning"
 			}],
-		"property-disallowed-list": [
-			["/padding-/"], {
-				"message": (selector, prop) => { 
-					return printMessage("padding-irregular", selector)}
-			}],
 		"scale-unlimited/declaration-strict-value": [
-			["/margin/", "/padding/", "/color/", "/gap/"]
+			["/margin/", "/padding/", "/color/", "/gap/"], {
+				"ignoreValues": ["initial", "auto", "currentColor", "0", "inherit"]
+			}
 		],
 		"selector-max-specificity": ["0,2,4", {
 			"message": (selector, prop) => { 
@@ -188,15 +185,12 @@ module.exports = {
 		],
 		"plugin/selector-starts-with-filename": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("component-selector", selector, prop)}
+					return printMessage("component-selector", selector, prop)},
+			"ignoreFiles": ["**/quarantine.css"]
 		}],
 		"plugin/declaration-block-conjoined-properties": [true, {
 			"message": (selector, prop) => { 
 					return printMessage("property-conjoined", selector, prop)}
-		}],
-		"declaration-no-important": [true, {
-			"message": (selector, prop) => { 
-					return printMessage("declaration-important", selector)}
 		}],
 		"plugin/file-max-lines": [200, {
 			"ignore": ["comments", "blankLines"],
@@ -312,8 +306,9 @@ module.exports = {
 		}],
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
-			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+/"],
-			"acceptedNumbers": [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100],
+			"ignoreProperties": ["font-weight"],
+			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+(%|ms|s|ch|px|rem|em|v.*)?/"],
+			"acceptedNumbers": [0, /^(0|1)?.[0-9]+/, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100],
 			"message": (selector, prop) => { 
 					return printMessage("magic-number", selector, prop)}
 		}]
