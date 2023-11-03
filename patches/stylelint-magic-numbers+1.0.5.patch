@@ -11,18 +11,23 @@ index a2de4d8..982962a 100644
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
 diff --git a/node_modules/stylelint-magic-numbers/dist/index.js b/node_modules/stylelint-magic-numbers/dist/index.js
-index 696de55..651a7f8 100644
+index 696de55..e6eae0f 100644
 --- a/node_modules/stylelint-magic-numbers/dist/index.js
 +++ b/node_modules/stylelint-magic-numbers/dist/index.js
-@@ -91,6 +91,8 @@ var numbersRule = function numbersRule(actual, config) {
+@@ -45,11 +45,12 @@ var numbersRule = function numbersRule(actual, config) {
  
-       _stylelint.utils.report({
-         index: decl.lastEach,
-+
-+			messageArgs: [prop, value],
-         message: numbersMessages.expected("\"".concat(prop, ": ").concat(value, "\" -> ").concat(failedValues, " failed")),
-         node: decl,
-         ruleName: numbersRuleName,
+     var acceptedValues = config.acceptedValues || [];
+     var acceptedNumbers = config.acceptedNumbers || [];
++	  var ignoreProperties = config.ignoreProperties || [];
+     root.walkDecls(function (decl) {
+       var value = decl.value;
+       var prop = decl.prop; // ignore variables
+ 
+-      if ((0, _isVariable["default"])(value) || value.startsWith("$") || prop.startsWith("$")) {
++      if ((0, _isVariable["default"])(value) || value.startsWith("$") || prop.startsWith("$") || prop.startsWith("--") || ignoreProperties.includes(prop)) {
+         return;
+       } // ignore values that are no numbers
+ 
 diff --git a/node_modules/stylelint-magic-numbers/src/index.js b/node_modules/stylelint-magic-numbers/src/index.js
 index 84cb66c..4032026 100644
 --- a/node_modules/stylelint-magic-numbers/src/index.js
