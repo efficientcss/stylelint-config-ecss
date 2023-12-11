@@ -35,7 +35,7 @@ const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_s
 const printMessage = (keywordId, source, problem) => {
 	let results = messages[keywordId][chosenLang()];
 	if(source || problem) {
-		results += " ("
+		results += " `"
 	}
 	if(source) {
 		results += source
@@ -47,7 +47,7 @@ const printMessage = (keywordId, source, problem) => {
 		results += problem
 	}
 	if(source || problem) {
-		results += ")"
+		results += "`"
 	}
 	return results;
 }
