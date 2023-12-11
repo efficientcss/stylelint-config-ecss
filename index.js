@@ -306,7 +306,7 @@ module.exports = {
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
 			"ignoreProperties": ["font-weight"],
-			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+(%|ms|s|ch|px|rem|em|v.*)?/"],
+			"acceptedValues": ["/[0-9]+0(%|ms|s|ch|px|rem|em|fr|v.*)?/", "/(12|13)px/", "/^(0|1)?.[0-9]+(%|ms|s|ch|px|rem|em|v.*)?/"],
 			"acceptedNumbers": [0, /^(0|1)?.[0-9]+/, 2, 2.25, 2.5, 2.75, 3, 4, 5, 6, 7, 8, 9, 10, 12, 100],
 			"message": (selector, prop) => { 
 					return printMessage("magic-number", selector, prop)}
