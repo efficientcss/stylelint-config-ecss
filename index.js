@@ -131,7 +131,6 @@ const selDisallowedList = [
 ]
 
 module.exports = {
-	"extends": ["stylelint-config-rational-order"],
 	"plugins": [
 		"./plugins/stylelint-selector-starts-with-filename",
 		"./plugins/stylelint-declaration-block-conjoined-properties",
