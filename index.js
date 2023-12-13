@@ -25,7 +25,7 @@ const unprefixedDescendant_selectors = /^[.][a-zA-Z-_]*\s[.](?!is).*$/;
 const unprefixedCombinedClass_selectors = /^.[a-zA-Z >]+[.](?!is-)/;
 const pseudoClass_selectors = /:.*/;
 const childPseudoClass_selectors = /:.*[child]/;
-const typePseudoClass_selectors = /:.*[]/;
+const typePseudoClass_selectors = /:.*/;
 const prefixedClass_selectors = /.is-*/;
 const notWithClasses_selectors = /(:not\(.*\.)/;
 const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectorPart+')[a-zA-Z-_]+("?\])?$');
@@ -157,7 +157,7 @@ module.exports = {
 			}
 		],
 		"selector-max-specificity": ["0,2,4", {
-			"message": (selector, prop) => { 
+			"message": (selector) => { 
 					return printMessage("specificity-max", selector)},
 			"ignoreSelectors": [pseudoClass_selectors, prefixedClass_selectors]
 		}],
@@ -165,7 +165,7 @@ module.exports = {
 		"selector-pseudo-class-disallowed-list": [
 			[childPseudoClass_selectors, typePseudoClass_selectors], {
 				"severity": "warning",
-				"message": (selector, prop) => { 
+				"message": (selector) => { 
 					return printMessage("pseudo-disallowed", selector)}
 			}],
 		"selector-disallowed-list": [
@@ -206,7 +206,7 @@ module.exports = {
 					return printMessage("calc-unspaced", selector, prop)}
 		}],
 		"function-no-unknown": [true, {
-			"message": (selector, prop) => { 
+			"message": (selector) => { 
 					return printMessage("function-unknown", selector)}
 		}],
 
@@ -229,11 +229,11 @@ module.exports = {
 					return printMessage("floating-max", selector, prop)}
 		}],
 		"declaration-block-no-duplicate-custom-properties": [true, {
-			"message": (selector, prop) => { 
+			"message": (selector) => { 
 					return printMessage("custom-property-duplicate", selector)}
 		}],
 		"declaration-block-no-duplicate-properties": [true, {
-			"message": (selector, prop) => { 
+			"message": (selector) => { 
 					return printMessage("property-duplicate", selector)}
 		}],
 		"custom-property-no-missing-var-function": [true, {
@@ -245,7 +245,7 @@ module.exports = {
 					return printMessage("property-ignored", selector, prop)}
 		}],
 		"block-no-empty": [true, {
-			"message": (selector, prop) => { 
+			"message": () => { 
 					return printMessage("block-empty")}
 		}],
 
