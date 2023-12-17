@@ -16,7 +16,7 @@ const chosenLang = () => {
 
 const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
 const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const image_selectorPart = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|after$';
+const graphical_selectorPart = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|after$|input';
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
@@ -28,8 +28,8 @@ const childPseudoClass_selectors = /:.*[child]/;
 const typePseudoClass_selectors = /:.*/;
 const prefixedClass_selectors = /.is-*/;
 const notWithClasses_selectors = /(:not\(.*\.)/;
-const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+image_selectorPart+')[a-zA-Z-_]+("?\])?$');
-const notImage_selectors = new RegExp('^((?!'+image_selectorPart+').)*$');
+const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+graphical_selectorPart+')[a-zA-Z-_]+("?\])?$');
+const notGraphical_selectors = new RegExp('^((?!'+graphical_selectorPart+').)*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
 const printMessage = (keywordId, source, problem) => {
@@ -108,7 +108,7 @@ const selPropDisallowedList = [
 	[ { regex: component_selectors },
 		{ properties: [/margin/], keywordId: "component-outside" },
 		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ],
-	[ { regex: notImage_selectors },
+	[ { regex: notGraphical_selectors },
 		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ]
 ]
 
