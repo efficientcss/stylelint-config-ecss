@@ -34,6 +34,7 @@ const needed = [
 	{
 		property: "/padding/",
 		value: "/.*/",
+		ignoreSelectors: [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
 		neededDeclaration: [
 			{
 				property: "background",
@@ -78,6 +79,9 @@ const rule = (actual) => {
 				const value = decl.value;
 
 				needed.forEach((needed) => {
+					if (needed.ignoreSelectors?.some(e => rule.selector.match(e))) {
+						return;
+					}
 					const matchProperty = matchesStringOrRegExp(
 						prop.toLowerCase(),
 						needed.property
