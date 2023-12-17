@@ -137,7 +137,6 @@ module.exports = {
 		"stylelint-z-index-value-constraint",
 		"stylelint-csstree-validator",
 		"stylelint-declaration-block-no-ignored-properties",
-		"stylelint-declaration-strict-value",
 		"stylelint-magic-numbers",
 		"stylelint-file-max-lines"
 	],
@@ -151,11 +150,6 @@ module.exports = {
 					return createRuleMessages(selector, prop, propValDisallowedList) },
 				"severity": "warning"
 			}],
-		"scale-unlimited/declaration-strict-value": [
-			["/margin/", "/padding/", "/color/", "/gap/"], {
-				"ignoreValues": ["initial", "auto", "currentColor", "0", "inherit"]
-			}
-		],
 		"selector-max-specificity": ["0,2,4", {
 			"message": (selector) => { 
 					return printMessage("specificity-max", selector)},
