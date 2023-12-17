@@ -73,7 +73,7 @@ const rule = (actual) => {
 				uniqueDecls[decl.prop] = decl;
 			});
 
-			function check(prop, index) {
+			function check(prop) {
 				const decl = uniqueDecls[prop];
 				const value = decl.value;
 
@@ -119,7 +119,7 @@ const rule = (actual) => {
 
 					let hasNeeded = false;
 
-					decl.parent.nodes.forEach((node, nodeIndex) => {
+					decl.parent.nodes.forEach((node) => {
 						if(node.prop) {
 							neededDeclaration.every((obj) => {
 							const propertyRegex = new RegExp(obj.property, "g");
