@@ -11,7 +11,7 @@ index a2de4d8..982962a 100644
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
 diff --git a/node_modules/stylelint-magic-numbers/dist/index.js b/node_modules/stylelint-magic-numbers/dist/index.js
-index 696de55..288fbbc 100644
+index 696de55..f1d06fb 100644
 --- a/node_modules/stylelint-magic-numbers/dist/index.js
 +++ b/node_modules/stylelint-magic-numbers/dist/index.js
 @@ -45,11 +45,12 @@ var numbersRule = function numbersRule(actual, config) {
@@ -24,10 +24,19 @@ index 696de55..288fbbc 100644
        var prop = decl.prop; // ignore variables
  
 -      if ((0, _isVariable["default"])(value) || value.startsWith("$") || prop.startsWith("$")) {
-+      if ((0, _isVariable["default"])(value) || value.startsWith("url") || value.startsWith("$") || prop.startsWith("$") || prop.startsWith("--") || ignoreProperties.includes(prop)) {
++      if ((0, _isVariable["default"])(value) || value.startsWith("url") || value.startsWith("U+") || value.startsWith("$") || prop.startsWith("$") || prop.startsWith("--") || ignoreProperties.includes(prop)) {
          return;
        } // ignore values that are no numbers
  
+@@ -70,7 +71,7 @@ var numbersRule = function numbersRule(actual, config) {
+       var failedValues = [];
+       values.forEach(function (val) {
+         var theNumber = val.match(/([\d.]+)/)[0];
+-        var valOK = acceptedValues.includes(val) || acceptedNumbers.includes(parseFloat(theNumber));
++			var valOK = acceptedValues.some(e => val.match(e)) || acceptedNumbers.some(e => val.match(e));
+         accepted = accepted && valOK;
+ 
+         if (!valOK) {
 @@ -91,6 +92,7 @@ var numbersRule = function numbersRule(actual, config) {
  
        _stylelint.utils.report({
