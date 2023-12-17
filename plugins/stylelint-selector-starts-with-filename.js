@@ -25,8 +25,8 @@ const rule = (primary, secondaryOptions) => {
 			},
 		);
 		const inputFile = root.source.input.file;
-		const filename = path.parse(inputFile).name;
-		const selectorPattern = '^((\\* \\+ |\\* ~ )?(\\.|\\[.*=)?)?(\")?'+filename+'(?:-[a-zA-Z]+)?(\")?(\\])?.*';
+		const filename = path.parse(inputFile).name.split('.')[0];
+		const selectorPattern = '^:?(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.|\\[.*=)?)?(\")?'+filename+'(?:-[a-zA-Z]+)?(\")?(\\])?.*';
 		const selectorRegExp = new RegExp(selectorPattern);
 
 		if (!validOptions) {
