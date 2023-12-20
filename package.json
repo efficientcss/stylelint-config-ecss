@@ -11,7 +11,7 @@
     "stylelint": "^15.10.3"
   },
   "scripts": {
-    "postinstall": "patch-package"
+    "prepare": "patch-package"
   },
   "keywords": [
     "stylelint",
@@ -38,6 +38,13 @@
     "stylelint-magic-numbers": "^1.0.5",
     "stylelint-z-index-value-constraint": "^1.3.0"
   },
+  "bundleDependencies": [
+    "stylelint-csstree-validator",
+    "stylelint-declaration-block-no-ignored-properties",
+    "stylelint-file-max-lines",
+    "stylelint-magic-numbers",
+    "stylelint-z-index-value-constraint"
+  ],
   "directories": {
     "lib": "lib",
     "test": "tests"
