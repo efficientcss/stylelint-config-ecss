@@ -16,7 +16,7 @@ const chosenLang = () => {
 
 const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
 const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const graphical_selectorPart = '.*img$|.*image|.*svg.*|picture$|icon|i$|before$|after$|input';
+const graphical_selectorPart = '.*(img|video)$|.*(image|img|video)|.*svg.*|picture$|icon|i$|before$|after$|input|hr$';
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
