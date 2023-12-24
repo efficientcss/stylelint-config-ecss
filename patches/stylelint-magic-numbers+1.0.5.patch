@@ -11,10 +11,16 @@ index a2de4d8..982962a 100644
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
 diff --git a/node_modules/stylelint-magic-numbers/dist/index.js b/node_modules/stylelint-magic-numbers/dist/index.js
-index 696de55..f1d06fb 100644
+index 696de55..89527f9 100644
 --- a/node_modules/stylelint-magic-numbers/dist/index.js
 +++ b/node_modules/stylelint-magic-numbers/dist/index.js
-@@ -45,11 +45,12 @@ var numbersRule = function numbersRule(actual, config) {
+@@ -1,5 +1,3 @@
+-"use strict";
+-
+ Object.defineProperty(exports, "__esModule", {
+   value: true
+ });
+@@ -45,11 +43,12 @@ var numbersRule = function numbersRule(actual, config) {
  
      var acceptedValues = config.acceptedValues || [];
      var acceptedNumbers = config.acceptedNumbers || [];
@@ -28,7 +34,7 @@ index 696de55..f1d06fb 100644
          return;
        } // ignore values that are no numbers
  
-@@ -70,7 +71,7 @@ var numbersRule = function numbersRule(actual, config) {
+@@ -70,7 +69,7 @@ var numbersRule = function numbersRule(actual, config) {
        var failedValues = [];
        values.forEach(function (val) {
          var theNumber = val.match(/([\d.]+)/)[0];
@@ -37,7 +43,7 @@ index 696de55..f1d06fb 100644
          accepted = accepted && valOK;
  
          if (!valOK) {
-@@ -91,6 +92,7 @@ var numbersRule = function numbersRule(actual, config) {
+@@ -91,6 +90,7 @@ var numbersRule = function numbersRule(actual, config) {
  
        _stylelint.utils.report({
          index: decl.lastEach,
@@ -45,6 +51,12 @@ index 696de55..f1d06fb 100644
          message: numbersMessages.expected("\"".concat(prop, ": ").concat(value, "\" -> ").concat(failedValues, " failed")),
          node: decl,
          ruleName: numbersRuleName,
+@@ -149,3 +149,5 @@ exports.colorsRule = colorsRule;
+ var rulesPlugins = [(0, _stylelint.createPlugin)(numbersRuleName, numbersRule), (0, _stylelint.createPlugin)(colorsRuleName, colorsRule)];
+ var _default = rulesPlugins;
+ exports["default"] = _default;
++
++module.exports = rulesPlugins;
 diff --git a/node_modules/stylelint-magic-numbers/src/index.js b/node_modules/stylelint-magic-numbers/src/index.js
 index 84cb66c..4032026 100644
 --- a/node_modules/stylelint-magic-numbers/src/index.js

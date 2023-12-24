@@ -8,7 +8,7 @@
     "url": "git+https://github.com/efficientcss/stylelint-config-ecss.git"
   },
   "peerDependencies": {
-    "stylelint": "^15.10.3"
+    "stylelint": "^16.0.0"
   },
   "scripts": {
     "prepare": "patch-package"
