@@ -8,10 +8,10 @@
  * Any strings starting and ending with `/` are interpreted
  * as regular expressions.
  */
-module.exports = function matchesStringOrRegExp(
+ export default function matchesStringOrRegExp(
   input /*: string | Array<string>*/,
   comparison /*: string | Array<string>*/
-) /*: false | { match: string, pattern: string}*/ {
+) /*: false | { match: string, pattern: string}*/{
   if (!Array.isArray(input)) {
     return testAgainstStringOrArray(input, comparison);
   }

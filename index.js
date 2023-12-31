@@ -1,5 +1,7 @@
-const { lang } = require("./lib/configLang.js");
-const messages = require("./lib/messages.js");
+import configLang from "./lib/configLang.js";
+import ecssmessages from "./lib/messages.js";
+const { lang } = configLang;
+const messages = ecssmessages;
 const chosenLang = () => {
 	let messageLang;
 	const osLang = Intl.DateTimeFormat().resolvedOptions().locale;
@@ -130,14 +132,14 @@ const selDisallowedList = [
 	[{ regex: overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
 ]
 
-module.exports = {
+export default {
 	"plugins": [
 		"./plugins/stylelint-selector-starts-with-filename",
 		"./plugins/stylelint-declaration-block-conjoined-properties",
-		"stylelint-z-index-value-constraint",
-		"stylelint-csstree-validator",
-		"stylelint-declaration-block-no-ignored-properties",
-		"stylelint-magic-numbers",
+		"./plugins/stylelint-z-index-value-constraint",
+		"./plugins/stylelint-csstree-validator",
+		"./plugins/stylelint-declaration-block-no-ignored-properties",
+		"./plugins/stylelint-magic-numbers",
 		"stylelint-file-max-lines"
 	],
 	"rules": {

@@ -1,9 +1,15 @@
-const stylelint = require("stylelint");
-const report = stylelint.utils.report;
-const ruleMessages = stylelint.utils.ruleMessages;
-const validateOptions = stylelint.utils.validateOptions;
-const { isString } = require("../lib/validateTypes");
-const path = require("path");
+import stylelint from "stylelint";
+import path from "path";
+
+function isString(value) {
+	return typeof value === 'string' || value instanceof String;
+}
+
+const {
+  createPlugin,
+  utils: { report, ruleMessages, validateOptions }
+} = stylelint;
+
 
 const ruleName = 'plugin/selector-starts-with-filename';
 const messages = ruleMessages(ruleName, {
@@ -54,6 +60,6 @@ const rule = (primary, secondaryOptions) => {
 	}
 }
 
-module.exports = stylelint.createPlugin(ruleName, rule);
-module.exports.ruleName = ruleName;
-module.exports.messages = messages;
+rule.ruleName = ruleName;
+rule.messages = messages;
+export default createPlugin(ruleName, rule);

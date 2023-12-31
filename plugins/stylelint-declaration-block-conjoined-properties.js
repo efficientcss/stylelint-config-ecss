@@ -1,8 +1,10 @@
-const matchesStringOrRegExp = require("./utils/matchesStringOrRegExp");
-const stylelint = require("stylelint");
-const report = stylelint.utils.report;
-const ruleMessages = stylelint.utils.ruleMessages;
-const validateOptions = stylelint.utils.validateOptions;
+import stylelint from "stylelint";
+import matchesStringOrRegExp from "./utils/matchesStringOrRegExp.js";
+
+const {
+  createPlugin,
+  utils: { report, ruleMessages, validateOptions }
+} = stylelint;
 
 const ruleName = "plugin/declaration-block-conjoined-properties";
 
@@ -156,6 +158,6 @@ const rule = (actual) => {
 	};
 };
 
-module.exports = stylelint.createPlugin(ruleName, rule);
-module.exports.ruleName = ruleName;
-module.exports.messages = messages;
+rule.ruleName = ruleName;
+rule.messages = messages;
+export default createPlugin(ruleName, rule);

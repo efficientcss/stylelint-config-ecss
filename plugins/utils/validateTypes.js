@@ -1,6 +1,5 @@
-'use strict';
+import isPlainObject from "is-plain-object";
 
-const { isPlainObject: _isPlainObject } = require('is-plain-object');
 
 /**
  * Checks if the value is a boolean or a Boolean object.
@@ -67,15 +66,6 @@ function isString(value) {
 }
 
 /**
- * Checks if the value is a plain object.
- * @param {unknown} value
- * @returns {value is Record<string, unknown>}
- */
-function isPlainObject(value) {
-	return _isPlainObject(value);
-}
-
-/**
  * Assert that the value is truthy.
  * @param {unknown} value
  * @param {string} [message]
@@ -121,7 +111,7 @@ function assertString(value) {
 	console.assert(isString(value), `"${value}" must be a string`);
 }
 
-module.exports = {
+export default {
 	isBoolean,
 	isFunction,
 	isNullish,
@@ -136,4 +126,3 @@ module.exports = {
 	assertNumber,
 	assertString,
 };
-
