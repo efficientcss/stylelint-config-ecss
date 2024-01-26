@@ -144,7 +144,11 @@ export default {
 		"stylelint-file-max-lines"
 	],
 	"rules": {
-		"max-nesting-depth": [1, {
+		"selector-nested-pattern": ["^&", {
+			message: printMessage("nesting-pattern"),
+			"splitList": true
+		}],
+		"max-nesting-depth": [2, {
 			message: printMessage("nesting-level")
 		}],
 		"declaration-property-value-disallowed-list": [
