@@ -32,7 +32,8 @@
     "glob": "^10.3.10",
     "is-plain-object": "^5.0.0",
     "shortcss": "^0.1.3",
-    "stylelint-file-max-lines": "^1.0.0"
+    "stylelint-file-max-lines": "^1.0.0",
+    "terminal-link": "^3.0.0"
   },
   "directories": {
     "lib": "lib",
