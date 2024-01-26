@@ -18,20 +18,21 @@ const chosenLang = () => {
 
 const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
 const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const graphical_selectorPart = '.*(img|video)$|.*(image|img|video)|.*svg.*|picture$|icon|i$|before$|after$|input|hr$';
+const graphical_selectorPart = 'image$|img$|video$|picture$|icon|i$|shape$|before$|after$|input$|figure$|hr$';
+const prefixed_selectorPart = 'is-|int-|as-|on-';
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
 const numberedClass_selectors = /\.(?!(h[1-6]|grid-[0-9]+|col-[0-9]+)$)[a-zA-Z-]*[0-9]+/;
-const unprefixedDescendant_selectors = /^[.][a-zA-Z-_]*\s[.](?!is).*$/;
-const unprefixedCombinedClass_selectors = /^.[a-zA-Z >]+[.](?!is-)/;
+const unprefixedDescendant_selectors = new RegExp('^(& |.[a-zA-Z-_]*)\\s[.](?!'+prefixed_selectorPart+').*$');
+const unprefixedCombinedClass_selectors = new RegExp('^(&|.[a-zA-Z-_]*)[.](?!'+prefixed_selectorPart+').*$');
 const pseudoClass_selectors = /:.*/;
 const childPseudoClass_selectors = /:.*[child]/;
 const typePseudoClass_selectors = /:.*/;
-const prefixedClass_selectors = /.is-*/;
+const prefixedClass_selectors = /.(${prefixed_selectorPart}).*/;
 const notWithClasses_selectors = /(:not\(.*\.)/;
-const component_selectors = new RegExp('^(.|\[[a-z-_*]="?)(?!'+graphical_selectorPart+')[a-zA-Z-_]+("?\])?$');
-const notGraphical_selectors = new RegExp('^((?!'+graphical_selectorPart+').)*$');
+const component_selectors = new RegExp('^(!& )(.|\[[a-z-_*]="?)(?!'+graphical_selectorPart+')[a-zA-Z-_]+("?\])?$');
+const notGraphical_selectors = new RegExp('^(?!.*(?:'+graphical_selectorPart+')).*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
 
 const printMessage = (keywordId, source, problem) => {
