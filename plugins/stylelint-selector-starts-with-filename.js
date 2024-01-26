@@ -16,6 +16,20 @@ const messages = ruleMessages(ruleName, {
 	rejected: (selector, filename) => `All selectors must begin with filename. ${selector} vs. ${filename}`
 });
 
+const findRootSelector = (node) => {
+    let current = node;
+    let foundParent = current;
+    
+    while (current.parent) {
+        if (current.parent.type === 'rule') {
+            foundParent = current.parent;
+        }
+        current = current.parent;
+    }
+
+    return foundParent.selector;
+};
+
 const rule = (primary, secondaryOptions) => {
 	return (root, result) => {
 		const validOptions = validateOptions(
@@ -31,8 +45,8 @@ const rule = (primary, secondaryOptions) => {
 			},
 		);
 		const inputFile = root.source.input.file;
-		const filename = path.parse(inputFile).name.split('.')[0];
-		const selectorPattern = '^:?(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.|\\[.*=)?)?(\")?'+filename+'(?:-[a-zA-Z]+)?(\")?(\\])?.*';
+		const filename = path.parse(inputFile).name.replace(/^_+/, '').split('.')[0];
+		const selectorPattern = '^:?(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\\[.*=)?)?(\")?'+filename+'(?:-[a-zA-Z]+)?(\")?(\\])?.*';
 		const selectorRegExp = new RegExp(selectorPattern);
 
 		if (!validOptions) {
@@ -44,9 +58,11 @@ const rule = (primary, secondaryOptions) => {
 			return;
 		}
 
+
 		root.walkRules((rule) => {
 			rule.selectors.forEach((selector) => {
-				if(!selectorRegExp.test(selector)) {
+				const rootSelector = findRootSelector(rule);
+				if(!selectorRegExp.test(rootSelector)) { 
 					report({
 						messageArgs: [selector, filename],
 						message: messages.rejected(selector, filename),
