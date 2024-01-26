@@ -28,7 +28,7 @@ You can disable ECSS rules by using the Stylelint `overrides` array.
 
 ```json
 {
-	"extends": ["@efficientcss/stylelint-config-ecss"]
+	"extends": ["@efficientcss/stylelint-config-ecss"],
 	"overrides": [
 		{
 			"files": ["*"],
