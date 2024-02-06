@@ -196,7 +196,7 @@ export default {
 			"message": printMessage("file-lines")
 		}],
 		"plugin/z-index-value-constraint": [{
-			"min": 1,
+			"min": 0,
 			"max": 10
 		}, {
 			"message": (selector, prop) => { 
