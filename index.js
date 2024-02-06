@@ -122,7 +122,6 @@ const propValDisallowedList = [
 	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
 	[{ properties: [/^flex$/], values: "/[0-9]/", keywordId: "flex-shorthand"}],
 	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
-	[{ properties: [/overflow/], values: "hidden", keywordId: "overflow-hidden"}]
 ]
 
 const selDisallowedList = [

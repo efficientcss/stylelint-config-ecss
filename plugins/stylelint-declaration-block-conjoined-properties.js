@@ -34,6 +34,21 @@ const needed = [
 		],
 	},
 	{
+		property: "overflow",
+		value: "hidden",
+		ignoreSelectors: [/video|img/],
+		neededDeclaration: [
+			{
+				property: "border-radius",
+				value: ".*"
+			},
+			{
+				property: "aspect-ratio",
+				value: ".*"
+			}
+		],
+	},
+	{
 		property: "/padding/",
 		value: "/.*/",
 		ignoreSelectors: [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
