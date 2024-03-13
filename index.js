@@ -217,6 +217,7 @@ export default {
 
 		"csstree/validator": [{
 			"ignoreProperties": ["/container/"],
+			"ignoreValue": "clamp",
 			"ignoreAtrules": ["container"]
 		}, {
 			"message": (selector, prop) => { 
