@@ -294,7 +294,7 @@ export default {
 			"message": (selector, prop) => { 
 					return printMessage("whitespace-irregular", selector, prop)}
 		}],
-		"selector-no-qualifying-type": [null, {
+		"selector-no-qualifying-type": [true, {
 			"ignore": ["attribute"],
 			"message": (selector, prop) => { 
 					return printMessage("selector-qualified", selector, prop)}
