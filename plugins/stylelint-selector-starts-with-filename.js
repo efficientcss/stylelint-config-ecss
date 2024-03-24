@@ -1,4 +1,5 @@
 import stylelint from "stylelint";
+import isKeyframeSelector from './utils/isKeyframeSelector.js';
 import path from "path";
 
 function isString(value) {
@@ -59,8 +60,12 @@ const rule = (primary, secondaryOptions) => {
 		}
 
 
+
 		root.walkRules((rule) => {
 			rule.selectors.forEach((selector) => {
+				if (isKeyframeSelector(selector)) {
+					return;
+				}
 				const rootSelector = findRootSelector(rule);
 				if(!selectorRegExp.test(rootSelector)) { 
 					report({
