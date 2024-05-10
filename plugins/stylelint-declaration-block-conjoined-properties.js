@@ -36,7 +36,7 @@ const needed = [
 	{
 		property: "overflow",
 		value: "hidden",
-		ignoreSelectors: [/video|img/],
+		ignoreSelectors: [/video|img|picture/],
 		neededDeclaration: [
 			{
 				property: "border-radius",
