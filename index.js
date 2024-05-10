@@ -18,8 +18,8 @@ const chosenLang = () => {
 
 const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
 const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const graphical_selectorPart = 'image|img|video|picture|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button';
-const prefixed_selectorPart = 'is-|int-|as-|on-|to-|with-|and-|now-|elem-|__';
+const graphical_selectorPart = 'image|img|video|picture|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea';
+const prefixed_selectorPart = 'is-|as-|on-|to-|with-|and-|now-|fx-|__';
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
 const tag_selectors = /^(?!.*(${text_selectors}))$/;
