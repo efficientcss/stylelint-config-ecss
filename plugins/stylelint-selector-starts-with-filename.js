@@ -54,8 +54,8 @@ const rule = (primary, secondaryOptions) => {
 			return;
 		}
 
-		// skip filenames starting with digit or "x-" pattern
-		if (filename.match(/^\d/) || filename.startsWith("x-")) {
+		// skip filenames starting with digit or "*-" pattern
+		if (filename.match(/^\d/) || /^[A-Za-z]-/.test(filename)) {
 			return;
 		}
 
