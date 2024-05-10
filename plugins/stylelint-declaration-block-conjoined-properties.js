@@ -49,10 +49,14 @@ const needed = [
 		],
 	},
 	{
-		property: "/padding/",
+		property: "/padding-/",
 		value: "/.*/",
 		ignoreSelectors: [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
 		neededDeclaration: [
+			{
+				property: "padding",
+				value: ".*"
+			},
 			{
 				property: "background",
 				value: ".*"
