@@ -176,7 +176,7 @@ export default {
 			}],
 		"rule-selector-property-disallowed-list": [
 			createRuleData(selPropDisallowedList), {
-				"splitList": true,
+				"ignore": ["keyframe-selectors"],
 				"message": (selector, prop) => { 
 					return createRuleMessages(selector, prop, selPropDisallowedList) }
 			}
