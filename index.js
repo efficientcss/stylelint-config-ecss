@@ -192,6 +192,7 @@ export default {
 		}],
 		"plugin/file-max-lines": [200, {
 			"ignore": ["comments", "blankLines"],
+			"severity": "warning",
 			"message": printMessage("file-lines")
 		}],
 		"plugin/z-index-value-constraint": [{
