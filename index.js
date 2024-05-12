@@ -22,7 +22,6 @@ const graphical_selectorPart = 'image|img|video|picture|icon|i$|shape|before$|af
 const prefixed_selectorPart = 'is-|as-|on-|to-|with-|and-|now-|fx-|for-|__';
 
 const text_selectors = /^(p|h1|h2|h3|h4|h5|h6)$/;
-const tag_selectors = /^(?!.*(${text_selectors}))$/;
 const numberedClass_selectors = /\.(?!(h[1-6]|grid-[0-9]+|col-[0-9]+)$)[a-zA-Z-]*[0-9]+/;
 const unprefixedDescendant_selectors = new RegExp('^(& |\.?.*)\\s[.](?!'+prefixed_selectorPart+').*$');
 const unprefixedCombinedClass_selectors = new RegExp('^(&|.[a-zA-Z-_]*)[.](?!'+prefixed_selectorPart+').*$');
