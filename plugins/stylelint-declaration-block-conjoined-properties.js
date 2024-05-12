@@ -54,6 +54,10 @@ const needed = [
 		ignoreSelectors: [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
 		neededDeclaration: [
 			{
+				property: "text-indent",
+				value: ".*"
+			},
+			{
 				property: "padding",
 				value: ".*"
 			},
