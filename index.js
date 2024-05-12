@@ -33,6 +33,7 @@ const notWithClasses_selectors = /(:not\(.*\.)/;
 const component_selectors = new RegExp('^(?!& )(.|\[[a-z-_]*="?)(?!'+graphical_selectorPart+')[a-zA-Z-_]+("?\])?$');
 const notGraphical_selectors = new RegExp('^(?!.*(?:'+graphical_selectorPart+')).*$');
 const overlyStructuredChildren_selectors = new RegExp('^.*[\\s](div|footer|section|aside|article).*\\b('+contentTag_selectorPart+')\\b$');
+const tagScopedClass_selectors = new RegExp('^('+structureTag_selectorPart+') (.|\[[a-z-_]*="?).*("?\])?$')
 
 const printMessage = (keywordId, source, problem) => {
 	let results = messages[keywordId][chosenLang()];
@@ -128,6 +129,7 @@ const selDisallowedList = [
 	[{ regex: notWithClasses_selectors, keywordId: "not-class" }],
 	[{ regex: unprefixedDescendant_selectors, keywordId: "class-child-prefix" }],
 	[{ regex: unprefixedCombinedClass_selectors, keywordId: "class-combined-prefix" }],
+	[{ regex: tagScopedClass_selectors, keywordId: "tag-scoped-class" }],
 	[{ regex: overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
 ]
 
