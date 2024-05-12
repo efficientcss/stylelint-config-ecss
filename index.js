@@ -104,21 +104,25 @@ const createRuleData = (dataList) => {
 
 const selPropDisallowedList = [
 	[ { regex: text_selectors },
+		{ properties: [/float/], keywordId: "content-float" },
 		{ properties: [/margin(?!-top|-bottom)/], keywordId: "content-margin" },
-		{ properties: [/padding/], keywordId: "content-padding" } ],
-	[ { regex: tag_selectors },
-		{ properties: [/padding/], keywordId: "padding-large" } ],
+		{ properties: [/padding/], keywordId: "content-padding" },
+		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
 	[ { regex: component_selectors },
 		{ properties: [/margin/], keywordId: "component-outside" },
 		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ],
 	[ { regex: notGraphical_selectors },
-		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ]
+		{ properties: [/float/], keywordId: "content-float" },
+		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
+	[ { regex: component_selectors },
+		{ properties: [/margin/], keywordId: "component-outside" },
+		{ properties: [/float/], keywordId: "content-float" },
+		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ]
 ]
 
 const propValDisallowedList = [
 	[{ properties: [/position/], values: "/absolute|fixed/", keywordId: "position-sensitive" }],
 	[{ properties: [/margin|padding/], values: "/^-?([7-9]\\d|\\d{3,})/", keywordId: "spacing-large" }],
-	[{ properties: [/float/], values: "/left|right/", keywordId: "content-float"}],
 	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
 	[{ properties: [/^flex$/], values: "/[0-9]/", keywordId: "flex-shorthand"}],
 	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
