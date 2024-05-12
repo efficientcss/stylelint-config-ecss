@@ -32,7 +32,7 @@ const prefixedClass_selectors = /.(${prefixed_selectorPart}).*/;
 const notWithClasses_selectors = /(:not\(.*\.)/;
 const component_selectors = new RegExp('^(?!& )(.|\[[a-z-_]*="?)(?!'+graphical_selectorPart+')[a-zA-Z-_]+("?\])?$');
 const notGraphical_selectors = new RegExp('^(?!.*(?:'+graphical_selectorPart+')).*$');
-const overlyStructuredChildren_selectors = new RegExp('^.*[\\s]('+structureTag_selectorPart+').*\\b('+contentTag_selectorPart+')\\b$');
+const overlyStructuredChildren_selectors = new RegExp('^.*[\\s](div|footer|section|aside|article).*\\b('+contentTag_selectorPart+')\\b$');
 
 const printMessage = (keywordId, source, problem) => {
 	let results = messages[keywordId][chosenLang()];
