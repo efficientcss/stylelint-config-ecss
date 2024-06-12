@@ -1,6 +1,6 @@
 {
   "name": "@efficientcss/stylelint-config-ecss",
-  "version": "1.0.0-beta-10",
+  "version": "1.0.0-beta-11",
   "description": "Linting rules for EfficientCSS",
   "main": "index.js",
   "type": "module",
