@@ -189,7 +189,7 @@ export default {
 		"plugin/selector-starts-with-filename": [true, {
 			"message": (selector, prop) => { 
 					return printMessage("component-selector", selector, prop)},
-			"ignoreFiles": ["**/quarantine.css"]
+			"ignoreFiles": ["quarantine.css", "main.css"]
 		}],
 		"plugin/declaration-block-conjoined-properties": [true, {
 			"message": (selector, prop) => { 
