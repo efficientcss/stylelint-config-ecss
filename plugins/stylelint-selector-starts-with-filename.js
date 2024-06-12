@@ -1,5 +1,6 @@
 import stylelint from "stylelint";
 import isKeyframeSelector from './utils/isKeyframeSelector.js';
+import optionsMatches from './utils/optionsMatches.js';
 import path from "path";
 
 function isString(value) {
@@ -46,16 +47,18 @@ const rule = (primary, secondaryOptions) => {
 			},
 		);
 		const inputFile = root.source.input.file;
+		const filebase = path.parse(inputFile).base;
 		const filename = path.parse(inputFile).name.replace(/^_+/, '').split('.')[0];
 		const selectorPattern = '^:?(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\\[.*=)?)?(\")?'+filename+'(?:-[a-zA-Z]+)?(\")?(\\])?.*';
 		const selectorRegExp = new RegExp(selectorPattern);
+		const ignoredFile = optionsMatches(secondaryOptions, 'ignoreFiles', filebase);
 
 		if (!validOptions) {
 			return;
 		}
 
-		// skip filenames starting with digit or "*-" pattern
-		if (filename.match(/^\d/) || /^[A-Za-z]-/.test(filename)) {
+		// skip ignoredFiles and filenames starting with digit or "*-" pattern
+		if (ignoredFile || filename.match(/^\d/) || /^[A-Za-z]-/.test(filename)) {
 			return;
 		}
 
