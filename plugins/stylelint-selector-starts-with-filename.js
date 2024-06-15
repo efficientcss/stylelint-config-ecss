@@ -8,8 +8,8 @@ function isString(value) {
 }
 
 const {
-  createPlugin,
-  utils: { report, ruleMessages, validateOptions }
+	createPlugin,
+	utils: { report, ruleMessages, validateOptions }
 } = stylelint;
 
 
@@ -19,17 +19,17 @@ const messages = ruleMessages(ruleName, {
 });
 
 const findRootSelector = (node) => {
-    let current = node;
-    let foundParent = current;
-    
-    while (current.parent) {
-        if (current.parent.type === 'rule') {
-            foundParent = current.parent;
-        }
-        current = current.parent;
-    }
+	let current = node;
+	let foundParent = current;
 
-    return foundParent.selector;
+	while (current.parent) {
+		if (current.parent.type === 'rule') {
+			foundParent = current.parent;
+		}
+		current = current.parent;
+	}
+
+	return foundParent.selector;
 };
 
 const rule = (primary, secondaryOptions) => {
