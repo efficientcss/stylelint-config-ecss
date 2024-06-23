@@ -105,7 +105,7 @@ const createRuleData = (dataList) => {
 const selPropDisallowedList = [
 	[ { regex: text_selectors },
 		{ properties: [/float/], keywordId: "content-float" },
-		{ properties: [/margin(?!-top|-bottom)/], keywordId: "content-margin" },
+		{ properties: [/margin(?!-top|-bottom|-block)/], keywordId: "content-margin" },
 		{ properties: [/padding/], keywordId: "content-padding" },
 		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
 	[ { regex: component_selectors },
