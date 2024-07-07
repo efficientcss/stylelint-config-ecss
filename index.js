@@ -104,28 +104,28 @@ const createRuleData = (dataList) => {
 }
 
 const selPropDisallowedList = [
+	[ { regex: structureTag_selectors },
+		{ properties: [/^position$|background|display|padding|margin|width|height|border|shadow/], keywordId: "large-selector-rule" } ],
 	[ { regex: text_selectors },
+		{ properties: [/display/], keywordId: "content-block" },
 		{ properties: [/float/], keywordId: "content-float" },
 		{ properties: [/margin(?!-top|-bottom|-block)/], keywordId: "content-margin" },
 		{ properties: [/padding/], keywordId: "content-padding" },
 		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
 	[ { regex: component_selectors },
 		{ properties: [/margin/], keywordId: "component-outside" },
+		{ properties: [/float/], keywordId: "content-float" },
 		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ],
 	[ { regex: notGraphical_selectors },
 		{ properties: [/float/], keywordId: "content-float" },
-		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
-	[ { regex: component_selectors },
-		{ properties: [/margin/], keywordId: "component-outside" },
-		{ properties: [/float/], keywordId: "content-float" },
-		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ]
+		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ]
 ]
 
 const propValDisallowedList = [
+	[{ properties: [/margin|padding/], values: "/^-?(\\d{2,}(em|rem)|\\d{3,}px)/", keywordId: "spacing-large" }],
 	[{ properties: [/position/], values: "/absolute|fixed/", keywordId: "position-sensitive" }],
-	[{ properties: [/margin|padding/], values: "/^-?([7-9]\\d|\\d{3,})/", keywordId: "spacing-large" }],
 	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
-	[{ properties: [/^flex$/], values: "/[0-9]/", keywordId: "flex-shorthand"}],
+	[{ properties: [/^flex$/], values: "/^[0-9]*[a-z]*$/", keywordId: "flex-shorthand"}],
 	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
 ]
 
