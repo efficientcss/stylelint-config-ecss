@@ -14,6 +14,26 @@ const messages = ruleMessages(ruleName, {
 
 const needed = [
 	{
+		property: "/^(align-(items|content)|justify-(items|content)|gap)$/",
+		value: "/.*/",
+		neededDeclaration: [
+			{
+				property: "display",
+				value: "flex|grid"
+			}
+		],
+	},
+	{
+		property: "/^(flex-direction|flex-wrap|flex-flow)$/",
+		value: "/.*/",
+		neededDeclaration: [
+			{
+				property: "display",
+				value: "flex"
+			}
+		],
+	},
+	{
 		property: "/^(top|right|bottom|left)$/",
 		value: "/.*/",
 		neededDeclaration: [
