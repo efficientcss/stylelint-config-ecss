@@ -12,106 +12,18 @@ const messages = ruleMessages(ruleName, {
 	rejected: (needed, cause) => `Expected any of "${needed}" with "${cause}"`,
 });
 
-const needed = [
-	{
-		property: "/^(align-(items|content)|justify-(items|content)|gap)$/",
-		value: "/.*/",
-		neededDeclaration: [
-			{
-				property: "display",
-				value: "flex|grid"
-			}
-		],
-	},
-	{
-		property: "/^(flex-direction|flex-wrap|flex-flow)$/",
-		value: "/.*/",
-		neededDeclaration: [
-			{
-				property: "display",
-				value: "flex"
-			}
-		],
-	},
-	{
-		property: "/^(top|right|bottom|left)$/",
-		value: "/.*/",
-		neededDeclaration: [
-			{
-				property: "position",
-				value: "^((?!static).)*$"
-			}
-		],
-	},
-	{
-		property: "z-index",
-		value: "/.*/",
-		neededDeclaration: [
-			{
-				property: "position",
-				value: "^((?!static).)*$"
-			}
-		],
-	},
-	{
-		property: "overflow",
-		value: "hidden",
-		ignoreSelectors: [/video|img|picture/],
-		neededDeclaration: [
-			{
-				property: "border-radius",
-				value: ".*"
-			},
-			{
-				property: "aspect-ratio",
-				value: ".*"
-			}
-		],
-	},
-	{
-		property: "/padding-/",
-		value: "/.*/",
-		ignoreSelectors: [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
-		neededDeclaration: [
-			{
-				property: "text-indent",
-				value: ".*"
-			},
-			{
-				property: "padding",
-				value: ".*"
-			},
-			{
-				property: "background",
-				value: ".*"
-			},
-			{
-				property: "border",
-				value: ".*"
-			},
-			{
-				property: "margin",
-				value: ".*"
-			},
-			{
-				property: "box-sizing",
-				value: "border-box"
-			},
-			{
-				property: "overflow",
-				value: ".*"
-			}
-		],
-	},
-];
-
-const rule = (actual) => {
+const rule = (primary) => {
 	return (root, result) => {
-		const validOptions = validateOptions(result, ruleName, { actual });
+		const validOptions = validateOptions(result, ruleName, { 
+			actual: primary,
+			possible: validateNeededObject
+		});
 
 		if (!validOptions) {
 			return;
 		}
+
+		const needed = primary;
 
 		root.walkRules((rule) => {
 			const uniqueDecls = {};
@@ -123,20 +35,22 @@ const rule = (actual) => {
 				const decl = uniqueDecls[prop];
 				const value = decl.value;
 
-				needed.forEach((needed) => {
-					if (needed.ignoreSelectors?.some(e => rule.selector.match(e))) {
+				Object.keys(needed).forEach((property) => {
+					const neededEntry = needed[property];
+					if (neededEntry.ignoreSelectors?.some(e => rule.selector.match(e))) {
 						return;
 					}
+
 					const matchProperty = matchesStringOrRegExp(
 						prop.toLowerCase(),
-						needed.property
+						property
 					);
 					const matchValue = matchesStringOrRegExp(
 						value.toLowerCase(),
-						needed.value
+						neededEntry.value
 					);
 
-					const neededDeclaration = needed.neededDeclaration;
+					const neededDeclaration = neededEntry.neededDeclaration;
 					const neededDeclProp = neededDeclaration.map(decl => decl.property);
 					const neededDeclValue = neededDeclaration.map(decl => decl.value);
 					let matchDeclValue, matchDeclProp;
@@ -160,7 +74,6 @@ const rule = (actual) => {
 							return;
 						}
 					});
-
 
 					if (!matchProperty || !matchValue) {
 						return;
@@ -186,8 +99,7 @@ const rule = (actual) => {
 
 					if(!hasNeeded) {
 						report({
-							messageArgs: [neededDeclaration.map(decl => decl.property), decl.toString()],
-							message: messages.rejected(neededDeclaration.map(decl => decl.property), decl.toString()),
+							message: neededEntry.message || messages.rejected(neededDeclaration.map(decl => decl.property), decl.toString()),
 							node: decl,
 							result,
 							ruleName,
@@ -204,3 +116,16 @@ const rule = (actual) => {
 rule.ruleName = ruleName;
 rule.messages = messages;
 export default createPlugin(ruleName, rule);
+
+/**
+ * Validation function for the needed object
+ * @param {any} value
+ * @returns {boolean}
+ */
+function validateNeededObject(value) {
+	return typeof value === 'object' && !Array.isArray(value) && Object.values(value).every(item => {
+		return (
+			item.value && Array.isArray(item.neededDeclaration)
+		);
+	});
+}

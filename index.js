@@ -138,6 +138,99 @@ const selDisallowedList = [
 	[{ regex: overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
 ]
 
+const conjoinedPropList = {
+	"/^(align-(items|content)|justify-(items|content)|gap)$/": {
+		"value": "/.*/",
+		"message": printMessage("align-display"),
+		"neededDeclaration": [
+			{
+				"property": "display",
+				"value": "flex|grid"
+			}
+		]
+	},
+	"/^(flex-direction|flex-wrap|flex-flow)$/": {
+		"value": "/.*/",
+		"message": printMessage("flex-prop"),
+		"neededDeclaration": [
+			{
+				"property": "display",
+				"value": "flex"
+			}
+		]
+	},
+	"/^(top|right|bottom|left)$/": {
+		"value": "/.*/",
+		"message": printMessage("position-prop"),
+		"neededDeclaration": [
+			{
+				"property": "position",
+				"value": "^((?!static).)*$"
+			}
+		]
+	},
+	"z-index": {
+		"value": "/.*/",
+		"message": printMessage("z-index-static"),
+		"neededDeclaration": [
+			{
+				"property": "position",
+				"value": "^((?!static).)*$"
+			}
+		]
+	},
+	"overflow": {
+		"value": "hidden",
+		"message": printMessage("overflow-hidden"),
+		"ignoreSelectors": [/video|img|picture/],
+		"neededDeclaration": [
+			{
+				"property": "border-radius",
+				"value": ".*"
+			},
+			{
+				"property": "aspect-ratio",
+				"value": ".*"
+			}
+		]
+	},
+	"/padding-/": {
+		"value": "/.*/",
+		"ignoreSelectors": [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
+		"message": printMessage("padding-constraints"),
+		"neededDeclaration": [
+			{
+				"property": "text-indent",
+				"value": ".*"
+			},
+			{
+				"property": /padding$/,
+				"value": ".*"
+			},
+			{
+				"property": "background",
+				"value": ".*"
+			},
+			{
+				"property": "border",
+				"value": ".*"
+			},
+			{
+				"property": "margin",
+				"value": ".*"
+			},
+			{
+				"property": "box-sizing",
+				"value": "border-box"
+			},
+			{
+				"property": "overflow",
+				"value": ".*"
+			}
+		]
+	}
+} 
+
 export default {
 	"plugins": [
 		"./plugins/stylelint-selector-starts-with-filename",
@@ -192,10 +285,9 @@ export default {
 				return printMessage("component-selector", selector, prop)},
 			"ignoreFiles": ["quarantine.css", "main.css"]
 		}],
-		"plugin/declaration-block-conjoined-properties": [true, {
-			"message": (selector, prop) => { 
-					return printMessage("property-conjoined", selector, prop)}
-		}],
+		"plugin/declaration-block-conjoined-properties": [
+			conjoinedPropList
+		],
 		"plugin/file-max-lines": [200, {
 			"ignore": ["comments", "blankLines"],
 			"severity": "warning",
