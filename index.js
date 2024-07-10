@@ -164,7 +164,7 @@ export default {
 			}],
 		"selector-max-specificity": ["0,2,4", {
 			"message": (selector) => { 
-					return printMessage("specificity-max", selector)},
+				return printMessage("specificity-max", selector)},
 			"ignoreSelectors": [pseudoClass_selectors, prefixedClass_selectors]
 		}],
 
@@ -189,7 +189,7 @@ export default {
 		],
 		"plugin/selector-starts-with-filename": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("component-selector", selector, prop)},
+				return printMessage("component-selector", selector, prop)},
 			"ignoreFiles": ["quarantine.css", "main.css"]
 		}],
 		"plugin/declaration-block-conjoined-properties": [true, {
@@ -206,20 +206,20 @@ export default {
 			"max": 10
 		}, {
 			"message": (selector, prop) => { 
-					return printMessage("z-index-band", selector, prop)}
+				return printMessage("z-index-band", selector, prop)}
 		}],
 		"function-calc-no-unspaced-operator": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("calc-unspaced", selector, prop)}
+				return printMessage("calc-unspaced", selector, prop)}
 		}],
 		"function-no-unknown": [true, {
 			"message": (selector) => { 
-					return printMessage("function-unknown", selector)}
+				return printMessage("function-unknown", selector)}
 		}],
 
 		"unit-no-unknown": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("unit-unknown", selector, prop)}
+				return printMessage("unit-unknown", selector, prop)}
 		}],
 
 		"csstree/validator": [{
@@ -228,33 +228,33 @@ export default {
 			"ignoreAtrules": ["container"]
 		}, {
 			"message": (selector, prop) => { 
-					return printMessage("syntax-invalid", selector, prop)}
+				return printMessage("syntax-invalid", selector, prop)}
 		}],
 		"number-max-precision": [5, {
 			"ignoreUnits": ["em", "rem", "/v/", "s"],
 			"ignoreProperties": ["/--/"],
 			"message": (selector, prop) => { 
-					return printMessage("floating-max", selector, prop)}
+				return printMessage("floating-max", selector, prop)}
 		}],
 		"declaration-block-no-duplicate-custom-properties": [true, {
 			"message": (selector) => { 
-					return printMessage("custom-property-duplicate", selector)}
+				return printMessage("custom-property-duplicate", selector)}
 		}],
 		"declaration-block-no-duplicate-properties": [true, {
 			"message": (selector) => { 
-					return printMessage("property-duplicate", selector)}
+				return printMessage("property-duplicate", selector)}
 		}],
 		"custom-property-no-missing-var-function": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("var-function-missing", selector, prop)}
+				return printMessage("var-function-missing", selector, prop)}
 		}],
 		"plugin/declaration-block-no-ignored-properties": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("property-ignored", selector, prop)}
+				return printMessage("property-ignored", selector, prop)}
 		}],
 		"block-no-empty": [true, {
 			"message": () => { 
-					return printMessage("block-empty")}
+				return printMessage("block-empty")}
 		}],
 
 		"unit-disallowed-list": [
@@ -270,45 +270,45 @@ export default {
 			"height": ["vh"]
 		},{
 			"message": (selector, prop) => { 
-					return printMessage("property-unit-disallowed", selector, prop)}
+				return printMessage("property-unit-disallowed", selector, prop)}
 		}],
 		"declaration-no-important": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("declaration-important", selector, prop)}
+				return printMessage("declaration-important", selector, prop)}
 		}],
 
 		"selector-max-compound-selectors": [5, {
 			"message": (selector, prop) => { 
-					return printMessage("selector-max", selector, prop)}
+				return printMessage("selector-max", selector, prop)}
 		}],
 		"selector-max-class": [3, {
 			"message": (selector, prop) => { 
-					return printMessage("class-max", selector, prop)}
+				return printMessage("class-max", selector, prop)}
 		}],
 		"selector-max-type": [4, {
 			"message": (selector, maxValue) => { 
-					return printMessage("type-max", undefined, maxValue)}
+				return printMessage("type-max", undefined, maxValue)}
 		}],
 		"selector-max-universal": [2, {
 			"message": (selector, prop) => { 
-					return printMessage("universal-max", selector, prop)}
+				return printMessage("universal-max", selector, prop)}
 		}],
 		"no-duplicate-at-import-rules": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("import-duplicate", selector, prop)}
+				return printMessage("import-duplicate", selector, prop)}
 		}],
 		"no-irregular-whitespace": [true, {
 			"message": (selector, prop) => { 
-					return printMessage("whitespace-irregular", selector, prop)}
+				return printMessage("whitespace-irregular", selector, prop)}
 		}],
 		"selector-no-qualifying-type": [true, {
 			"ignore": ["attribute"],
 			"message": (selector, prop) => { 
-					return printMessage("selector-qualified", selector, prop)}
+				return printMessage("selector-qualified", selector, prop)}
 		}],
 		"selector-max-id": [0, {
 			"message": (selector, prop) => { 
-					return printMessage("selector-id", selector, prop)}
+				return printMessage("selector-id", selector, prop)}
 		}],
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
@@ -316,7 +316,7 @@ export default {
 			"acceptedValues": [/[0-9]+0(%|ms|s|ch|px|rem|em|fr|v.*)?/, /(12|13)px/, /^(0|1)?\.[0-9]+(%|ms|s|ch|px|rem|em|v.*)?/],
 			"acceptedNumbers": [/[0-9]/, /^(0|1)?\.[0-9]*$/],
 			"message": (selector, prop) => { 
-					return printMessage("magic-number", selector, prop)}
+				return printMessage("magic-number", selector, prop)}
 		}]
 	}
 }
