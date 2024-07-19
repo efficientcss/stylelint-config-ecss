@@ -144,7 +144,7 @@ const selDisallowedList = [
 const conjoinedPropList = {
 	"/^(align-(items|content)|justify-(items|content)|gap)$/": {
 		"value": "/.*/",
-		"message": printMessage("align-display"),
+		message: (property, value) => printMessage("align-display", property, value),
 		"neededDeclaration": [
 			{
 				"property": "display",
@@ -154,7 +154,7 @@ const conjoinedPropList = {
 	},
 	"/^(flex-direction|flex-wrap|flex-flow)$/": {
 		"value": "/.*/",
-		"message": printMessage("flex-prop"),
+		message: (property, value) => printMessage("flex-prop", property, value),
 		"neededDeclaration": [
 			{
 				"property": "display",
@@ -164,7 +164,7 @@ const conjoinedPropList = {
 	},
 	"/^(top|right|bottom|left)$/": {
 		"value": "/.*/",
-		"message": printMessage("position-prop"),
+		message: (property, value) => printMessage("position-prop", property, value),
 		"neededDeclaration": [
 			{
 				"property": "position",
@@ -174,7 +174,7 @@ const conjoinedPropList = {
 	},
 	"z-index": {
 		"value": "/.*/",
-		"message": printMessage("z-index-static"),
+		message: (property, value) => printMessage("z-index-static", property, value),
 		"neededDeclaration": [
 			{
 				"property": "position",
@@ -184,7 +184,7 @@ const conjoinedPropList = {
 	},
 	"overflow": {
 		"value": "hidden",
-		"message": printMessage("overflow-hidden"),
+		message: (property, value) => printMessage("overflow-hidden", property, value),
 		"ignoreSelectors": [/video|img|picture/],
 		"neededDeclaration": [
 			{
@@ -200,7 +200,7 @@ const conjoinedPropList = {
 	"/padding-/": {
 		"value": "/.*/",
 		"ignoreSelectors": [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
-		"message": printMessage("padding-constraints"),
+		message: (property, value) => printMessage("padding-constraints", property, value),
 		"neededDeclaration": [
 			{
 				"property": "text-indent",

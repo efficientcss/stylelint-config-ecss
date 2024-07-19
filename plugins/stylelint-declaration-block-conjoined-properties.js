@@ -98,8 +98,11 @@ const rule = (primary) => {
 					});
 
 					if(!hasNeeded) {
+						const message = typeof neededEntry.message === 'function'
+							? neededEntry.message(prop, value)
+							: neededEntry.message;
 						report({
-							message: neededEntry.message || messages.rejected(neededDeclaration.map(decl => decl.property), decl.toString()),
+							message: message || messages.rejected(neededDeclaration.map(decl => decl.property), decl.toString()),
 							node: decl,
 							result,
 							ruleName,
