@@ -36,8 +36,11 @@ const notGraphical_selectors = new RegExp('^(?!.*(?:'+graphical_selectorPart+'))
 const overlyStructuredChildren_selectors = new RegExp('^((.*)[\\s](div|footer|section|aside|article|ul|li).*|body.*)\\b('+contentTag_selectorPart+')\\b$');
 const tagScopedClass_selectors = new RegExp('^(?![.])(('+structureTag_selectorPart+')( |>| > ))+([.]|\\[[a-z-_]*=?"?).*("?\\])?$')
 
-const printMessage = (keywordId, source, problem) => {
+const printMessage = (keywordId, source, problem, customValue) => {
 	let results = messages[keywordId][chosenLang()];
+	if(customValue) {
+		results += customValue
+	}
 	if(source || problem) {
 		results += " `"
 	}
@@ -370,16 +373,16 @@ export default {
 		}],
 
 		"selector-max-compound-selectors": [5, {
-			"message": (selector, prop) => { 
-				return printMessage("selector-max", selector, prop)}
+			"message": (selector, maxValue) => { 
+				return printMessage("selector-max", selector, undefined, maxValue+"..")}
 		}],
 		"selector-max-class": [3, {
-			"message": (selector, prop) => { 
-				return printMessage("class-max", selector, prop)}
+			"message": (selector, maxValue) => { 
+				return printMessage("class-max", selector, undefined, maxValue+".")}
 		}],
 		"selector-max-type": [4, {
 			"message": (selector, maxValue) => { 
-				return printMessage("type-max", undefined, maxValue)}
+				return printMessage("type-max", undefined, undefined, maxValue+"..")}
 		}],
 		"selector-max-universal": [2, {
 			"message": (selector, prop) => { 
