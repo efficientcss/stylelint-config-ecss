@@ -243,6 +243,7 @@ export default {
 		"./plugins/stylelint-csstree-validator",
 		"./plugins/stylelint-declaration-block-no-ignored-properties",
 		"./plugins/stylelint-magic-numbers",
+		"./plugins/stylelint-no-commented-code",
 		"stylelint-file-max-lines"
 	],
 	"rules": {
@@ -292,6 +293,9 @@ export default {
 		"plugin/declaration-block-conjoined-properties": [
 			conjoinedPropList
 		],
+		"plugin/no-commented-code": [true, {
+			"message": printMessage("commented-code")
+		}],
 		"plugin/file-max-lines": [200, {
 			"ignore": ["comments", "blankLines"],
 			"severity": "warning",
