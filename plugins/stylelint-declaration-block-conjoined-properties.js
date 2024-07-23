@@ -31,6 +31,24 @@ const rule = (primary) => {
 				uniqueDecls[decl.prop] = decl;
 			});
 
+			function collectParentDecls(node, collectedProps) {
+				let parent = node.parent;
+				while (parent && parent.type !== "root") {
+					if (parent.type === "rule" || parent.type === "atrule") {
+						parent.walkDecls((decl) => {
+							if (!collectedProps[decl.prop]) {
+								collectedProps[decl.prop] = decl;
+							}
+						});
+					}
+					parent = parent.parent;
+				}
+			}
+
+			if (rule.parent && rule.parent.type !== "root") {
+				collectParentDecls(rule, uniqueDecls);
+			}
+
 			function check(prop) {
 				const decl = uniqueDecls[prop];
 				const value = decl.value;
@@ -81,17 +99,17 @@ const rule = (primary) => {
 
 					let hasNeeded = false;
 
-					decl.parent.nodes.forEach((node) => {
-						if(node.prop) {
+					Object.values(uniqueDecls).forEach((node) => {
+						if (node.prop) {
 							neededDeclaration.every((obj) => {
-							const propertyRegex = new RegExp(obj.property, "g");
-							const valueRegex = new RegExp(obj.value, "g");
-							const propertyMatching = propertyRegex.test(node.prop.toLowerCase());
-							const valueMatching = valueRegex.test(node.value.toLowerCase());
-							if (propertyMatching && valueMatching) {
-								hasNeeded = true;
-								return false;
-							}
+								const propertyRegex = new RegExp(obj.property, "g");
+								const valueRegex = new RegExp(obj.value, "g");
+								const propertyMatching = propertyRegex.test(node.prop.toLowerCase());
+								const valueMatching = valueRegex.test(node.value.toLowerCase());
+								if (propertyMatching && valueMatching) {
+									hasNeeded = true;
+									return false;
+								}
 								return true;
 							});
 						}
