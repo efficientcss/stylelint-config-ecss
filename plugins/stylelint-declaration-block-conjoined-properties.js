@@ -2,8 +2,8 @@ import stylelint from "stylelint";
 import matchesStringOrRegExp from "./utils/matchesStringOrRegExp.js";
 
 const {
-  createPlugin,
-  utils: { report, ruleMessages, validateOptions }
+	createPlugin,
+	utils: { report, ruleMessages, validateOptions }
 } = stylelint;
 
 const ruleName = "plugin/declaration-block-conjoined-properties";
@@ -97,7 +97,7 @@ const rule = (primary) => {
 						}
 					});
 
-					if(!hasNeeded) {
+					if (!hasNeeded) {
 						const message = typeof neededEntry.message === 'function'
 							? neededEntry.message(prop, value)
 							: neededEntry.message;
@@ -120,11 +120,6 @@ rule.ruleName = ruleName;
 rule.messages = messages;
 export default createPlugin(ruleName, rule);
 
-/**
- * Validation function for the needed object
- * @param {any} value
- * @returns {boolean}
- */
 function validateNeededObject(value) {
 	return typeof value === 'object' && !Array.isArray(value) && Object.values(value).every(item => {
 		return (
