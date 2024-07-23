@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/efficientcss/stylelint-config-ecss/issues"
   },
-  "homepage": "https://ecss.info",
+  "homepage": "https://ecss.info/en",
   "peerDependencies": {
     "stylelint": "^16.0.0"
   },

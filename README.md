@@ -6,7 +6,7 @@
 
 This config adds a more detailed messaging system.
 
-For the complete documentation, see [ecss.info](https://ecss.info).
+For the complete documentation, see [ecss.info](https://ecss.info/en).
 
 ## Installation
 
