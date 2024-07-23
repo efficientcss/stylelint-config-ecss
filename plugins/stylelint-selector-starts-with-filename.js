@@ -12,7 +12,6 @@ const {
 	utils: { report, ruleMessages, validateOptions }
 } = stylelint;
 
-
 const ruleName = 'plugin/selector-starts-with-filename';
 const messages = ruleMessages(ruleName, {
 	rejected: (selector, filename) => `All selectors must begin with filename. ${selector} vs. ${filename}`
@@ -62,23 +61,25 @@ const rule = (primary, secondaryOptions) => {
 			return;
 		}
 
-
-
 		root.walkRules((rule) => {
 			rule.selectors.forEach((selector) => {
-				if (isKeyframeSelector(selector)) {
-					return;
-				}
-				const rootSelector = findRootSelector(rule);
-				if(!selectorRegExp.test(rootSelector)) { 
-					report({
-						messageArgs: [selector, filename],
-						message: messages.rejected(selector, filename),
-						node: rule,
-						result,
-						ruleName,
-					});
-				}
+				const individualSelectors = selector.split(',').map(sel => sel.trim());
+
+				individualSelectors.forEach((indivSelector) => {
+					if (isKeyframeSelector(indivSelector)) {
+						return;
+					}
+					const rootSelector = findRootSelector(rule);
+					if (!selectorRegExp.test(indivSelector)) {
+						report({
+							messageArgs: [indivSelector, filename],
+							message: messages.rejected(indivSelector, filename),
+							node: rule,
+							result,
+							ruleName,
+						});
+					}
+				});
 			});
 		});
 	}
