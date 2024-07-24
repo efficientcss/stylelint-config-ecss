@@ -21,7 +21,6 @@ const ruleFunction = (primaryOption, secondaryOptions, context) => {
     const commentedCssPattern = /[a-zA-Z-]+\s*:\s*[^;]+;\s*/;
 
     root.walkComments(comment => {
-		 console.log(comment, comment.text.match(commentedCssPattern));
       if (comment.text.match(commentedCssPattern)) {
         stylelint.utils.report({
           message: messages.rejected,
