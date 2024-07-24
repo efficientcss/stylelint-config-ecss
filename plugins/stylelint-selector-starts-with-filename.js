@@ -1,11 +1,8 @@
 import stylelint from "stylelint";
-import isKeyframeSelector from './utils/isKeyframeSelector.js';
-import optionsMatches from './utils/optionsMatches.js';
+import postcss from "postcss";
+import nested from "postcss-nested";
 import path from "path";
-
-function isString(value) {
-	return typeof value === 'string' || value instanceof String;
-}
+import optionsMatches from './utils/optionsMatches.js';
 
 const {
 	createPlugin,
@@ -17,73 +14,52 @@ const messages = ruleMessages(ruleName, {
 	rejected: (selector, filename) => `All selectors must begin with filename. ${selector} vs. ${filename}`
 });
 
-const findRootSelector = (node) => {
-	let current = node;
-	let foundParent = current;
+const isString = (value) => typeof value === 'string' || value instanceof String;
 
-	while (current.parent) {
-		if (current.parent.type === 'rule') {
-			foundParent = current.parent;
-		}
-		current = current.parent;
-	}
-
-	return foundParent.selector;
+const preprocessCSS = async (css) => {
+	const result = await postcss([nested]).process(css, { from: undefined });
+	return result.root;
 };
 
-const rule = (primary, secondaryOptions) => {
-	return (root, result) => {
-		const validOptions = validateOptions(
-			result, 
-			ruleName,
-			{ actual: primary },
-			{
-				actual: secondaryOptions,
-				possible: {
-					ignoreFiles: [isString],
-				},
-				optional: true,
-			},
-		);
-		const inputFile = root.source.input.file;
-		const filebase = path.parse(inputFile).base;
-		const filename = path.parse(inputFile).name.replace(/^_+/, '').split('.')[0];
-		const selectorPattern = '^:?(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\\[.*=)?)?(\")?'+filename+'(?:-[a-zA-Z]+)?(\")?(\\])?.*';
-		const selectorRegExp = new RegExp(selectorPattern);
-		const ignoredFile = optionsMatches(secondaryOptions, 'ignoreFiles', filebase);
+const rule = (primary, secondaryOptions) => async (root, result) => {
+	const validOptions = validateOptions(
+		result,
+		ruleName,
+		{ actual: primary },
+		{
+			actual: secondaryOptions,
+			possible: { ignoreFiles: [isString] },
+			optional: true,
+		},
+	);
 
-		if (!validOptions) {
-			return;
-		}
+	if (!validOptions) return;
 
-		// skip ignoredFiles and filenames starting with digit or "*-" pattern
-		if (ignoredFile || filename.match(/^\d/) || /^[A-Za-z]-/.test(filename)) {
-			return;
-		}
+	const inputFile = root.source.input.file;
+	const filename = path.parse(inputFile).name.replace(/^_+/, '').split('.')[0];
+	const selectorPattern = `^&?\\s*:?\\s*(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\$begin:math:display$.*=)?)?(\\")?${filename}(?:-[a-zA-Z]+)?(\\")?(\\$end:math:display$)?.*`;
+	const selectorRegExp = new RegExp(selectorPattern);
 
-		root.walkRules((rule) => {
-			rule.selectors.forEach((selector) => {
-				const individualSelectors = selector.split(',').map(sel => sel.trim());
+	if (optionsMatches(secondaryOptions, 'ignoreFiles', inputFile) || /^\d|^[A-Za-z]-/.test(filename)) return;
 
-				individualSelectors.forEach((indivSelector) => {
-					if (isKeyframeSelector(indivSelector)) {
-						return;
-					}
-					const rootSelector = findRootSelector(rule);
-					if (!selectorRegExp.test(indivSelector)) {
-						report({
-							messageArgs: [indivSelector, filename],
-							message: messages.rejected(indivSelector, filename),
-							node: rule,
-							result,
-							ruleName,
-						});
-					}
-				});
+	const processedRoot = await preprocessCSS(root.toString());
+
+	processedRoot.walkRules((rule) => {
+		rule.selectors.forEach((selector) => {
+			selector.split(',').map(sel => sel.trim()).forEach((indivSelector) => {
+				if (!selectorRegExp.test(indivSelector)) {
+					report({
+						messageArgs: [indivSelector, filename],
+						message: messages.rejected(indivSelector, filename),
+						node: rule,
+						result,
+						ruleName,
+					});
+				}
 			});
 		});
-	}
-}
+	});
+};
 
 rule.ruleName = ruleName;
 rule.messages = messages;
