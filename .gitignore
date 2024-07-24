@@ -1,4 +1,6 @@
 tests
+tags
 commentaires.txt
 notes.txt
 .stylelintrc.json
+*.tgz
