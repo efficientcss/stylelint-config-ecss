@@ -305,6 +305,7 @@ export default {
 			"min": 0,
 			"max": 10
 		}, {
+			"ignoreValues": [-1],
 			"message": (selector, prop) => { 
 				return printMessage("z-index-band", selector, prop)}
 		}],
