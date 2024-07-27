@@ -18,6 +18,12 @@
     "ecss"
   ],
   "author": "Marc-André Charpentier",
+  "files": [
+	  "!**/__tests__/**",
+	  "lib/**",
+	  "plugins/**",
+	  "index.js"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/efficientcss/stylelint-config-ecss/issues"
