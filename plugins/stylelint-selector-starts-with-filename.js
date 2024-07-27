@@ -37,7 +37,7 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 
 	const inputFile = root.source.input.file;
 	const filename = path.parse(inputFile).name.replace(/^_+/, '').split('.')[0];
-	const selectorPattern = `^&?\\s*:?\\s*(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\$begin:math:display$.*=)?)?(\\")?${filename}(?:-[a-zA-Z]+)?(\\")?(\\$end:math:display$)?.*`;
+	const selectorPattern = `^&?\\s*:?\\s*(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\\[.*=)?)?(\\")?${filename}(?!(,\\s*\\.[^${filename}].*)+)(?:-[a-zA-Z]+)?(\\")?(\\])?.*`;
 	const selectorRegExp = new RegExp(selectorPattern);
 
 	if (optionsMatches(secondaryOptions, 'ignoreFiles', inputFile) || /^\d|^[A-Za-z]-/.test(filename)) return;
@@ -46,17 +46,16 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 
 	processedRoot.walkRules((rule) => {
 		rule.selectors.forEach((selector) => {
-			selector.split(',').map(sel => sel.trim()).forEach((indivSelector) => {
-				if (!selectorRegExp.test(indivSelector)) {
+				if (!selectorRegExp.test(selector)) {
 					report({
-						messageArgs: [indivSelector, filename],
-						message: messages.rejected(indivSelector, filename),
+						messageArgs: [selector, filename],
+						message: messages.rejected(selector, filename),
 						node: rule,
+						word: selector,
 						result,
 						ruleName,
 					});
 				}
-			});
 		});
 	});
 };
