@@ -45,5 +45,8 @@
   "directories": {
     "lib": "lib",
     "test": "tests"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
