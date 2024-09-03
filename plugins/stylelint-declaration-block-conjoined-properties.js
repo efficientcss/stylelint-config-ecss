@@ -26,69 +26,53 @@ const rule = (primary) => {
 		const needed = primary;
 
 		const processRule = (rule, parentRule = null) => {
-			const uniqueDecls = {};
+			const uniqueDecls = new Map();
 
 			// Collect all declarations in the current rule
 			rule.walkDecls((decl) => {
-				uniqueDecls[decl.prop] = decl;
+				uniqueDecls.set(decl.prop, decl);
 			});
 
 			// Check each declaration
-			Object.keys(uniqueDecls).forEach((prop) => {
-				const decl = uniqueDecls[prop];
-				const value = decl.value;
+			uniqueDecls.forEach((decl, prop) => {
+				const value = decl.value.toLowerCase();
 
-				Object.keys(needed).forEach((property) => {
-					const neededEntry = needed[property];
+				Object.entries(needed).forEach(([property, neededEntry]) => {
 					const matchProperty = matchesStringOrRegExp(prop.toLowerCase(), property);
-					const matchValue = matchesStringOrRegExp(value.toLowerCase(), neededEntry.value);
+					const matchValue = matchesStringOrRegExp(value, neededEntry.value);
 
-					if (!matchProperty || !matchValue) {
-						return;
-					}
+					if (!matchProperty || !matchValue) return;
 
 					let hasNeeded = false;
 
-					// Determine if this block is a child or self-combined selector
-					const isChildSelector = rule.selector.includes("& ") || rule.selector.includes("&>");
+					// Determine selector type and scope
+					const isChildSelector = /&[\s>]/.test(rule.selector);
 					const isSelfCombinedSelector = rule.selector.includes("&") && !isChildSelector;
 					const scope = neededEntry.scope || "self";
-					let checkNode = rule;
+					let checkNode = scope === "parent" && isChildSelector && parentRule ? parentRule : rule;
 
-					if (scope === "parent") {
-						if (isChildSelector && parentRule) {
-							checkNode = parentRule;
-						}
-					}
+					// Walk through the selected checkNode and look for needed declarations
+					checkNode.walkDecls((node) => {
+						neededEntry.neededDeclaration.forEach((obj) => {
+							const propertyMatches = new RegExp(obj.property, "g").test(node.prop.toLowerCase());
+							const valueMatches = new RegExp(obj.value, "g").test(node.value.toLowerCase());
 
-					// Walk through the selected checkNode (either current or parent) and look for needed declarations
-					if (checkNode) {
-						checkNode.walkDecls((node) => {
-							neededEntry.neededDeclaration.every((obj) => {
-								const propertyRegex = new RegExp(obj.property, "g");
-								const valueRegex = new RegExp(obj.value, "g");
-								const propertyMatching = propertyRegex.test(node.prop.toLowerCase());
-								const valueMatching = valueRegex.test(node.value.toLowerCase());
-								if (propertyMatching && valueMatching) {
-									hasNeeded = true;
-									return false; // stop iteration
-								}
-								return true; // continue iteration
-							});
+							if (propertyMatches && valueMatches) {
+								hasNeeded = true;
+							}
 						});
-					}
+					});
 
-					// If it's a self-combined selector, we only care about the properties in the same block
+					// For self-combined selectors, consider them valid if scope is "self"
 					if (isSelfCombinedSelector && scope === "self") {
 						hasNeeded = true;
 					}
 
 					if (!hasNeeded) {
-						const message = typeof neededEntry.message === 'function'
-							? neededEntry.message(prop, value)
-							: neededEntry.message;
 						report({
-							message: message || messages.rejected(neededEntry.neededDeclaration.map(decl => decl.property), decl.toString()),
+							message: typeof neededEntry.message === 'function'
+								? neededEntry.message(prop, value)
+								: neededEntry.message || messages.rejected(neededEntry.neededDeclaration.map(decl => decl.property), decl.toString()),
 							node: decl,
 							result,
 							ruleName,
@@ -104,9 +88,7 @@ const rule = (primary) => {
 		};
 
 		// Start processing from the root
-		root.walkRules((rule) => {
-			processRule(rule);
-		});
+		root.walkRules(processRule);
 	};
 };
 
@@ -116,8 +98,6 @@ export default createPlugin(ruleName, rule);
 
 function validateNeededObject(value) {
 	return typeof value === 'object' && !Array.isArray(value) && Object.values(value).every(item => {
-		return (
-			item.value && Array.isArray(item.neededDeclaration)
-		);
+		return item.value && Array.isArray(item.neededDeclaration);
 	});
 }
