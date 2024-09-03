@@ -3,7 +3,7 @@ import matchesStringOrRegExp from "./utils/matchesStringOrRegExp.js";
 
 const {
 	createPlugin,
-	utils: { report, ruleMessages, validateOptions }
+	utils: { report, ruleMessages, validateOptions },
 } = stylelint;
 
 const ruleName = "plugin/declaration-block-conjoined-properties";
@@ -24,30 +24,19 @@ const rule = (primary) => {
 		}
 
 		const needed = primary;
+		const processedDecls = new Set();
 
-		root.walkRules((rule) => {
+		const processRule = (rule) => {
 			const uniqueDecls = {};
+
 			rule.walkDecls((decl) => {
-				uniqueDecls[decl.prop] = decl;
-			});
-
-			function collectParentDecls(node, collectedProps) {
-				let parent = node.parent;
-				while (parent && parent.type !== "root") {
-					if (parent.type === "rule" || parent.type === "atrule") {
-						parent.walkDecls((decl) => {
-							if (!collectedProps[decl.prop]) {
-								collectedProps[decl.prop] = decl;
-							}
-						});
-					}
-					parent = parent.parent;
+				const declId = `${decl.prop}:${decl.value}:${decl.source.start.line}:${decl.source.start.column}`;
+				
+				if (!processedDecls.has(declId)) {
+					uniqueDecls[decl.prop] = decl;
+					processedDecls.add(declId);
 				}
-			}
-
-			if (rule.parent && rule.parent.type !== "root") {
-				collectParentDecls(rule, uniqueDecls);
-			}
+			});
 
 			function check(prop) {
 				const decl = uniqueDecls[prop];
@@ -130,6 +119,18 @@ const rule = (primary) => {
 			}
 
 			Object.keys(uniqueDecls).forEach(check);
+		};
+
+		root.walkAtRules("media", (atRule) => {
+			atRule.walkRules((rule) => {
+				processRule(rule);
+			});
+		});
+
+		root.walkRules((rule) => {
+			if (rule.parent && rule.parent.type !== "atrule") {
+				processRule(rule);
+			}
 		});
 	};
 };
