@@ -51,7 +51,7 @@ const rule = (primary) => {
 
 					// Determine if this block is a child or self-combined selector
 					const isChildSelector = rule.selector.includes("& ") || rule.selector.includes("&>");
-					const isSelfCombinedSelector = rule.selector.includes("&.") && !isChildSelector;
+					const isSelfCombinedSelector = rule.selector.includes("&") && !isChildSelector;
 					const scope = neededEntry.scope || "self";
 					let checkNode = rule;
 
