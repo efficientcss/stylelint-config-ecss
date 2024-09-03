@@ -24,63 +24,24 @@ const rule = (primary) => {
 		}
 
 		const needed = primary;
-		const processedDecls = new Set();
 
-		const processRule = (rule) => {
+		const processRule = (rule, parentRule = null) => {
 			const uniqueDecls = {};
 
+			// Collect all declarations in the current rule
 			rule.walkDecls((decl) => {
-				const declId = `${decl.prop}:${decl.value}:${decl.source.start.line}:${decl.source.start.column}`;
-				
-				if (!processedDecls.has(declId)) {
-					uniqueDecls[decl.prop] = decl;
-					processedDecls.add(declId);
-				}
+				uniqueDecls[decl.prop] = decl;
 			});
 
-			function check(prop) {
+			// Check each declaration
+			Object.keys(uniqueDecls).forEach((prop) => {
 				const decl = uniqueDecls[prop];
 				const value = decl.value;
 
 				Object.keys(needed).forEach((property) => {
 					const neededEntry = needed[property];
-					if (neededEntry.ignoreSelectors?.some(e => rule.selector.match(e))) {
-						return;
-					}
-
-					const matchProperty = matchesStringOrRegExp(
-						prop.toLowerCase(),
-						property
-					);
-					const matchValue = matchesStringOrRegExp(
-						value.toLowerCase(),
-						neededEntry.value
-					);
-
-					const neededDeclaration = neededEntry.neededDeclaration;
-					const neededDeclProp = neededDeclaration.map(decl => decl.property);
-					const neededDeclValue = neededDeclaration.map(decl => decl.value);
-					let matchDeclValue, matchDeclProp;
-
-					neededDeclValue.forEach((neededVal) => {
-						matchDeclValue = matchesStringOrRegExp(
-							value.toLowerCase(),
-							neededVal
-						);
-						if (!matchDeclValue) {
-							return;
-						}
-					});
-
-					neededDeclProp.forEach((neededProp) => {
-						matchDeclProp = matchesStringOrRegExp(
-							prop.toLowerCase(),
-							neededProp
-						);
-						if (!matchDeclProp) {
-							return;
-						}
-					});
+					const matchProperty = matchesStringOrRegExp(prop.toLowerCase(), property);
+					const matchValue = matchesStringOrRegExp(value.toLowerCase(), neededEntry.value);
 
 					if (!matchProperty || !matchValue) {
 						return;
@@ -88,49 +49,63 @@ const rule = (primary) => {
 
 					let hasNeeded = false;
 
-					Object.values(uniqueDecls).forEach((node) => {
-						if (node.prop) {
-							neededDeclaration.every((obj) => {
+					// Determine if this block is a child or self-combined selector
+					const isChildSelector = rule.selector.includes("& ") || rule.selector.includes("&>");
+					const isSelfCombinedSelector = rule.selector.includes("&.") && !isChildSelector;
+					const scope = neededEntry.scope || "self";
+					let checkNode = rule;
+
+					if (scope === "parent") {
+						if (isChildSelector && parentRule) {
+							checkNode = parentRule;
+						}
+					}
+
+					// Walk through the selected checkNode (either current or parent) and look for needed declarations
+					if (checkNode) {
+						checkNode.walkDecls((node) => {
+							neededEntry.neededDeclaration.every((obj) => {
 								const propertyRegex = new RegExp(obj.property, "g");
 								const valueRegex = new RegExp(obj.value, "g");
 								const propertyMatching = propertyRegex.test(node.prop.toLowerCase());
 								const valueMatching = valueRegex.test(node.value.toLowerCase());
 								if (propertyMatching && valueMatching) {
 									hasNeeded = true;
-									return false;
+									return false; // stop iteration
 								}
-								return true;
+								return true; // continue iteration
 							});
-						}
-					});
+						});
+					}
+
+					// If it's a self-combined selector, we only care about the properties in the same block
+					if (isSelfCombinedSelector && scope === "self") {
+						hasNeeded = true;
+					}
 
 					if (!hasNeeded) {
 						const message = typeof neededEntry.message === 'function'
 							? neededEntry.message(prop, value)
 							: neededEntry.message;
 						report({
-							message: message || messages.rejected(neededDeclaration.map(decl => decl.property), decl.toString()),
+							message: message || messages.rejected(neededEntry.neededDeclaration.map(decl => decl.property), decl.toString()),
 							node: decl,
 							result,
 							ruleName,
 						});
 					}
 				});
-			}
+			});
 
-			Object.keys(uniqueDecls).forEach(check);
+			// Process child rules recursively, passing the current rule as the parent
+			rule.walkRules((childRule) => {
+				processRule(childRule, rule);
+			});
 		};
 
-		root.walkAtRules("media", (atRule) => {
-			atRule.walkRules((rule) => {
-				processRule(rule);
-			});
-		});
-
+		// Start processing from the root
 		root.walkRules((rule) => {
-			if (rule.parent && rule.parent.type !== "atrule") {
-				processRule(rule);
-			}
+			processRule(rule);
 		});
 	};
 };
