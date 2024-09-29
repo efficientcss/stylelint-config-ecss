@@ -388,7 +388,7 @@ export default {
 		}],
 		"selector-max-type": [4, {
 			"message": (selector, maxValue) => { 
-				return printMessage("type-max", undefined, undefined, maxValue+"..")}
+				return printMessage("type-max", selector, undefined, maxValue+"..")}
 		}],
 		"selector-max-universal": [2, {
 			"message": (selector, prop) => { 
