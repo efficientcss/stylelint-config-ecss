@@ -129,7 +129,7 @@ const propValDisallowedList = [
 	[{ properties: [/position/], values: "/absolute|fixed/", keywordId: "position-sensitive" }],
 	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
 	[{ properties: [/^flex$/], values: "/^[0-9]*[a-z]*$/", keywordId: "flex-shorthand"}],
-	[{ properties: [/width$/], values: "/%$/", keywordId: "relative-width"}],
+	[{ properties: [/width$/], values: "/^(?!100%)\\d+%$/", keywordId: "relative-width"}],
 	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
 ]
 
