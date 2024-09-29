@@ -18,7 +18,7 @@ const chosenLang = () => {
 
 const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
 const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const graphical_selectorPart = 'image|img|video|hr|picture|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea';
+const graphical_selectorPart = 'image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea';
 const prefixed_selectorPart = 'is-|as-|on-|to-|with-|and-|now-|fx-|for-|__';
 
 const text_selectors = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
