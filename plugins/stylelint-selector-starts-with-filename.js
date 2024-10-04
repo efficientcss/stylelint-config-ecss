@@ -36,8 +36,14 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 	if (!validOptions) return;
 
 	const inputFile = root.source.input.file;
+
+	const escapeRegex = (str) => {
+		return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+	};
+
 	const filename = path.parse(inputFile).name.replace(/^_+/, '').split('.')[0];
-	const selectorPattern = `^&?\\s*:?\\s*(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\\[.*=)?)?(\\")?${filename}(?!(,\\s*\\.[^${filename}].*)+)(?:-[a-zA-Z]+)?(\\")?(\\])?.*`;
+	const escapedFilename = escapeRegex(filename);
+	const selectorPattern = `^&?\\s*:?\\s*(is\\(|where\\()?((\\* \\+ |\\* ~ )?(\\.[_]?|\\[.*=)?)?(\\")?${escapedFilename}(?!(,\\s*\\.[^${escapedFilename}].*)+)(?:-[a-zA-Z]+)?(\\")?(\\])?.*`;
 	const selectorRegExp = new RegExp(selectorPattern);
 
 	if (optionsMatches(secondaryOptions, 'ignoreFiles', inputFile) || /^\d|^[A-Za-z]-/.test(filename)) return;
