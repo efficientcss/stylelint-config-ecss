@@ -37,7 +37,7 @@ const overlyStructuredChildren_selectors = new RegExp('^((.*)[\\s](div|footer|se
 const tagScopedClass_selectors = new RegExp('^(?![.])(('+structureTag_selectorPart+')( |>| > ))+([.]|\\[[a-z-_]*=?"?).*("?\\])?$')
 
 const printMessage = (keywordId, source, problem, customValue) => {
-	let results = messages[keywordId][chosenLang()];
+	let results = messages[keywordId][chosenLang()].message;
 	if(customValue) {
 		results += customValue
 	}
