@@ -1,0 +1,24 @@
+.flex-children {
+	display: flex;
+
+	&.variant-error {
+		flex-shrink: 1;
+	}
+
+	& .child-pass {
+		flex-grow: 1;
+	}
+}
+
+.flex-children {
+	display: flex;
+	flex-grow: 1;
+
+	&.variant {
+		flex-grow: 1;
+	}
+
+	& .child {
+		flex-grow: 1;
+	}
+}

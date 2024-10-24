@@ -17,18 +17,18 @@ const config = {
 describe(ruleName, () => {
 	test('should flag selectors not starting with filename', async () => {
 		const result = await stylelint.lint({
-			files: `${fixturesPath}/component-error.css`,
+			files: `${fixturesPath}/filename.fail.css`,
 			config
 		});
 
 		const warnings = result.results[0].warnings;
-		expect(warnings).toHaveLength(1);
-		expect(warnings[0].text).toContain('component-error');
+		expect(warnings).toHaveLength(14);
+		expect(warnings[0].text).toContain('filename');
 	});
 
 	test('should pass selectors starting with filename', async () => {
 		const result = await stylelint.lint({
-			files: `${fixturesPath}/component.css`,
+			files: `${fixturesPath}/filename.pass.css`,
 			config
 		});
 

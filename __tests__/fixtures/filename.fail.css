@@ -1,4 +1,51 @@
-.component {
+.not-filename {
+	display: block;
+
+	&.__input {
+		display: block;
+	}
+
+	& div {
+		display: block;
+	}
+
+	&.as-grid {
+		display: grid;
+	}
+}
+
+:is(.filename, .bla) {
 	display: block;
 }
 
+:is(.not-filename, .filename) {
+	display: block;
+}
+
+:where(.not-filename, .filename) {
+	display: block;
+}
+
+:where(.bla, .not-filename, .filename) {
+	display: block;
+}
+
+:where(.not-filename) {
+	display: block;
+}
+
+:is(.not-filename) {
+	display: block;
+}
+
+.not-filename {
+	display: block;
+}
+
+.not-filename, .filename {
+	display: block;
+}
+
+.filename, .not-filename {
+	display: block;
+}

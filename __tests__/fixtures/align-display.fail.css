@@ -1,0 +1,34 @@
+.flex-children {
+	display: flex;
+	align-items: center;
+
+	&.variant-pass {
+		align-items: flex-end;
+	}
+
+	& .child-error {
+		align-items: center;
+	}
+
+	& .child-pass {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.flex-root-error {
+	align-items: flex-start;
+}
+
+.flex-root-pass {
+	display: flex;
+	align-items: flex-start;
+}
+
+.flex-children-error {
+	align-items: center;
+
+	&.variant-error {
+		align-items: baseline;
+	}
+}
