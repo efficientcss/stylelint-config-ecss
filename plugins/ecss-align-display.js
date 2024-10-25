@@ -22,7 +22,7 @@ const ruleFunction = () => {
 				node.type === 'decl' && ['align-items', 'justify-content', 'gap'].includes(node.prop)
 			);
 
-			const hasFlexOrGridDisplay = hasPropertyValueInContext(rule, 'display', /flex|grid/, 'self');
+			const hasFlexOrGridDisplay = selectedNodes.length && hasPropertyValueInContext(rule, 'display', /flex|grid/, 'self');
 
 			selectedNodes.forEach(node => {
 				if (!hasFlexOrGridDisplay) {
