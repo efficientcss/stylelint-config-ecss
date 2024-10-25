@@ -1,4 +1,5 @@
 import stylelint from 'stylelint';
+import hasPropertyValueInContext from './utils/hasPropertyValueInContext.js';
 
 const {
 	createPlugin,
@@ -17,38 +18,21 @@ const meta = {
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		postcssRoot.walkRules((rule) => {
-			// Flag to determine if the current rule is self-combined but not a child selector
-			const isDescendant = /&\s*(?:>|\s+\.)/.test(rule.selector);
-			const isCombined = /&(:[\w-]+|::[\w-]+|\[.*?\]|\.[\w-]+|#\w+)/u.test(rule.selector);
+			const selectedNodes = rule.nodes.filter((node) => 
+				node.type === 'decl' && ['flex-direction', 'flex-flow', 'flex-wrap'].includes(node.prop)
+			);
 
-			const hasFlexOrGridDisplay = (rule) => {
-				let currentRule = rule;
-				while (currentRule && currentRule.type === 'rule') {
-					if (currentRule.some((decl) => 
-						decl.prop === 'display' && /flex|grid/.test(decl.value)
-					)) {
-						return true;
-					}
-					currentRule = currentRule.parent;
+			const hasFlexDisplay = selectedNodes.length && hasPropertyValueInContext(rule, 'display', 'flex', 'self');
+
+			selectedNodes.forEach(node => {
+				if (!hasFlexDisplay) {
+					report({
+						message: messages.expected,
+						node,
+						result: postcssResult,
+						ruleName,
+					});
 				}
-				return false;
-			};
-
-			// If "display: flex" is not present, check for flex-specific properties
-			rule.walkDecls(/^(flex-direction|flex-wrap|flex-flow)$/, (decl) => {
-				const hasDisplayInRule = rule.some(
-					(decl) => decl.prop === 'display' && /flex|grid/.test(decl.value)
-				);
-
-				if (
-					(isDescendant && !hasDisplayInRule) ||
-					(isCombined && !hasFlexOrGridDisplay(rule))
-				) report({
-					message: messages.expected,
-					node: decl,
-					result: postcssResult,
-					ruleName,
-				});
 			});
 		});
 	};

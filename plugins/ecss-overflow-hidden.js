@@ -1,4 +1,5 @@
 import stylelint from 'stylelint';
+import hasPropertyValueInContext from './utils/hasPropertyValueInContext.js';
 
 const {
   createPlugin,
@@ -15,39 +16,26 @@ const meta = {
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
-  return (postcssRoot, postcssResult) => {
-    postcssRoot.walkRules((rule) => {
-      // Determine if the current rule is self-combined but not a child selector
-      const isSelfCombined = /&/.test(rule.selector);
-      const isChildSelector = /&\s*>/.test(rule.selector);
+	return (postcssRoot, postcssResult) => {
+		postcssRoot.walkRules((rule) => {
+			const selectedNodes = rule.nodes.filter((node) => 
+				node.type === 'decl' && ['overflow'].includes(node.prop)
+			);
 
-      // Only proceed if the rule is self-combined and not a child selector
-      if (!isSelfCombined || isChildSelector) {
-        return;
-      }
+			const hasNeeded = hasPropertyValueInContext(rule, /radius|aspect/, /.*/, 'self');
 
-      let hasRequiredProperties = false;
-
-      // Check if the rule has "border-radius" or "aspect-ratio" declarations
-      rule.walkDecls(/^(border-radius|aspect-ratio)$/, () => {
-        hasRequiredProperties = true;
-      });
-
-      // If no required properties are present, check for "overflow: hidden"
-      if (!hasRequiredProperties) {
-        rule.walkDecls('overflow', (decl) => {
-          if (decl.value === 'hidden') {
-            report({
-              message: messages.expected,
-              node: decl,
-              result: postcssResult,
-              ruleName,
-            });
-          }
-        });
-      }
-    });
-  };
+			selectedNodes.forEach(node => {
+				if (!hasNeeded) {
+					report({
+						message: messages.expected,
+						node,
+						result: postcssResult,
+						ruleName,
+					});
+				}
+			});
+		});
+	};
 };
 
 ruleFunction.ruleName = ruleName;

@@ -1,4 +1,5 @@
 import stylelint from 'stylelint';
+import hasPropertyValueInContext from './utils/hasPropertyValueInContext.js';
 
 const {
   createPlugin,
@@ -17,36 +18,23 @@ const meta = {
 const ruleFunction = (primaryOption, secondaryOption, context) => {
   return (postcssRoot, postcssResult) => {
     postcssRoot.walkRules((rule) => {
-      // Determine if the current rule is self-combined but not a child selector
-      const isSelfCombined = /&/.test(rule.selector);
-      const isChildSelector = /&\s*>/.test(rule.selector);
+		 const selectedNodes = rule.nodes.filter((node) => 
+			 node.type === 'decl' && ['top', 'left', 'right', 'bottom', 'inset'].includes(node.prop)
+		 );
 
-      // Only proceed if the rule is self-combined and not a child selector
-      if (!isSelfCombined || isChildSelector) {
-        return;
-      }
+		 const hasNonStaticPosition = selectedNodes.length && hasPropertyValueInContext(rule, 'position', /^(?!.*\bstatic\b).+$/, 'self');
 
-      let hasNonStaticPosition = false;
-
-      // Check if the rule itself has a "position" declaration that is not "static"
-      rule.walkDecls('position', (decl) => {
-        if (!/static/.test(decl.value)) {
-          hasNonStaticPosition = true;
-        }
-      });
-
-      // If no non-static position is present, check for the use of positioning properties
-      if (!hasNonStaticPosition) {
-        rule.walkDecls(/^(top|right|bottom|left)$/, (decl) => {
-          report({
-            message: messages.expected,
-            node: decl,
-            result: postcssResult,
-            ruleName,
-          });
-        });
-      }
-    });
+		 selectedNodes.forEach(node => {
+			 if (!hasNonStaticPosition) {
+				 report({
+					 message: messages.expected,
+					 node,
+					 result: postcssResult,
+					 ruleName,
+				 });
+			 }
+		 });
+	 });
   };
 };
 

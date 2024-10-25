@@ -8,7 +8,7 @@ const {
 
 const ruleName = 'ecss/align-display';
 const messages = ruleMessages(ruleName, {
-	expected: 'Expected "display: flex" or "display: grid" when using alignment or justification properties.',
+	expected: (selector) => `Expected "display: flex" or "display: grid" when using alignment or justification properties ${selector}.`,
 });
 
 const meta = {
