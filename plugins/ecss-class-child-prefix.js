@@ -7,7 +7,7 @@ const {
 
 const ruleName = 'ecss/class-child-prefix';
 const messages = ruleMessages(ruleName, {
-	rejected: (selector) => `Descendant classes should always be prefixed. ${selector}`,
+	rejected: "Descendant classes should always be prefixed.",
 });
 
 const meta = {
