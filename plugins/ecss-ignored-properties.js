@@ -7,7 +7,7 @@ const {
   utils: { report, ruleMessages, validateOptions }
 } = stylelint;
 
-const ruleName = "plugin/declaration-block-no-ignored-properties";
+const ruleName = "ecss/ignored-properties";
 
 const messages = ruleMessages(ruleName, {
   rejected: (ignore, cause) => `Unexpected "${ignore}" with "${cause}"`,

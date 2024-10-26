@@ -27,12 +27,12 @@ export default {
 		"./plugins/ecss-content-margin",
 		"./plugins/ecss-class-combined-prefix",
 		"./plugins/ecss-content-padding",
-		"./plugins/stylelint-selector-starts-with-filename",
+		"./plugins/ecss-selector-filename",
 		"./plugins/stylelint-z-index-value-constraint",
 		"./plugins/stylelint-csstree-validator",
-		"./plugins/stylelint-declaration-block-no-ignored-properties",
+		"./plugins/ecss-ignored-properties",
 		"./plugins/stylelint-magic-numbers",
-		"./plugins/stylelint-no-commented-code",
+		"./plugins/ecss-commented-code",
 		"stylelint-file-max-lines"
 	],
 	"rules": {
@@ -155,12 +155,12 @@ export default {
 			"message": (selector) => {
 				return printMessage("class-child-prefix", selector)}
 		}],
-		"plugin/selector-starts-with-filename": [true, {
+		"ecss/selector-filename": [true, {
 			"message": (selector, prop) => { 
 				return printMessage("component-selector", selector, prop)},
 			"ignoreFiles": ["quarantine.css", "main.css"]
 		}],
-		"plugin/no-commented-code": [true, {
+		"ecss/commented-code": [true, {
 			"message": printMessage("commented-code")
 		}],
 		"plugin/file-max-lines": [200, {
@@ -216,7 +216,7 @@ export default {
 			"message": (selector, prop) => { 
 				return printMessage("var-function-missing", selector, prop)}
 		}],
-		"plugin/declaration-block-no-ignored-properties": [true, {
+		"ecss/ignored-properties": [true, {
 			"message": (selector, prop) => { 
 				return printMessage("property-ignored", selector, prop)}
 		}],

@@ -1,6 +1,6 @@
 import stylelint from 'stylelint';
 
-const ruleName = "plugin/no-commented-code";
+const ruleName = "ecss/commented-code";
 const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: "Unexpected commented-out CSS code"
 });

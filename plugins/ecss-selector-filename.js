@@ -9,7 +9,7 @@ const {
 	utils: { report, ruleMessages, validateOptions }
 } = stylelint;
 
-const ruleName = 'plugin/selector-starts-with-filename';
+const ruleName = 'ecss/selector-filename';
 const messages = ruleMessages(ruleName, {
 	rejected: (selector, filename) => `All selectors must begin with filename. ${selector} vs. ${filename}`
 });

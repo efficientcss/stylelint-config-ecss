@@ -3,10 +3,10 @@ import stylelint from "stylelint";
 import path from "path";
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const ruleName = 'plugin/declaration-block-no-ignored-properties';
+const ruleName = 'ecss/commented-code';
 const config = {
 	plugins: [
-		path.resolve(__dirname, '../plugins/stylelint-declaration-block-no-ignored-properties.js')
+		path.resolve(__dirname, '../plugins/ecss-commented-code.js')
 	],
 	rules: {
 		[ruleName]: true
@@ -14,20 +14,20 @@ const config = {
 };
 
 describe(ruleName, () => {
-	test('should flag ignored properties', async () => {
+	test('should flag commented code', async () => {
 		const result = await stylelint.lint({
-			code: 'a { display: inline; width: 100px; }',
+			code: '/* a { color: red; } */',
 			config
 		});
 
 		const warnings = result.results[0].warnings;
 		expect(warnings).toHaveLength(1);
-		expect(warnings[0].text).toContain('width');
+		expect(warnings[0].text).toContain('code');
 	});
 
-	test('should pass valid properties', async () => {
+	test('should pass comments', async () => {
 		const result = await stylelint.lint({
-			code: 'a { display: block; width: 100px; }',
+			code: '/* This is a comment */',
 			config
 		});
 
