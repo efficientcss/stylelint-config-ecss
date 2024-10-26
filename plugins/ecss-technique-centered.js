@@ -16,15 +16,18 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		postcssRoot.walkDecls('transform', (decl) => {
-			if (/translate\(-50%/.test(decl.value)) {
-				report({
-					message: messages.expected,
-					node: decl,
-					result: postcssResult,
-					ruleName,
-				});
-			}
+		postcssRoot.walkRules((rule) => {
+			rule.walkDecls('transform', (decl) => {
+				if (/translate\(-50%/.test(decl.value)) {
+					report({
+						message: messages.expected,
+						messageArgs: [rule.selector, decl.value],
+						node: decl,
+						result: postcssResult,
+						ruleName,
+					});
+				}
+			});
 		});
 	};
 };

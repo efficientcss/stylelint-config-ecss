@@ -16,15 +16,18 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		postcssRoot.walkDecls(/^(margin|padding)$/, (decl) => {
-			if (/^-?(\d{2,}(em|rem)|\d{3,}px)/.test(decl.value)) {
-				report({
-					message: messages.expected,
-					node: decl,
-					result: postcssResult,
-					ruleName,
-				});
-			}
+		postcssRoot.walkRules((rule) => {
+			rule.walkDecls(/^(margin|padding)$/, (decl) => {
+				if (/^-?(\d{2,}(em|rem)|\d{3,}px)/.test(decl.value)) {
+					report({
+						message: messages.expected,
+						messageArgs: [rule.selector, decl.value],
+						node: decl,
+						result: postcssResult,
+						ruleName,
+					});
+				}
+			});
 		});
 	};
 };

@@ -16,15 +16,17 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		postcssRoot.walkDecls('width', (decl) => {
-			if (/^(?!100%)\d+%$/.test(decl.value)) {
-				report({
-					message: messages.expected,
-					node: decl,
-					result: postcssResult,
-					ruleName,
-				});
-			}
+		postcssRoot.walkRules((rule) => {
+			rule.walkDecls('width', (decl) => {
+				if (/^(?!100%)\d+%$/.test(decl.value)) {
+					report({
+						message: messages.expected,
+						node: decl,
+						result: postcssResult,
+						ruleName,
+					});
+				}
+			});
 		});
 	};
 };
