@@ -247,7 +247,7 @@ export default {
 
 		"selector-max-compound-selectors": [5, {
 			"message": (selector, maxValue) => { 
-				return printMessage("selector-max", selector, undefined, maxValue+"..")}
+				return printMessage("selector-max", selector, undefined, maxValue+".")}
 		}],
 		"selector-max-class": [3, {
 			"message": (selector, maxValue) => { 
@@ -255,7 +255,7 @@ export default {
 		}],
 		"selector-max-type": [4, {
 			"message": (selector, maxValue) => { 
-				return printMessage("type-max", selector, undefined, maxValue+"..")}
+				return printMessage("type-max", selector, undefined, maxValue+".")}
 		}],
 		"selector-max-universal": [2, {
 			"message": (selector, prop) => { 
