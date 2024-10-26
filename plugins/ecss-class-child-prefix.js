@@ -16,7 +16,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const unprefixedDescendantRegex = /^(& |[.].*)\s[.](?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__).*$/;
+		const unprefixedDescendantRegex = /^.*[\s?>?\s?|\s][.](?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__).*$/;
 
 		postcssRoot.walkRules((rule) => {
 			// Check if the selector matches the regex for unprefixed descendant classes
