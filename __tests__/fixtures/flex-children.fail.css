@@ -1,7 +1,7 @@
 .flex-children {
 	display: flex;
 
-	&.variant-error {
+	&.is-variant-error {
 		flex-shrink: 1;
 	}
 
@@ -10,15 +10,30 @@
 	}
 }
 
-.flex-children {
+.flex-children-error {
 	display: flex;
 	flex-grow: 1;
 
-	&.variant {
+	&.is-variant-error {
 		flex-grow: 1;
 	}
 
 	& .child {
 		flex-grow: 1;
+	}
+}
+
+.flex-children-with-indy-prop {
+	display: flex;
+	margin: 0;
+
+	&.variant-error {
+		flex-grow: 1;
+	}
+
+	& .child {
+		flex-grow: 1;
+		color: red;
+		display: block;
 	}
 }
