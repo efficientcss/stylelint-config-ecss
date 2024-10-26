@@ -1,36 +1,36 @@
 import stylelint from 'stylelint';
 
 const {
-  createPlugin,
-  utils: { report, ruleMessages }
+	createPlugin,
+	utils: { report, ruleMessages }
 } = stylelint;
 
 const ruleName = 'ecss/content-margin';
 const messages = ruleMessages(ruleName, {
-  expected: 'Only vertical margins (top/bottom) can be applied to content tags.',
+	expected: 'Only vertical margins (top/bottom) can be applied to content tags.',
 });
 
 const meta = {
-  url: 'https://example.com/rules/content-margin'
+	url: 'https://example.com/rules/content-margin'
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
-  return (postcssRoot, postcssResult) => {
-    const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
+	return (postcssRoot, postcssResult) => {
+		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
 
-    postcssRoot.walkRules((rule) => {
-      rule.walkDecls(/^margin$/, (decl) => {
-        if (textTagRegex.test(rule.selector) && !/^(margin-top|margin-bottom)$/.test(decl.prop)) {
-          report({
-            message: messages.expected,
-            node: decl,
-            result: postcssResult,
-            ruleName,
-          });
-        }
-      });
-    });
-  };
+		postcssRoot.walkRules((rule) => {
+			rule.walkDecls(/^margin$/, (decl) => {
+				if (textTagRegex.test(rule.selector) && !/^(margin-top|margin-bottom)$/.test(decl.prop)) {
+					report({
+						message: messages.expected,
+						node: decl,
+						result: postcssResult,
+						ruleName,
+					});
+				}
+			});
+		});
+	};
 };
 
 ruleFunction.ruleName = ruleName;

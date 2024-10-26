@@ -52,16 +52,16 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 
 	processedRoot.walkRules((rule) => {
 		rule.selectors.forEach((selector) => {
-				if (!selectorRegExp.test(selector)) {
-					report({
-						messageArgs: [selector, filename],
-						message: messages.rejected(selector, filename),
-						node: rule,
-						word: selector,
-						result,
-						ruleName,
-					});
-				}
+			if (!selectorRegExp.test(selector)) {
+				report({
+					messageArgs: [selector, filename],
+					message: messages.rejected(selector, filename),
+					node: rule,
+					word: selector,
+					result,
+					ruleName,
+				});
+			}
 		});
 	});
 };

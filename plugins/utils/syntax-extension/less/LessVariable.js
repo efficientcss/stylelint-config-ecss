@@ -4,16 +4,16 @@ const ATKEYWORD = tokenTypes.AtKeyword;
 
 export const name = 'LessVariable';
 export const structure = {
-    name: 'Identifier'
+	name: 'Identifier'
 };
 export function parse() {
-    const start = this.tokenStart;
+	const start = this.tokenStart;
 
-    this.eat(ATKEYWORD);
+	this.eat(ATKEYWORD);
 
-    return {
-        type: 'LessVariable',
-        loc: this.getLocation(start, this.tokenEnd),
-        name: this.substrToCursor(start + 1)
-    };
+	return {
+		type: 'LessVariable',
+		loc: this.getLocation(start, this.tokenEnd),
+		name: this.substrToCursor(start + 1)
+	};
 }

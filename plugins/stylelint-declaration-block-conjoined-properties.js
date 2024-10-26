@@ -71,8 +71,8 @@ const rule = (primary) => {
 					if (!hasNeeded) {
 						report({
 							message: typeof neededEntry.message === 'function'
-								? neededEntry.message(prop, value)
-								: neededEntry.message || messages.rejected(neededEntry.neededDeclaration.map(decl => decl.property), decl.toString()),
+							? neededEntry.message(prop, value)
+							: neededEntry.message || messages.rejected(neededEntry.neededDeclaration.map(decl => decl.property), decl.toString()),
 							node: decl,
 							result,
 							ruleName,

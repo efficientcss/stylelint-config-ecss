@@ -2,17 +2,17 @@ import stylelint from 'stylelint';
 import hasPropertyValueInContext from './utils/hasPropertyValueInContext.js';
 
 const {
-  createPlugin,
-  utils: { report, ruleMessages }
+	createPlugin,
+	utils: { report, ruleMessages }
 } = stylelint;
 
 const ruleName = 'ecss/overflow-hidden';
 const messages = ruleMessages(ruleName, {
-  expected: 'Expected "border-radius" or "aspect-ratio" when using "overflow: hidden".',
+	expected: 'Expected "border-radius" or "aspect-ratio" when using "overflow: hidden".',
 });
 
 const meta = {
-  url: 'https://example.com/rules/overflow-hidden'
+	url: 'https://example.com/rules/overflow-hidden'
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {

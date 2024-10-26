@@ -11,90 +11,90 @@ const TILDE = 0x007E;           // U+007E TILDE (~)
 
 // custom error
 class PreprocessorExtensionError {
-    constructor() {
-        this.type = 'PreprocessorExtensionError';
-    }
+	constructor() {
+		this.type = 'PreprocessorExtensionError';
+	}
 }
 
 function throwOnSyntaxExtension() {
-    let node = null;
+	let node = null;
 
-    switch (this.tokenType) {
-        case TYPE.AtKeyword:    // less: @var
-            node = this.LessVariable();
-            break;
+	switch (this.tokenType) {
+		case TYPE.AtKeyword:    // less: @var
+			node = this.LessVariable();
+			break;
 
-        case TYPE.Hash: {
-            let sc = 0;
-            let tokenType = 0;
+		case TYPE.Hash: {
+			let sc = 0;
+			let tokenType = 0;
 
-            // deprecated
-            do {
-                tokenType = this.lookupType(++sc);
-                if (tokenType !== TYPE.WhiteSpace && tokenType !== TYPE.Comment) {
-                    break;
-                }
-            } while (tokenType !== TYPE.EOF);
+			// deprecated
+			do {
+				tokenType = this.lookupType(++sc);
+				if (tokenType !== TYPE.WhiteSpace && tokenType !== TYPE.Comment) {
+					break;
+				}
+			} while (tokenType !== TYPE.EOF);
 
-            if (this.isDelim(FULLSTOP, sc) ||     /* preferred  */
-                this.isDelim(GREATERTHANSIGN, sc) /* deprecated */) {
-                node = this.LessNamespace();
-            }
+			if (this.isDelim(FULLSTOP, sc) ||     /* preferred  */
+				this.isDelim(GREATERTHANSIGN, sc) /* deprecated */) {
+				node = this.LessNamespace();
+			}
 
-            break;
-        }
+			break;
+		}
 
-        case TYPE.Delim:
-            switch (this.source.charCodeAt(this.tokenStart)) {
-                case COMMERCIALAT: // less: @@var
-                    if (this.lookupType(1) === TYPE.AtKeyword) {
-                        node = this.LessVariableReference();
-                    }
-                    break;
+		case TYPE.Delim:
+			switch (this.source.charCodeAt(this.tokenStart)) {
+				case COMMERCIALAT: // less: @@var
+					if (this.lookupType(1) === TYPE.AtKeyword) {
+						node = this.LessVariableReference();
+					}
+					break;
 
-                case TILDE:        // less: ~"asd" | ~'asd'
-                    node = this.LessEscaping();
-                    break;
+				case TILDE:        // less: ~"asd" | ~'asd'
+					node = this.LessEscaping();
+					break;
 
 
-            }
+			}
 
-            break;
-    }
+			break;
+	}
 
-    // currently we can't validate values that contain less/sass extensions
-    if (node !== null) {
-        throw new PreprocessorExtensionError();
-    }
+	// currently we can't validate values that contain less/sass extensions
+	if (node !== null) {
+		throw new PreprocessorExtensionError();
+	}
 }
 
 export default function less(syntaxConfig) {
-    // new node types
-    syntaxConfig.node.LessVariableReference = LessVariableReference;
-    syntaxConfig.node.LessVariable = LessVariable;
-    syntaxConfig.node.LessEscaping = LessEscaping;
-    syntaxConfig.node.LessNamespace = LessNamespace;
+	// new node types
+	syntaxConfig.node.LessVariableReference = LessVariableReference;
+	syntaxConfig.node.LessVariable = LessVariable;
+	syntaxConfig.node.LessEscaping = LessEscaping;
+	syntaxConfig.node.LessNamespace = LessNamespace;
 
-    // custom at-rules
-    syntaxConfig.atrules.plugin = {
-        prelude: '<string>'
-    };
+	// custom at-rules
+	syntaxConfig.atrules.plugin = {
+		prelude: '<string>'
+	};
 
-    // extend parser's at-rule preluder parser
-    const originalAttrulePreludeGetNode = syntaxConfig.scope.AtrulePrelude.getNode;
-    syntaxConfig.scope.AtrulePrelude.getNode = function(context) {
-        throwOnSyntaxExtension.call(this);
+	// extend parser's at-rule preluder parser
+	const originalAttrulePreludeGetNode = syntaxConfig.scope.AtrulePrelude.getNode;
+	syntaxConfig.scope.AtrulePrelude.getNode = function(context) {
+		throwOnSyntaxExtension.call(this);
 
-        return originalAttrulePreludeGetNode.call(this, context);
-    };
+		return originalAttrulePreludeGetNode.call(this, context);
+	};
 
-    // extend parser's value parser
-    const originalValueGetNode = syntaxConfig.scope.Value.getNode;
-    syntaxConfig.scope.Value.getNode = function(context) {
-        throwOnSyntaxExtension.call(this);
+	// extend parser's value parser
+	const originalValueGetNode = syntaxConfig.scope.Value.getNode;
+	syntaxConfig.scope.Value.getNode = function(context) {
+		throwOnSyntaxExtension.call(this);
 
-        return originalValueGetNode.call(this, context);
-    };
+		return originalValueGetNode.call(this, context);
+	};
 
-    return syntaxConfig;
+	return syntaxConfig;
 }

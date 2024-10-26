@@ -1,17 +1,17 @@
 /**
-* @param {object} rule
-* @param {string} propertyPattern
-* @param {RegExp|string} valuePattern
-* @param {string} context
-* @returns {boolean}
-*/
+ * @param {object} rule
+ * @param {string} propertyPattern
+ * @param {RegExp|string} valuePattern
+ * @param {string} context
+ * @returns {boolean}
+ */
 export default function hasPropertyValueInContext(rule, propertyPattern, valuePattern, context) {
 
 	const isDescendant = /&\s*(?:>|\s+\.)/.test(rule.selector);
 	const isCombined = /&(:[\w-]+|::[\w-]+|\[.*?\]|\.[\w-]+|#\w+)/u.test(rule.selector);
 
 	let currentRule = context == 'parent' && !isCombined ? rule.parent : rule;
-	
+
 	while (currentRule && currentRule.type === 'rule') {
 
 		const hasPropertyValue = currentRule.some((decl) => (
