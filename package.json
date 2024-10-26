@@ -19,10 +19,10 @@
   ],
   "author": "Marc-André Charpentier",
   "files": [
-	  "!**/__tests__/**",
-	  "lib/**",
-	  "plugins/**",
-	  "index.js"
+    "!**/__tests__/**",
+    "lib/**",
+    "plugins/**",
+    "index.js"
   ],
   "license": "MIT",
   "bugs": {
