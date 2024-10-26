@@ -24,6 +24,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (textTagRegex.test(rule.selector) && notGraphicalSelectorsRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector],
 						node: decl,
 						result: postcssResult,
 						ruleName,

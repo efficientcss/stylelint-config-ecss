@@ -23,6 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (textTagRegex.test(rule.selector) && decl.value !== 'block') {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector, decl.value],
 						node: decl,
 						result: postcssResult,
 						ruleName,

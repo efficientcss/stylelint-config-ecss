@@ -28,6 +28,7 @@ const ruleFunction = () => {
 				if (!hasFlexOrGridDisplay) {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector, node.prop],
 						node,
 						result: postcssResult,
 						ruleName,

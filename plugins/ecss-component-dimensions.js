@@ -23,6 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				rule.walkDecls(/^(width|height)$/, (decl) => {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector, decl.prop],
 						node: decl,
 						result: postcssResult,
 						ruleName,

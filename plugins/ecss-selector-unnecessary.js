@@ -22,6 +22,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 			if (overlyStructuredChildrenRegex.test(rule.selector)) {
 				report({
 					message: messages.expected,
+					messageArgs: [rule.selector],
 					node: rule,
 					result: postcssResult,
 					ruleName,

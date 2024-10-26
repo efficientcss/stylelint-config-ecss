@@ -28,6 +28,7 @@ const ruleFunction = () => {
 				if (!hasNonStaticPosition) {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector],
 						node,
 						result: postcssResult,
 						ruleName,

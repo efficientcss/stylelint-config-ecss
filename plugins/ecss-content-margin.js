@@ -23,6 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (textTagRegex.test(rule.selector) && !/^(margin-top|margin-bottom)$/.test(decl.prop)) {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector, decl.prop],
 						node: decl,
 						result: postcssResult,
 						ruleName,

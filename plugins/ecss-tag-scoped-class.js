@@ -23,6 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 			if (tagScopedClassRegex.test(rule.selector)) {
 				report({
 					message: messages.expected,
+					messageArgs: [rule.selector],
 					node: rule,
 					result: postcssResult,
 					ruleName,

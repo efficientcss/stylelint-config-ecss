@@ -26,6 +26,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 					if (!hasBorderRadiusOrAspectRatio) {
 						report({
 							message: messages.expected,
+							messageArgs: [rule.selector],
 							node: decl,
 							result: postcssResult,
 							ruleName,
