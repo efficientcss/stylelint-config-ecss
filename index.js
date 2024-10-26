@@ -37,8 +37,8 @@ export default {
 	],
 	"rules": {
 		"ecss/align-display": [true, {
-			"message": (selector) => {
-				return printMessage("align-display", selector);
+			"message": (selector, prop) => {
+				return printMessage("align-display", selector, prop);
 			}
 		}],
 		"ecss/z-index-static": [true, {
@@ -52,13 +52,13 @@ export default {
 			}
 		}],
 		"ecss/large-selector-rule": [true, {
-			"message": (selector) => {
-				return printMessage("large-selector-rule", selector);
+			"message": (selector, prop) => {
+				return printMessage("large-selector-rule", selector, prop);
 			}
 		}],
 		"ecss/content-block": [true, {
-			"message": (selector) => {
-				return printMessage("content-block", selector);
+			"message": (selector, prop) => {
+				return printMessage("content-block", selector, prop);
 			}
 		}],
 		"ecss/class-numbered": [true, {
@@ -72,28 +72,28 @@ export default {
 			}
 		}],
 		"ecss/selector-dimensions": [true, {
-			"message": (selector) => {
-				return printMessage("selector-dimensions", selector);
+			"message": (selector, prop) => {
+				return printMessage("selector-dimensions", selector, prop);
 			}
 		}],
 		"ecss/relative-width": [true, {
-			"message": (selector) => {
-				return printMessage("relative-width", selector);
+			"message": (selector, prop) => {
+				return printMessage("relative-width", selector, prop);
 			}
 		}],
 		"ecss/flex-prop": [true, {
-			"message": (selector) => {
-				return printMessage("flex-prop", selector);
+			"message": (selector, prop) => {
+				return printMessage("flex-prop", selector, prop);
 			}
 		}],
 		"ecss/flex-children": [true, {
-			"message": (selector) => {
-				return printMessage("flex-children", selector);
+			"message": (selector, prop) => {
+				return printMessage("flex-children", selector, prop);
 			}
 		}],
 		"ecss/technique-centered": [true, {
-			"message": (selector) => {
-				return printMessage("technique-centered", selector);
+			"message": (selector, prop) => {
+				return printMessage("technique-centered", selector, prop);
 			}
 		}],
 		"ecss/padding-constraints": [true, {
@@ -102,18 +102,18 @@ export default {
 			}
 		}],
 		"ecss/component-outside": [true, {
-			"message": (selector) => {
-				return printMessage("component-outside", selector);
+			"message": (selector, prop) => {
+				return printMessage("component-outside", selector, prop);
 			}
 		}],
 		"ecss/spacing-large": [true, {
-			"message": (selector) => {
-				return printMessage("spacing-large", selector);
+			"message": (selector, prop) => {
+				return printMessage("spacing-large", selector, prop);
 			}
 		}],
 		"ecss/position-prop": [true, {
-			"message": (selector) => {
-				return printMessage("position-prop", selector);
+			"message": (selector, prop) => {
+				return printMessage("position-prop", selector, prop);
 			}
 		}],
 		"ecss/pseudo-disallowed": [true, {
@@ -132,13 +132,13 @@ export default {
 			}
 		}],
 		"ecss/component-dimensions": [true, {
-			"message": (selector) => {
-				return printMessage("component-dimensions", selector);
+			"message": (selector, prop) => {
+				return printMessage("component-dimensions", selector, prop);
 			}
 		}],
 		"ecss/content-margin": [true, {
-			"message": (selector) => {
-				return printMessage("content-margin", selector);
+			"message": (selector, prop) => {
+				return printMessage("content-margin", selector, prop);
 			}
 		}],
 		"ecss/class-combined-prefix": [true, {
