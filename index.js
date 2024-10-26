@@ -1,63 +1,5 @@
-import configLang from "./lib/configLang.js";
-import ecssmessages from "./lib/messages.js";
-const { lang } = configLang;
-const messages = ecssmessages;
-const chosenLang = () => {
-	let messageLang;
-	const osLang = Intl.DateTimeFormat().resolvedOptions().locale;
-
-	if(lang == "auto" && (osLang.includes("en-") || osLang.includes("fr-"))){
-		messageLang = osLang
-	} else if(lang == "fr" || lang == "en") {
-		messageLang = lang;
-	} else {
-		messageLang = "en";
-	}
-	return messageLang.split("-")[0];
-}
-
-const contentTag_selectorPart = 'p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6';
-const structureTag_selectorPart = 'div|header|footer|section|aside|article'
-const graphical_selectorPart = 'image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea';
-const prefixed_selectorPart = 'is-|as-|on-|to-|with-|and-|now-|fx-|for-|__';
-
-const text_selectors = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
-const structureTag_selectors = new RegExp('^('+structureTag_selectorPart+')$');
-const numberedClass_selectors = /\.(?!(h[1-6]|grid-[0-9]+|col-[0-9]+)$)[a-zA-Z-]*[0-9]+/;
-const unprefixedDescendant_selectors = new RegExp('^(& |[.].*)\\s[.](?!'+prefixed_selectorPart+').*$');
-const unprefixedCombinedClass_selectors = new RegExp('^(&|[.][a-zA-Z-_]*)[.](?!'+prefixed_selectorPart+').*$');
-const pseudoClass_selectors = /:.*/;
-const childPseudoClass_selectors = /:.*[child]/;
-const typePseudoClass_selectors = /:.*/;
-const prefixedClass_selectors = /.(${prefixed_selectorPart}).*/;
-const notWithClasses_selectors = /(:not\(.*\.)/;
-const component_selectors = new RegExp('^(?!& )(?!.*__)([.]|\\[[a-z0-9-_]*="?)(?!.*(?:'+graphical_selectorPart+'))[a-zA-Z0-9-_]+("?\\])?$');
-const notGraphical_selectors = new RegExp('^(?!.*(?:'+graphical_selectorPart+')).*$');
-const overlyStructuredChildren_selectors = new RegExp('^((.*)[\\s](div|footer|section|aside|article|ul|li).*|body.*)\\b('+contentTag_selectorPart+')\\b$');
-const tagScopedClass_selectors = new RegExp('^(?![.])(('+structureTag_selectorPart+')( |>| > ))+([.]|\\[[a-z-_]*=?"?).*("?\\])?$')
-
-const printMessage = (keywordId, source, problem, customValue) => {
-	let results = messages[keywordId][chosenLang()].message;
-	if(customValue) {
-		results += customValue
-	}
-	if(source || problem) {
-		results += " `"
-	}
-	if(source) {
-		results += source
-	}
-	if(source && problem) {
-		results += " & "
-	}
-	if(problem) {
-		results += problem
-	}
-	if(source || problem) {
-		results += "`"
-	}
-	return results;
-}
+import printMessage from './lib/printmessage.js';
+import * as selectors from './lib/selectors.js';
 
 const createRuleMessages = (source, problem, dataList) => {
 	let message = "";
@@ -107,19 +49,19 @@ const createRuleData = (dataList) => {
 }
 
 const selPropDisallowedList = [
-	[ { regex: structureTag_selectors },
+	[ { regex: selectors.structureTag_selectors },
 		{ properties: [/^position$|background|display|padding|margin|width|height|border|shadow/], keywordId: "large-selector-rule" } ],
-	[ { regex: text_selectors },
+	[ { regex: selectors.text_selectors },
 		{ properties: [/display/], keywordId: "content-block" },
 		{ properties: [/float/], keywordId: "content-float" },
 		{ properties: [/margin(?!-top|-bottom|-block)/], keywordId: "content-margin" },
 		{ properties: [/padding/], keywordId: "content-padding" },
 		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
-	[ { regex: component_selectors },
+	[ { regex: selectors.component_selectors },
 		{ properties: [/margin/], keywordId: "component-outside" },
 		{ properties: [/float/], keywordId: "content-float" },
 		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ],
-	[ { regex: notGraphical_selectors },
+	[ { regex: selectors.notGraphical_selectors },
 		{ properties: [/float/], keywordId: "content-float" },
 		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ]
 ]
@@ -134,12 +76,12 @@ const propValDisallowedList = [
 ]
 
 const selDisallowedList = [
-	[{ regex: numberedClass_selectors, keywordId: "class-numbered" }],
-	[{ regex: notWithClasses_selectors, keywordId: "not-class" }],
-	[{ regex: unprefixedDescendant_selectors, keywordId: "class-child-prefix" }],
-	[{ regex: unprefixedCombinedClass_selectors, keywordId: "class-combined-prefix" }],
-	[{ regex: tagScopedClass_selectors, keywordId: "tag-scoped-class" }],
-	[{ regex: overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
+	[{ regex: selectors.numberedClass_selectors, keywordId: "class-numbered" }],
+	[{ regex: selectors.notWithClasses_selectors, keywordId: "not-class" }],
+	[{ regex: selectors.unprefixedDescendant_selectors, keywordId: "class-child-prefix" }],
+	[{ regex: selectors.unprefixedCombinedClass_selectors, keywordId: "class-combined-prefix" }],
+	[{ regex: selectors.tagScopedClass_selectors, keywordId: "tag-scoped-class" }],
+	[{ regex: selectors.overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
 ]
 
 const conjoinedPropList = {
@@ -263,11 +205,11 @@ export default {
 		"selector-max-specificity": ["0,2,4", {
 			"message": (selector) => { 
 				return printMessage("specificity-max", selector)},
-			"ignoreSelectors": [pseudoClass_selectors, prefixedClass_selectors]
+			"ignoreSelectors": [selectors.pseudoClass_selectors, selectors.prefixedClass_selectors]
 		}],
 
 		"selector-pseudo-class-disallowed-list": [
-			[childPseudoClass_selectors, typePseudoClass_selectors], {
+			[selectors.childPseudoClass_selectors, selectors.typePseudoClass_selectors], {
 				"severity": "warning",
 				"message": (selector) => { 
 					return printMessage("pseudo-disallowed", selector)}
