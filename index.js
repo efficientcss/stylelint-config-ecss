@@ -1,186 +1,33 @@
 import printMessage from './lib/printmessage.js';
 import * as selectors from './lib/selectors.js';
 
-const createRuleMessages = (source, problem, dataList) => {
-	let message = "";
-
-	for (const data in dataList) {
-		const selectorsRegex = dataList[data].find(rule => rule.regex)?.regex;
-		const matchedObject = dataList[data].filter(item => item.properties);
-		const matchedProperties = matchedObject.find(item => item.properties.some(item => problem.match(item)));
-		if(selectorsRegex && selectorsRegex.test(source) && matchedProperties){
-			const keywordId = matchedProperties?.keywordId || ["generic-error"];
-			message = printMessage(keywordId, source, problem);
-		} else if(selectorsRegex && selectorsRegex.test(source) && !matchedObject[0]?.properties) {
-			const keywordId = dataList[data][0].keywordId || ["generic-error"];
-			message = printMessage(keywordId, source);
-		} else if(!selectorsRegex) {
-			const valuesArray = dataList[data].filter(problem => problem.values).flatMap(problem => problem.values);
-			const propertyRegex = dataList[data][0].properties[0];
-			const keywordId = dataList[data][0].keywordId;
-			if(propertyRegex.test(source)) {
-				message = printMessage(keywordId, source, problem);
-			}
-		}
-	}
-	return message;
-}
-
-const createRuleData = (dataList) => {
-	let object = {};
-	let array = [];
-	let result;
-	for (const data in dataList) {
-		const selectorsRegex = dataList[data].find(rule => rule.regex)?.regex;
-		const valuesArray = dataList[data].filter(item => item.values).flatMap(item => item.values);
-		const propertiesArray = dataList[data].filter(item => item.properties).flatMap(item => item.properties);
-		if(selectorsRegex && propertiesArray.length > 0){
-			object[selectorsRegex] = propertiesArray;
-			result = object;
-		} else if(propertiesArray.length > 0 && valuesArray.length > 0) {
-			object[propertiesArray] = valuesArray;
-			result = object;
-		} else if(selectorsRegex) {
-			array.push(selectorsRegex);
-			result = array;
-		}
-	}
-	return result;
-}
-
-const selPropDisallowedList = [
-	[ { regex: selectors.structureTag_selectors },
-		{ properties: [/^position$|background|display|padding|margin|width|height|border|shadow/], keywordId: "large-selector-rule" } ],
-	[ { regex: selectors.text_selectors },
-		{ properties: [/display/], keywordId: "content-block" },
-		{ properties: [/float/], keywordId: "content-float" },
-		{ properties: [/margin(?!-top|-bottom|-block)/], keywordId: "content-margin" },
-		{ properties: [/padding/], keywordId: "content-padding" },
-		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ],
-	[ { regex: selectors.component_selectors },
-		{ properties: [/margin/], keywordId: "component-outside" },
-		{ properties: [/float/], keywordId: "content-float" },
-		{ properties: [/^width/, /^height/], keywordId: "component-dimensions" } ],
-	[ { regex: selectors.notGraphical_selectors },
-		{ properties: [/float/], keywordId: "content-float" },
-		{ properties: [/^width/, /^height/], keywordId: "selector-dimensions" } ]
-]
-
-const propValDisallowedList = [
-	[{ properties: [/margin|padding/], values: "/^-?(\\d{2,}(em|rem)|\\d{3,}px)/", keywordId: "spacing-large" }],
-	[{ properties: [/position/], values: "/absolute|fixed/", keywordId: "position-sensitive" }],
-	[{ properties: [/translate/],  values: "/-50%/", keywordId: "technique-centered"}],
-	[{ properties: [/^flex$/], values: "/^[0-9]*[a-z]*$/", keywordId: "flex-shorthand"}],
-	[{ properties: [/width$/], values: "/^(?!100%)\\d+%$/", keywordId: "relative-width"}],
-	[{ properties: [/transform/], values: "/translate\\(-50%/", keywordId: "technique-centered"}],
-]
-
-const selDisallowedList = [
-	[{ regex: selectors.numberedClass_selectors, keywordId: "class-numbered" }],
-	[{ regex: selectors.notWithClasses_selectors, keywordId: "not-class" }],
-	[{ regex: selectors.unprefixedDescendant_selectors, keywordId: "class-child-prefix" }],
-	[{ regex: selectors.unprefixedCombinedClass_selectors, keywordId: "class-combined-prefix" }],
-	[{ regex: selectors.tagScopedClass_selectors, keywordId: "tag-scoped-class" }],
-	[{ regex: selectors.overlyStructuredChildren_selectors, keywordId: "selector-unnecessary" }]
-]
-
-const conjoinedPropList = {
-	"/^(align-(items|content)|justify-(items|content)|gap)$/": {
-		"value": "/.*/",
-		message: (property, value) => printMessage("align-display", property, value),
-		"neededDeclaration": [
-			{
-				"property": "display",
-				"value": "flex|grid"
-			}
-		]
-	},
-	"/^(flex-direction|flex-wrap|flex-flow)$/": {
-		"value": "/.*/",
-		message: (property, value) => printMessage("flex-prop", property, value),
-		"neededDeclaration": [
-			{
-				"property": "display",
-				"value": "flex"
-			}
-		]
-	},
-	"/^(top|right|bottom|left)$/": {
-		"value": "/.*/",
-		message: (property, value) => printMessage("position-prop", property, value),
-		"neededDeclaration": [
-			{
-				"property": "position",
-				"value": "^((?!static).)*$"
-			}
-		]
-	},
-	"z-index": {
-		"value": "/.*/",
-		message: (property, value) => printMessage("z-index-static", property, value),
-		"neededDeclaration": [
-			{
-				"property": "position",
-				"value": "^((?!static).)*$"
-			}
-		]
-	},
-	"overflow": {
-		"value": "hidden",
-		message: (property, value) => printMessage("overflow-hidden", property, value),
-		"ignoreSelectors": [/video|img|picture/],
-		"neededDeclaration": [
-			{
-				"property": "border-radius",
-				"value": ".*"
-			},
-			{
-				"property": "aspect-ratio",
-				"value": ".*"
-			}
-		]
-	},
-	"/padding-/": {
-		"value": "/.*/",
-		"ignoreSelectors": [/(>|\s)?(a|ul|ol|button|input)(:.*)?$/, /link$/],
-		message: (property, value) => printMessage("padding-constraints", property, value),
-		"neededDeclaration": [
-			{
-				"property": "text-indent",
-				"value": ".*"
-			},
-			{
-				"property": /padding$/,
-				"value": ".*"
-			},
-			{
-				"property": "background",
-				"value": ".*"
-			},
-			{
-				"property": "border",
-				"value": ".*"
-			},
-			{
-				"property": "margin",
-				"value": ".*"
-			},
-			{
-				"property": "box-sizing",
-				"value": "border-box"
-			},
-			{
-				"property": "overflow",
-				"value": ".*"
-			}
-		]
-	}
-} 
-
 export default {
 	"plugins": [
+		"./plugins/ecss-align-display",
+		"./plugins/ecss-z-index-static",
+		"./plugins/ecss-overflow-hidden",
+		"./plugins/ecss-large-selector-rule",
+		"./plugins/ecss-content-block",
+		"./plugins/ecss-class-numbered",
+		"./plugins/ecss-not-class",
+		"./plugins/ecss-selector-dimensions",
+		"./plugins/ecss-relative-width",
+		"./plugins/ecss-flex-prop",
+		"./plugins/ecss-flex-children",
+		"./plugins/ecss-technique-centered",
+		"./plugins/ecss-padding-constraints",
+		"./plugins/ecss-component-outside",
+		"./plugins/ecss-spacing-large",
+		"./plugins/ecss-position-prop",
+		"./plugins/ecss-pseudo-disallowed",
+		"./plugins/ecss-tag-scoped-class",
+		"./plugins/ecss-class-child-prefix",
+		"./plugins/ecss-content-float",
+		"./plugins/ecss-component-dimensions",
+		"./plugins/ecss-content-margin",
+		"./plugins/ecss-class-combined-prefix",
+		"./plugins/ecss-content-padding",
 		"./plugins/stylelint-selector-starts-with-filename",
-		"./plugins/stylelint-declaration-block-conjoined-properties",
 		"./plugins/stylelint-z-index-value-constraint",
 		"./plugins/stylelint-csstree-validator",
 		"./plugins/stylelint-declaration-block-no-ignored-properties",
@@ -189,52 +36,130 @@ export default {
 		"stylelint-file-max-lines"
 	],
 	"rules": {
-		"selector-nested-pattern": ["^&", {
-			message: printMessage("nesting-pattern"),
-			"splitList": true
-		}],
-		"max-nesting-depth": [2, {
-			message: printMessage("nesting-level")
-		}],
-		"declaration-property-value-disallowed-list": [
-			createRuleData(propValDisallowedList), { 
-				"message": (selector, prop) => { 
-					return createRuleMessages(selector, prop, propValDisallowedList) },
-				"severity": "warning"
-			}],
-		"selector-max-specificity": ["0,2,4", {
-			"message": (selector) => { 
-				return printMessage("specificity-max", selector)},
-			"ignoreSelectors": [selectors.pseudoClass_selectors, selectors.prefixedClass_selectors]
-		}],
-
-		"selector-pseudo-class-disallowed-list": [
-			[selectors.childPseudoClass_selectors, selectors.typePseudoClass_selectors], {
-				"severity": "warning",
-				"message": (selector) => { 
-					return printMessage("pseudo-disallowed", selector)}
-			}],
-		"selector-disallowed-list": [
-			createRuleData(selDisallowedList), {
-				"message": (selector, prop) => { 
-					return createRuleMessages(selector, prop, selDisallowedList) },
-				"splitList": true
-			}],
-		"rule-selector-property-disallowed-list": [
-			createRuleData(selPropDisallowedList), {
-				"ignore": ["keyframe-selectors"],
-				"message": (selector, prop) => { 
-					return createRuleMessages(selector, prop, selPropDisallowedList) }
+		"ecss/align-display": [true, {
+			"message": (selector) => {
+				return printMessage("align-display", selector);
 			}
-		],
+		}],
+		"ecss/z-index-static": [true, {
+			"message": (selector) => {
+				return printMessage("z-index-static", selector);
+			}
+		}],
+		"ecss/overflow-hidden": [true, {
+			"message": (selector) => {
+				return printMessage("overflow-hidden", selector);
+			}
+		}],
+		"ecss/large-selector-rule": [true, {
+			"message": (selector) => {
+				return printMessage("large-selector-rule", selector);
+			}
+		}],
+		"ecss/content-block": [true, {
+			"message": (selector) => {
+				return printMessage("content-block", selector);
+			}
+		}],
+		"ecss/class-numbered": [true, {
+			"message": (selector) => {
+				return printMessage("class-numbered", selector);
+			}
+		}],
+		"ecss/not-class": [true, {
+			"message": (selector) => {
+				return printMessage("not-class", selector);
+			}
+		}],
+		"ecss/selector-dimensions": [true, {
+			"message": (selector) => {
+				return printMessage("selector-dimensions", selector);
+			}
+		}],
+		"ecss/relative-width": [true, {
+			"message": (selector) => {
+				return printMessage("relative-width", selector);
+			}
+		}],
+		"ecss/flex-prop": [true, {
+			"message": (selector) => {
+				return printMessage("flex-prop", selector);
+			}
+		}],
+		"ecss/flex-children": [true, {
+			"message": (selector) => {
+				return printMessage("flex-children", selector);
+			}
+		}],
+		"ecss/technique-centered": [true, {
+			"message": (selector) => {
+				return printMessage("technique-centered", selector);
+			}
+		}],
+		"ecss/padding-constraints": [true, {
+			"message": (selector) => {
+				return printMessage("padding-constraints", selector);
+			}
+		}],
+		"ecss/component-outside": [true, {
+			"message": (selector) => {
+				return printMessage("component-outside", selector);
+			}
+		}],
+		"ecss/spacing-large": [true, {
+			"message": (selector) => {
+				return printMessage("spacing-large", selector);
+			}
+		}],
+		"ecss/position-prop": [true, {
+			"message": (selector) => {
+				return printMessage("position-prop", selector);
+			}
+		}],
+		"ecss/pseudo-disallowed": [true, {
+			"message": (selector) => {
+				return printMessage("pseudo-disallowed", selector);
+			}
+		}],
+		"ecss/tag-scoped-class": [true, {
+			"message": (selector) => {
+				return printMessage("tag-scoped-class", selector);
+			}
+		}],
+		"ecss/content-float": [true, {
+			"message": (selector) => {
+				return printMessage("content-float", selector);
+			}
+		}],
+		"ecss/component-dimensions": [true, {
+			"message": (selector) => {
+				return printMessage("component-dimensions", selector);
+			}
+		}],
+		"ecss/content-margin": [true, {
+			"message": (selector) => {
+				return printMessage("content-margin", selector);
+			}
+		}],
+		"ecss/class-combined-prefix": [true, {
+			"message": (selector) => {
+				return printMessage("class-combined-prefix", selector);
+			}
+		}],
+		"ecss/content-padding": [true, {
+			"message": (selector) => {
+				return printMessage("content-padding", selector);
+			}
+		}],
+		"ecss/class-child-prefix": [true, {
+			"message": (selector) => {
+				return printMessage("class-child-prefix", selector)}
+		}],
 		"plugin/selector-starts-with-filename": [true, {
 			"message": (selector, prop) => { 
 				return printMessage("component-selector", selector, prop)},
 			"ignoreFiles": ["quarantine.css", "main.css"]
 		}],
-		"plugin/declaration-block-conjoined-properties": [
-			conjoinedPropList
-		],
 		"plugin/no-commented-code": [true, {
 			"message": printMessage("commented-code")
 		}],
