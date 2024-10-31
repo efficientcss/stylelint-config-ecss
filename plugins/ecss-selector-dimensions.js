@@ -23,7 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (notGraphicalSelectorsRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, decl.prop],
+						messageArgs: [rule.selector, decl],
 						node: decl,
 						result: postcssResult,
 						ruleName,

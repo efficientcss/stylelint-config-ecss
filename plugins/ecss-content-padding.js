@@ -23,7 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (textTagRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector],
+						messageArgs: [rule.selector, decl],
 						node: decl,
 						result: postcssResult,
 						ruleName,

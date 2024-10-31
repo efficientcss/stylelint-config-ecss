@@ -21,6 +21,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (/^(?!100%)\d+%$/.test(decl.value)) {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector, decl],
 						node: decl,
 						result: postcssResult,
 						ruleName,

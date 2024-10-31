@@ -28,6 +28,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (!hasNeeded) {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector],
 						node,
 						result: postcssResult,
 						ruleName,

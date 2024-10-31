@@ -24,6 +24,7 @@ const ruleFunction = (primaryOption, secondaryOptions, context) => {
 			if (comment.text.match(commentedCssPattern)) {
 				stylelint.utils.report({
 					message: messages.rejected,
+					messageArgs: [comment],
 					node: comment,
 					result,
 					ruleName

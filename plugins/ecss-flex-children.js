@@ -30,7 +30,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 
 					report({
 						message: messages.expected,
-						messageArgs: [node.prop, rule.selector],
+						messageArgs: [rule.selector, node.prop],
 						node,
 						result: postcssResult,
 						ruleName,

@@ -19,10 +19,10 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const disallowedPseudoRegex = /:(first-child|last-child)/;
 
 		postcssRoot.walkRules((rule) => {
-			// Check if the selector contains a disallowed pseudo-class
 			if (disallowedPseudoRegex.test(rule.selector)) {
 				report({
 					message: messages.expected,
+					messageArgs: [rule.selector],
 					node: rule,
 					result: postcssResult,
 					ruleName,

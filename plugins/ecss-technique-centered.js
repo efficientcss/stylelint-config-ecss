@@ -21,7 +21,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (/translate\(-50%/.test(decl.value)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, decl.value],
+						messageArgs: [rule.selector, decl],
 						node: decl,
 						result: postcssResult,
 						ruleName,

@@ -21,7 +21,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (/^-?(\d{2,}(em|rem)|\d{3,}px)/.test(decl.value)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, decl.value],
+						messageArgs: [rule.selector, decl],
 						node: decl,
 						result: postcssResult,
 						ruleName,

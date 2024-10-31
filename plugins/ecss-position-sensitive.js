@@ -16,15 +16,18 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		postcssRoot.walkDecls('position', (decl) => {
-			if (/absolute|fixed/.test(decl.value)) {
-				report({
-					message: messages.expected,
-					node: decl,
-					result: postcssResult,
-					ruleName,
-				});
-			}
+		postcssRoot.walkRules((rule) => {
+			rule.walkDecls('position', (decl) => {
+				if (/absolute|fixed/.test(decl.value)) {
+					report({
+						message: messages.expected,
+						messageArgs: [rule.selector, decl],
+						node: decl,
+						result: postcssResult,
+						ruleName,
+					});
+				}
+			});
 		});
 	};
 };

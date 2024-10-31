@@ -23,6 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				rule.walkDecls('margin', (decl) => {
 					report({
 						message: messages.expected,
+						messageArgs: [rule.selector, decl],
 						node: decl,
 						result: postcssResult,
 						ruleName,
