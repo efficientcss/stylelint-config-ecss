@@ -58,41 +58,43 @@ const rule = (options, secondary) => {
 			return;
 		}
 
-		cssRoot.walkDecls("z-index", function (decl) {
-			const value = Number(decl.value);
+		cssRoot.walkRules((rule) => {
+			rule.walkDecls("z-index", function (decl) {
+				const value = Number(decl.value);
 
-			if (
-				_isNaN(value) ||
-				(secondary &&
-					Array.isArray(secondary.ignoreValues) &&
-					secondary.ignoreValues.indexOf(value) > -1)
-			) {
-				return;
-			}
+				if (
+					_isNaN(value) ||
+					(secondary &&
+						Array.isArray(secondary.ignoreValues) &&
+						secondary.ignoreValues.indexOf(value) > -1)
+				) {
+					return;
+				}
 
-			if (options.max && Math.abs(value) > options.max) {
-				report({
-					messageArg: [options.max],
-					ruleName,
-					result,
-					node: decl,
-					message: messages.largerThanMax(
-						isNegative(value) ? options.max * -1 : options.max
-					)
-				});
-			}
+				if (options.max && Math.abs(value) > options.max) {
+					report({
+						messageArg: [rule.selector, options.max],
+						ruleName,
+						result,
+						node: decl,
+						message: messages.largerThanMax(
+							isNegative(value) ? options.max * -1 : options.max
+						)
+					});
+				}
 
-			if (options.min && Math.abs(value) < options.min) {
-				report({
-					ruleName,
-					messageArg: [options.min],
-					result,
-					node: decl,
-					message: messages.smallerThanMin(
-						isNegative(value) ? options.min * -1 : options.min
-					)
-				});
-			}
+				if (options.min && Math.abs(value) < options.min) {
+					report({
+						ruleName,
+						messageArg: [rule.selector, options.min],
+						result,
+						node: decl,
+						message: messages.smallerThanMin(
+							isNegative(value) ? options.min * -1 : options.min
+						)
+					});
+				}
+			});
 		});
 	};
 }

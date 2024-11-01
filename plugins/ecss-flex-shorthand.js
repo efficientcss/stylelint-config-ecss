@@ -7,7 +7,7 @@ const {
 
 const ruleName = 'ecss/overflow-hidden';
 const messages = ruleMessages(ruleName, {
-	expected: 'Expected border-radius or aspect-ratio for overflow hidden.',
+	expected: 'Prefer long form flex properties for better clarity.',
 });
 
 const meta = {
@@ -17,22 +17,14 @@ const meta = {
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls('overflow', (decl) => {
-				if (decl.value === 'hidden') {
-					const hasBorderRadiusOrAspectRatio = rule.nodes.some(
-						(node) => node.prop === 'border-radius' || node.prop === 'aspect-ratio'
-					);
-
-					if (!hasBorderRadiusOrAspectRatio) {
-						report({
-							message: messages.expected,
-							messageArgs: [rule.selector],
-							node: decl,
-							result: postcssResult,
-							ruleName,
-						});
-					}
-				}
+			rule.walkDecls('flex', (decl) => {
+				report({
+					message: messages.expected,
+					messageArgs: [rule.selector, decl],
+					node: decl,
+					result: postcssResult,
+					ruleName,
+				});
 			});
 		});
 	};
