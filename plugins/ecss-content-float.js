@@ -11,7 +11,7 @@ const messages = ruleMessages(ruleName, {
 });
 
 const meta = {
-	url: 'https://example.com/rules/content-float'
+	url: ''
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {

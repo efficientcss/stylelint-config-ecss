@@ -5,13 +5,13 @@ const {
 	utils: { report, ruleMessages }
 } = stylelint;
 
-const ruleName = 'ecss/overflow-hidden';
+const ruleName = 'ecss/flex-shorthand';
 const messages = ruleMessages(ruleName, {
 	expected: 'Prefer long form flex properties for better clarity.',
 });
 
 const meta = {
-	url: 'https://example.com/rules/overflow-hidden'
+	url: ''
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {

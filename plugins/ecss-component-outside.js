@@ -1,4 +1,5 @@
 import stylelint from 'stylelint';
+import printUrl from '../lib/printUrl.js';
 
 const {
 	createPlugin,
@@ -11,8 +12,9 @@ const messages = ruleMessages(ruleName, {
 });
 
 const meta = {
-	url: 'https://example.com/rules/component-outside'
-};
+	url: printUrl('component-outside')
+}
+
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {

@@ -3,6 +3,7 @@ import postcss from "postcss";
 import nested from "postcss-nested";
 import path from "path";
 import optionsMatches from './utils/optionsMatches.js';
+import printUrl from '../lib/printUrl.js';
 
 const {
 	createPlugin,
@@ -13,6 +14,10 @@ const ruleName = 'ecss/selector-filename';
 const messages = ruleMessages(ruleName, {
 	rejected: (selector, filename) => `All selectors must begin with filename. ${selector} vs. ${filename}`
 });
+
+const meta = {
+	url: printUrl('component-selector')
+}
 
 const isString = (value) => typeof value === 'string' || value instanceof String;
 
@@ -68,4 +73,5 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 
 rule.ruleName = ruleName;
 rule.messages = messages;
+rule.meta = meta;
 export default createPlugin(ruleName, rule);

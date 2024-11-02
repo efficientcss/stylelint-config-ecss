@@ -10,10 +10,6 @@ const messages = ruleMessages(ruleName, {
 	expected: 'This pseudo-class should be avoided.',
 });
 
-const meta = {
-	url: 'https://example.com/rules/pseudo-disallowed'
-};
-
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		const disallowedPseudoRegex = /:(first-child|last-child)/;
@@ -34,6 +30,5 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 
 ruleFunction.ruleName = ruleName;
 ruleFunction.messages = messages;
-ruleFunction.meta = meta;
 
 export default createPlugin(ruleName, ruleFunction);

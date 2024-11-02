@@ -1,5 +1,6 @@
 import stylelint from 'stylelint';
 import hasPropertyValueInContext from './utils/hasPropertyValueInContext.js';
+import printUrl from '../lib/printUrl.js';
 
 const {
 	createPlugin,
@@ -12,8 +13,9 @@ const messages = ruleMessages(ruleName, {
 });
 
 const meta = {
-	url: 'https://example.com/rules/position-prop'
-};
+	url: printUrl('position-prop')
+}
+
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {

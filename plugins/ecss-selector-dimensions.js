@@ -1,4 +1,6 @@
 import stylelint from 'stylelint';
+import printUrl from '../lib/printUrl.js';
+
 
 const {
 	createPlugin,
@@ -11,8 +13,9 @@ const messages = ruleMessages(ruleName, {
 });
 
 const meta = {
-	url: 'https://example.com/rules/selector-dimensions'
-};
+	url: printUrl('selector-dimensions')
+}
+
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {

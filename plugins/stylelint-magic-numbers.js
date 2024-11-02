@@ -1,4 +1,5 @@
 import stylelint from "stylelint";
+import printUrl from '../lib/printUrl.js';
 
 const {
 	createPlugin,
@@ -12,6 +13,10 @@ const numbersMessages = ruleMessages(numbersRuleName, {
 		return "No-Magic-Numbers ".concat(hint);
 	}
 });
+
+const meta = {
+	url: printUrl('magic-number')
+}
 
 
 const numbersRule = function numbersRule(actual, config) {
