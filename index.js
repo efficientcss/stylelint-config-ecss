@@ -14,6 +14,7 @@ export default {
 		"./plugins/ecss-relative-width",
 		"./plugins/ecss-flex-prop",
 		"./plugins/ecss-flex-children",
+		"./plugins/ecss-flex-shorthand",
 		"./plugins/ecss-technique-centered",
 		"./plugins/ecss-padding-constraints",
 		"./plugins/ecss-component-outside",
@@ -89,6 +90,11 @@ export default {
 		"ecss/flex-children": [true, {
 			"message": (selector, prop) => {
 				return printMessage("flex-children", selector, prop);
+			}
+		}],
+		"ecss/flex-shorthand": [true, {
+			"message": (selector, prop) => {
+				return printMessage("flex-shorthand", selector, prop);
 			}
 		}],
 		"ecss/technique-centered": [true, {
