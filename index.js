@@ -3,6 +3,7 @@ import * as selectors from './lib/selectors.js';
 
 export default {
 	"plugins": [
+		"./plugins/ecss-position-sensitive",
 		"./plugins/ecss-align-display",
 		"./plugins/ecss-z-index-static",
 		"./plugins/ecss-overflow-hidden",
@@ -32,11 +33,18 @@ export default {
 		"./plugins/stylelint-z-index-value-constraint",
 		"./plugins/stylelint-csstree-validator",
 		"./plugins/ecss-ignored-properties",
+		"./plugins/ecss-selector-unnecessary",
 		"./plugins/stylelint-magic-numbers",
 		"./plugins/ecss-commented-code",
 		"stylelint-file-max-lines"
 	],
 	"rules": {
+		"ecss/position-sensitive": [true, {
+			"severity": "warning",
+			"message": (selector, prop) => {
+				return printMessage("position-sensitive", selector, prop);
+			}
+		}],
 		"ecss/align-display": [true, {
 			"message": (selector, prop) => {
 				return printMessage("align-display", selector, prop);
@@ -225,6 +233,10 @@ export default {
 		"ecss/ignored-properties": [true, {
 			"message": (selector, prop) => { 
 				return printMessage("property-ignored", selector, prop)}
+		}],
+		"ecss/selector-unnecessary": [true, {
+			"message": (selector, prop) => { 
+				return printMessage("selector-unnecessary", selector, prop)}
 		}],
 		"block-no-empty": [true, {
 			"message": () => { 
