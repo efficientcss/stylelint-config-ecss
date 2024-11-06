@@ -19,7 +19,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const structureTagRegex = /^(div|header|footer|section|aside|article)$/;
 
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls(/^(position|background|display|padding|margin|width|height|border|shadow)$/, (decl) => {
+			rule.walkDecls(/^(position|background|display|padding|margin|width|height|border|shadow)/, (decl) => {
 				if (structureTagRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,

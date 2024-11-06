@@ -21,8 +21,8 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
 
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls(/^margin$/, (decl) => {
-				if (textTagRegex.test(rule.selector) && !/^(margin-top|margin-bottom)$/.test(decl.prop)) {
+			rule.walkDecls(/^margin/, (decl) => {
+				if (textTagRegex.test(rule.selector) && !/^(margin-top|margin-bottom|margin-block(?:-start|-end)?)$/.test(decl.prop)) {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector, decl],

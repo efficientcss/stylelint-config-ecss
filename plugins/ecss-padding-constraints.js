@@ -24,7 +24,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		postcssRoot.walkRules((rule) => {
 			if (!ignoreSelectorsRegex.test(rule.selector)) {
 				const selectedNodes = rule.nodes.filter((node) => 
-					node.type === 'decl' && ['padding'].includes(node.prop)
+					node.type === 'decl' && /padding/.test(node.prop)
 				);
 
 				const hasNeededProp = selectedNodes.length && hasPropertyValueInContext(rule, /(text-indent|background|border|margin|box-sizing|overflow)/, /.*/, 'self');
