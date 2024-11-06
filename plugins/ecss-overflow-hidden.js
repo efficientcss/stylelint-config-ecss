@@ -21,7 +21,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		postcssRoot.walkRules((rule) => {
 			const selectedNodes = rule.nodes.filter((node) => 
-				node.type === 'decl' && ['overflow'].includes(node.prop)
+				node.type === 'decl' && ['overflow'].includes(node.prop) && ['hidden'].includes(node.value)
 			);
 
 			const hasNeeded = hasPropertyValueInContext(rule, /radius|aspect/, /.*/, 'self');
