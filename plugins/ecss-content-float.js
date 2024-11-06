@@ -1,4 +1,6 @@
 import stylelint from 'stylelint';
+import postcss from "postcss";
+import nested from "postcss-nested";
 
 const {
 	createPlugin,
@@ -14,25 +16,28 @@ const meta = {
 	url: ''
 };
 
-const ruleFunction = (primaryOption, secondaryOption, context) => {
-	return (postcssRoot, postcssResult) => {
-		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
-		const notGraphicalSelectorsRegex = /^(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea)).*$/;
+const preprocessCSS = async (css) => {
+	const result = await postcss([nested]).process(css, { from: undefined });
+	return result.root;
+};
 
-		postcssRoot.walkRules((rule) => {
-			rule.walkDecls('float', (decl) => {
-				if (textTagRegex.test(rule.selector) && notGraphicalSelectorsRegex.test(rule.selector)) {
-					report({
-						message: messages.expected,
-						messageArgs: [rule.selector, decl],
-						node: decl,
-						result: postcssResult,
-						ruleName,
-					});
-				}
-			});
+const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
+	const notGraphicalSelectorsRegex = /^(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea)).*$/;
+	const processedRoot = await preprocessCSS(postcssRoot.toString());
+
+	processedRoot.walkRules((rule) => {
+		rule.walkDecls('float', (decl) => {
+			if (notGraphicalSelectorsRegex.test(rule.selector)) {
+				report({
+					message: messages.expected,
+					messageArgs: [rule.selector, decl],
+					node: decl,
+					result: postcssResult,
+					ruleName,
+				});
+			}
 		});
-	};
+	});
 };
 
 ruleFunction.ruleName = ruleName;

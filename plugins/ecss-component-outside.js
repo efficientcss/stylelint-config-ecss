@@ -21,8 +21,12 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const componentSelectorsRegex = /^(?!& )(?!.*__)([.]|\\[[a-z0-9-_]*="?)(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea))[a-zA-Z0-9-_]+("?\\])?$/;
 
 		postcssRoot.walkRules((rule) => {
+			const selectedNodes = rule.nodes.filter((node) => 
+				node.type === 'decl' && ['margin'].includes(node.prop)
+			);
+
 			if (componentSelectorsRegex.test(rule.selector)) {
-				rule.walkDecls('margin', (decl) => {
+				selectedNodes.forEach(decl => {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector, decl],

@@ -1,4 +1,6 @@
 import stylelint from 'stylelint';
+import postcss from "postcss";
+import nested from "postcss-nested";
 import printUrl from '../lib/printUrl.js';
 
 
@@ -16,25 +18,28 @@ const meta = {
 	url: printUrl('selector-dimensions')
 }
 
+const preprocessCSS = async (css) => {
+	const result = await postcss([nested]).process(css, { from: undefined });
+	return result.root;
+};
 
-const ruleFunction = (primaryOption, secondaryOption, context) => {
-	return (postcssRoot, postcssResult) => {
-		const notGraphicalSelectorsRegex = /^(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea)).*$/;
+const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
+	const notGraphicalSelectorsRegex = /^(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|figure|hr$|svg|line|logo|frame|button|input|select$|textarea)).*$/;
+	const processedRoot = await preprocessCSS(postcssRoot.toString());
 
-		postcssRoot.walkRules((rule) => {
-			rule.walkDecls(/^(width|height)$/, (decl) => {
-				if (notGraphicalSelectorsRegex.test(rule.selector)) {
-					report({
-						message: messages.expected,
-						messageArgs: [rule.selector, decl],
-						node: decl,
-						result: postcssResult,
-						ruleName,
-					});
-				}
-			});
+	processedRoot.walkRules((rule) => {
+		rule.walkDecls(/^(width|height)$/, (decl) => {
+			if (notGraphicalSelectorsRegex.test(rule.selector)) {
+				report({
+					message: messages.expected,
+					messageArgs: [rule.selector, decl],
+					node: decl,
+					result: postcssResult,
+					ruleName,
+				});
+			}
 		});
-	};
+	});
 };
 
 ruleFunction.ruleName = ruleName;
