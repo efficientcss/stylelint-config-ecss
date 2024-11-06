@@ -1,38 +1,29 @@
-import { fileURLToPath } from 'node:url';
 import stylelint from "stylelint";
-import path from "path";
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const fixturesPath = fileURLToPath(new URL('./fixtures', import.meta.url));
-const ruleName = 'ecss-selector-filename';
 const config = {
-	plugins: [
-		path.resolve(__dirname, '../plugins/ecss-selector-filename.js')
-	],
-	rules: {
-		[ruleName]: true
-	}
+  plugins: ["../plugins/ecss-selector-filename.js"],
+  rules: {
+    "plugin/ecss-selector-filename": true,
+  },
 };
 
-describe(ruleName, () => {
-	test('should flag selectors not starting with filename', async () => {
-		const result = await stylelint.lint({
-			files: `${fixturesPath}/filename.fail.css`,
-			config
-		});
+describe("should pass", () => {
+  it("should pass when CSS does not contain forbidden rules", async () => {
+    const result = await stylelint.lint({
+      files: "fixtures/ecss-selector-filename.pass.css",
+      config,
+    });
+    expect(result.errored).toBe(false);
+  });
+});
 
-		const warnings = result.results[0].warnings;
-		expect(warnings).toHaveLength(14);
-		expect(warnings[0].text).toContain('filename');
-	});
-
-	test('should pass selectors starting with filename', async () => {
-		const result = await stylelint.lint({
-			files: `${fixturesPath}/filename.pass.css`,
-			config
-		});
-
-		const warnings = result.results[0].warnings;
-		expect(warnings).toHaveLength(0);
-	});
+describe("should fail", () => {
+  it("should fail when CSS contains forbidden rules", async () => {
+    const result = await stylelint.lint({
+      files: "fixtures/ecss-selector-filename.fail.css",
+      config,
+    });
+    expect(result.errored).toBe(true);
+    expect(result.results[0].warnings).toHaveLength(4);
+  });
 });

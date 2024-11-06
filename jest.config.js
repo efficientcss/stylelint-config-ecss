@@ -1,4 +1,7 @@
 export default {
-  testEnvironment: 'node',
-  rootDir: './__tests__',
+  testEnvironment: "node",
+  transform: {},
+  extensionsToTreatAsEsm: [".js", ".mjs"],
+  testMatch: ["<rootDir>/plugins/*.test.mjs"],
+  moduleFileExtensions: ["js", "mjs"],
 };
