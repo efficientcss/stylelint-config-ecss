@@ -40,7 +40,7 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 
 	if (!validOptions) return;
 
-	const inputFile = root.source.input.file;
+	const inputFile = path.basename(root.source.input.file);
 
 	const escapeRegex = (str) => {
 		return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
