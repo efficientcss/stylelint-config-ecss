@@ -1,4 +1,6 @@
 import stylelint from 'stylelint';
+import postcss from "postcss";
+import nested from "postcss-nested";
 
 const {
 	createPlugin,
@@ -14,22 +16,26 @@ const meta = {
 	url: ''
 };
 
-const ruleFunction = (primaryOption, secondaryOption, context) => {
-	return (postcssRoot, postcssResult) => {
-		const notWithClassesRegex = /:not\(.*\./;
+const preprocessCSS = async (css) => {
+	const result = await postcss([nested]).process(css, { from: undefined });
+	return result.root;
+};;
 
-		postcssRoot.walkRules((rule) => {
-			if (notWithClassesRegex.test(rule.selector)) {
-				report({
-					message: messages.expected,
-					messageArgs: [rule.selector],
-					node: rule,
-					result: postcssResult,
-					ruleName,
-				});
-			}
-		});
-	};
+const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
+	const processedRoot = await preprocessCSS(postcssRoot.toString());
+	const notWithClassesRegex = /:not\(.*\./;
+
+	processedRoot.walkRules((rule) => {
+		if (notWithClassesRegex.test(rule.selector)) {
+			report({
+				message: messages.expected,
+				messageArgs: [rule.selector],
+				node: rule,
+				result: postcssResult,
+				ruleName,
+			});
+		}
+	});
 };
 
 ruleFunction.ruleName = ruleName;

@@ -1,4 +1,6 @@
 import stylelint from 'stylelint';
+import postcss from "postcss";
+import nested from "postcss-nested";
 
 const {
 	createPlugin,
@@ -12,22 +14,26 @@ const messages = ruleMessages(ruleName, {
 
 const meta = {
 	url: ''
-};
+}
 
-const ruleFunction = (primaryOption, secondaryOption, context) => {
-	return (postcssRoot, postcssResult) => {
-		postcssRoot.walkRules((rule) => {
-			rule.walkDecls('flex', (decl) => {
-				report({
-					message: messages.expected,
-					messageArgs: [rule.selector, decl],
-					node: decl,
-					result: postcssResult,
-					ruleName,
-				});
+const preprocessCSS = async (css) => {
+	const result = await postcss([nested]).process(css, { from: undefined });
+	return result.root;
+};;
+
+const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
+	const processedRoot = await preprocessCSS(postcssRoot.toString());
+	processedRoot.walkRules((rule) => {
+		rule.walkDecls('flex', (decl) => {
+			report({
+				message: messages.expected,
+				messageArgs: [rule.selector, decl],
+				node: decl,
+				result: postcssResult,
+				ruleName,
 			});
 		});
-	};
+	});
 };
 
 ruleFunction.ruleName = ruleName;
