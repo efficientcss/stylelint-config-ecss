@@ -21,7 +21,6 @@ export default {
 		"./plugins/ecss-component-outside",
 		"./plugins/ecss-spacing-large",
 		"./plugins/ecss-position-prop",
-		"./plugins/ecss-pseudo-disallowed",
 		"./plugins/ecss-tag-scoped-class",
 		"./plugins/ecss-class-child-prefix",
 		"./plugins/ecss-content-float",
@@ -128,11 +127,6 @@ export default {
 		"ecss/position-prop": [true, {
 			"message": (selector, prop) => {
 				return printMessage("position-prop", selector, prop);
-			}
-		}],
-		"ecss/pseudo-disallowed": [true, {
-			"message": (selector) => {
-				return printMessage("pseudo-disallowed", selector);
 			}
 		}],
 		"ecss/tag-scoped-class": [true, {
