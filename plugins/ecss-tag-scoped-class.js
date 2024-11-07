@@ -18,7 +18,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const tagScopedClassRegex = /^(?![.])(div|header|footer|section|aside|article)( |>| > )+([.]|\\[[a-z-_]*=?"?).*("?\\])?$/;
+		const tagScopedClassRegex = /^(?![.])(nav|div|header|footer|section|aside|article)( |>| > )+([.]|\\[[a-z-_]*=?"?).*("?\\])?$/;
 
 		postcssRoot.walkRules((rule) => {
 			// Check if the selector contains a class or attribute scoped by a tag

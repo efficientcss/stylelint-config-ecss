@@ -19,7 +19,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const ignoreSelectorsRegex = /(>|\s)?(a|ul|ol|button|input)(:.*)?$/;
+		const ignoreSelectorsRegex = /(>|\s)?(is:|where:)?.*(a|ul|ol|button|input)(\))?(:.*)?$/;
 
 		postcssRoot.walkRules((rule) => {
 			if (!ignoreSelectorsRegex.test(rule.selector)) {
