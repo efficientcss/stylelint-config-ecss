@@ -1,0 +1,12 @@
+.ecss-content-padding p {
+	background-color: red;
+	padding: 20px;
+}
+
+.ecss-content-padding {
+	& h2 {
+		background-color: red;
+		padding: 20px;
+	}
+}
+

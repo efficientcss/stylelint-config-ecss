@@ -1,0 +1,17 @@
+.ecss-class-child-prefix {
+	& .child {
+		display: block;
+	}
+
+	& .variant {
+		display: block;
+	}
+}
+
+.ecss-class-child-prefix .child-fail {
+	display: block;
+}
+
+[id=ecss-class-child-prefix] .child-fail {
+	position: relative;
+}

@@ -1,0 +1,17 @@
+.ecss-position-prop {
+	top: 10px;
+
+	&.is-variant {
+		bottom: 10px;
+		top: auto;
+	}
+
+}
+
+.ecss-position-prop {
+	position: relative;
+
+	& .__child {
+		right: 20px;
+	}
+}

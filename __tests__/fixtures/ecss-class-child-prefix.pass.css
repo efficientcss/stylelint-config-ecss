@@ -1,0 +1,25 @@
+.ecss-class-child-prefix {
+	& .__child {
+		position: relative;
+	}
+
+	& .is-variant {
+		display: block;
+	}
+
+	& .as-grid {
+		display: grid;
+	}
+
+	& .to-left {
+		position: relative;
+	}
+
+	& .for-menu-toggling {
+		position: sticky;
+	}
+
+	& .on-hover:hover {
+		color: aqua;
+	}
+}

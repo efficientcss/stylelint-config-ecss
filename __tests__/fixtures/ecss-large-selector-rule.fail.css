@@ -1,0 +1,15 @@
+article {
+	background-color: red;
+}
+
+div {
+	padding: 20px;
+}
+
+header {
+	position: absolute;
+}
+
+footer {
+	border-color: blue;
+}

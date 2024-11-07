@@ -1,0 +1,20 @@
+.ecss-selector-dimensions img {
+	width: 500px;
+	height: 500px;
+}
+
+.ecss-selector-dimensions input {
+	width: 500px;
+}
+
+.ecss-selector-dimensions {
+	min-height: 50dvh;
+
+	& .__logo {
+		height: 500px;
+	}
+
+	&.is-variant img {
+		height: 10rem;
+	}
+}

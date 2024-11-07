@@ -1,0 +1,19 @@
+.ecss-content-margin p {
+	margin: 20px;
+}
+
+.ecss-content-margin h2 {
+	margin-right: 20px;
+}
+
+.ecss-content-margin {
+	& h2 {
+		margin-left: 20px;
+	}
+}
+
+.ecss-content-margin {
+	& h2 {
+		margin-inline: 20px;
+	}
+}

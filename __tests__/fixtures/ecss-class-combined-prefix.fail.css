@@ -1,0 +1,21 @@
+.ecss-class-combined-prefix {
+	&.variant {
+		display: block;
+	}
+
+	&.grid {
+		display: grid;
+	}
+
+	&.left {
+		position: relative;
+	}
+
+	&.menu-toggling {
+		position: sticky;
+	}
+
+	&.hover:hover {
+		color: aqua;
+	}
+}

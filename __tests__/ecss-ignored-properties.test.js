@@ -1,29 +1,34 @@
+
+import { fileURLToPath } from 'node:url';
 import stylelint from "stylelint";
+import path from "path";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const config = {
-  plugins: ["../plugins/ecss-ignored-properties.js"],
-  rules: {
-    "plugin/ecss-ignored-properties": true,
-  },
+	plugins: path.resolve(__dirname, "../plugins/ecss-ignored-properties.js"),
+	rules: {
+		"ecss/ignored-properties": true,
+	},
 };
 
 describe("should pass", () => {
-  it("should pass when CSS does not contain forbidden rules", async () => {
-    const result = await stylelint.lint({
-      files: "fixtures/ecss-ignored-properties.pass.css",
-      config,
-    });
-    expect(result.errored).toBe(false);
-  });
+	it("should pass when CSS does not contain forbidden rules", async () => {
+		const result = await stylelint.lint({
+			files: path.resolve(__dirname, "fixtures/ecss-ignored-properties.pass.css"),
+			config,
+		});
+		expect(result.errored).toBe(false);
+	});
 });
 
 describe("should fail", () => {
-  it("should fail when CSS contains forbidden rules", async () => {
-    const result = await stylelint.lint({
-      files: "fixtures/ecss-ignored-properties.fail.css",
-      config,
-    });
-    expect(result.errored).toBe(true);
-    expect(result.results[0].warnings).toHaveLength(1);
-  });
+	it("should fail when CSS contains forbidden rules", async () => {
+		const result = await stylelint.lint({
+			files: path.resolve(__dirname, "fixtures/ecss-ignored-properties.fail.css"),
+			config,
+		});
+		expect(result.errored).toBe(true);
+		expect(result.results[0].warnings).toHaveLength(2);
+	});
 });

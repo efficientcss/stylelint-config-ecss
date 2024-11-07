@@ -1,0 +1,10 @@
+.ecss-ignored-properties {
+	display: block;
+	min-width: 50px;
+}
+
+.ecss-ignored-properties {
+	position: relative;
+	top: 50px;
+}
+

@@ -1,0 +1,7 @@
+.ecss-not-class:not(a) {
+	display: inline;
+}
+
+.ecss-not-class :not(span) {
+	display: inline;
+}

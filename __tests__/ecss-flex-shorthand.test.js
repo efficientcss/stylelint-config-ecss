@@ -6,16 +6,16 @@ import path from "path";
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const config = {
-	plugins: path.resolve(__dirname, "../plugins/ecss-selector-filename.js"),
+	plugins: path.resolve(__dirname, "../plugins/ecss-flex-shorthand.js"),
 	rules: {
-		"ecss/selector-filename": true,
+		"ecss/flex-shorthand": true,
 	},
 };
 
 describe("should pass", () => {
 	it("should pass when CSS does not contain forbidden rules", async () => {
 		const result = await stylelint.lint({
-			files: path.resolve(__dirname, "fixtures/ecss-selector-filename.pass.css"),
+			files: path.resolve(__dirname, "fixtures/ecss-flex-shorthand.pass.css"),
 			config,
 		});
 		expect(result.errored).toBe(false);
@@ -25,10 +25,10 @@ describe("should pass", () => {
 describe("should fail", () => {
 	it("should fail when CSS contains forbidden rules", async () => {
 		const result = await stylelint.lint({
-			files: path.resolve(__dirname, "fixtures/ecss-selector-filename.fail.css"),
+			files: path.resolve(__dirname, "fixtures/ecss-flex-shorthand.fail.css"),
 			config,
 		});
 		expect(result.errored).toBe(true);
-		expect(result.results[0].warnings).toHaveLength(4);
+		expect(result.results[0].warnings).toHaveLength(1);
 	});
 });

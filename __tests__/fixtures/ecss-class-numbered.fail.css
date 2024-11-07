@@ -1,0 +1,17 @@
+.ecss-class-numbered-2 {
+	display: block;
+
+	&.is-variant-4 {
+		display: block;
+	}
+
+	& .__bla-3 {
+		color: blue;
+	}
+}
+
+.ecss-class-numbered {
+	&.is-variant-3 {
+		display: block;
+	}
+}

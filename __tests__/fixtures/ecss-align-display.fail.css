@@ -1,0 +1,20 @@
+.ecss-align-display {
+	align-items: center;
+
+	& .__child-error {
+		align-items: center;
+	}
+
+}
+
+.ecss-align-display {
+	gap: 20px;
+}
+
+.ecss-align-display {
+	justify-content: center;
+
+	&.is-variant-error {
+		align-items: baseline;
+	}
+}

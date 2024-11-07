@@ -1,0 +1,18 @@
+.ecss-flex-children {
+	& .__child {
+		align-self: center;
+		display: flex;
+	}
+}
+
+.ecss-flex-children {
+	display: block;
+
+	& .__child {
+		flex-grow: 1;
+	}
+}
+
+.ecss-flex-children {
+	flex-shrink: 0;
+}

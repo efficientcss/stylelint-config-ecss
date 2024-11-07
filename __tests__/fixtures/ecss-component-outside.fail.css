@@ -1,0 +1,9 @@
+.ecss-component-outside {
+	margin: 20px;
+}
+
+.ecss-component-outside {
+	&.is-variant {
+		margin: 20px;
+	}
+}

@@ -1,0 +1,26 @@
+.ecss-overflow-hidden {
+	overflow: hidden;
+}
+
+.ecss-overflow-hidden {
+	overflow: hidden;
+}
+
+.ecss-overflow-hidden {
+
+	&.is-variant {
+		overflow: hidden;
+	}
+
+	& .is-child {
+		overflow: hidden;
+	}
+}
+
+.ecss-overflow-hidden {
+	aspect-ratio: 16/9;
+
+	& .is-child {
+		overflow: hidden;
+	}
+}

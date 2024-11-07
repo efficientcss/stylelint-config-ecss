@@ -1,0 +1,20 @@
+.ecss-large-selector {
+	& article {
+		background-color: red;
+	}
+}
+
+.ecss-large-selector div {
+	padding: 20px;
+}
+
+.ecss-large-selector {
+	& header {
+		position: absolute;
+	}
+}
+
+.ecss-large-selector footer {
+	border-color: blue;
+}
+

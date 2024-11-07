@@ -1,0 +1,21 @@
+.ecss-content-margin p {
+	margin-top: 20px;
+}
+
+.ecss-content-margin h2 {
+	margin-bottom: 20px;
+}
+
+.ecss-content-margin {
+	& h2 {
+		margin-bottom: 20px;
+	}
+
+	& p {
+		margin-block: 30px;
+	}
+
+	& blockquote {
+		margin-block-end: 30px;
+	}
+}

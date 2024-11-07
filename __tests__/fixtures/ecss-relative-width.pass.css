@@ -1,0 +1,11 @@
+.ecss-relative-width {
+	display: flex;
+
+	& .__child {
+		flex-basis: 50%;
+	}
+}
+
+.ecss-relative-width__img {
+	width: 100%;
+}

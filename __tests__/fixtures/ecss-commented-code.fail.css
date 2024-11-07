@@ -1,0 +1,8 @@
+.ecss-commented-code {
+	position: relative;
+	/* font-size: 20px; */
+
+	&.is-variant {
+		/* background: red; */
+	}
+}

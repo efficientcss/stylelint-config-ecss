@@ -1,0 +1,15 @@
+.ecss-component-outside>*+* {
+	margin: 20px;
+}
+
+.ecss-component-outside {
+	&>*+* {
+		margin: 20px;
+	}
+}
+
+.ecss-component-outside {
+	& .__child {
+		margin-top: 20px;
+	}
+}

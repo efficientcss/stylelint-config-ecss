@@ -1,0 +1,29 @@
+.ecss-padding-constraints {
+	padding: 20px;
+}
+
+.ecss-padding-constraints {
+	padding-top: 20px;
+}
+
+.ecss-padding-constraints {
+
+	& .__child {
+		padding: 20px;
+	}
+}
+
+.ecss-padding-constraints {
+	&.is-variant {
+		padding: 10px;
+	}
+}
+
+.ecss-padding-constraints div {
+	padding-top: 10px;
+}
+
+
+.ecss-padding-constraints :is(p) {
+	padding-top: 10px;
+}

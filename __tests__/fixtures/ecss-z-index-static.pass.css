@@ -1,0 +1,29 @@
+.ecss-z-index-static {
+	position: relative;
+	z-index: 1;
+}
+
+.ecss-z-index-static {
+	position: relative;
+
+	&.is-variant {
+		z-index: 1;
+	}
+
+	& .__child {
+		position: absolute;
+		z-index: 1;
+	}
+}
+
+.ecss-z-index-static {
+	&.is-variant {
+		position: relative;
+		z-index: 1;
+	}
+
+	& .__child {
+		position: absolute;
+		z-index: 1;
+	}
+}

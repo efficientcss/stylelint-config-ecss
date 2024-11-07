@@ -1,0 +1,9 @@
+.ecss-content-block p {
+	display: inline;
+}
+
+.ecss-content-block {
+	& h2 {
+		display: flex;
+	}
+}

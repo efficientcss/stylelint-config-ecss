@@ -1,0 +1,7 @@
+.ecss-flex-shorthand {
+	display: flex;
+
+	& .__child {
+		flex: 10px 1 2;
+	}
+}

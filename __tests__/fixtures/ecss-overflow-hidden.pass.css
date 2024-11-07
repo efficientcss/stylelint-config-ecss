@@ -1,0 +1,21 @@
+.ecss-overflow-hidden {
+	overflow: hidden;
+	aspect-ratio: 16/9;
+}
+
+.ecss-overflow-hidden {
+	overflow: auto;
+}
+
+.ecss-overflow-hidden {
+	overflow: hidden;
+	border-radius: 10px;
+}
+
+.ecss-overflow-hidden {
+	border-radius: 10px;
+
+	&.is-variant {
+		overflow: hidden;
+	}
+}

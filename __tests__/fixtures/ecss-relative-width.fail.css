@@ -1,0 +1,7 @@
+.ecss-relative-width {
+	display: flex;
+
+	& .__child {
+		width: 50%;
+	}
+}

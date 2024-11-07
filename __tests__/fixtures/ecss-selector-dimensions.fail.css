@@ -1,0 +1,20 @@
+.ecss-selector-dimensions {
+	width: 500px;
+	height: 100vh;
+}
+
+.ecss-selector-dimensions {
+	width: 500px;
+}
+
+.ecss-selector-dimensions {
+	height: 500px;
+
+	& .__child {
+		height: 400px;
+	}
+
+	&.is-variant {
+		width: 400px;
+	}
+}

@@ -1,0 +1,24 @@
+.ecss-align-display {
+	display: flex;
+	align-items: center;
+
+	& .__child-error {
+		display: flex;
+		align-items: center;
+	}
+
+}
+
+.ecss-align-display {
+	display: flex;
+	gap: 20px;
+}
+
+.ecss-align-display {
+	display: flex;
+	justify-content: center;
+
+	&.is-variant-error {
+		align-items: baseline;
+	}
+}

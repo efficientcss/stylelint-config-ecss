@@ -1,0 +1,13 @@
+.ecss-content-float img {
+	float: left;
+}
+
+.ecss-content-float figure {
+	float: left;
+}
+
+.ecss-content-float {
+	& figure {
+		float: right;
+	}
+}

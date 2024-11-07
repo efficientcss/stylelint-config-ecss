@@ -1,0 +1,41 @@
+.ecss-padding-constraints {
+	padding: 20px;
+	padding-top: 10px;
+	background-color: black;
+}
+
+.ecss-padding-constraints {
+	padding: 20px;
+	border: 1px solid blue;
+}
+
+.ecss-padding-constraints {
+
+	& .__child {
+		border-radius: 20px;
+		overflow: auto;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	&.is-variant a {
+		padding: 20px;
+	}
+}
+
+.ecss-padding-constraints {
+	background: blue;
+	&.is-variant {
+		padding: 10px;
+	}
+}
+
+.ecss-padding-constraints a {
+	padding-top: 10px;
+}
+
+
+.ecss-padding-constraints :is(ul, button, input) {
+	padding: 20px;
+	padding-top: 10px;
+}

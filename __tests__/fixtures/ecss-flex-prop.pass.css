@@ -1,0 +1,22 @@
+.ecss-flex-prop {
+	display: flex;
+	flex-direction: row-reverse;
+
+	&.is-variant {
+		flex-wrap: wrap;
+	}
+}
+
+.ecss-flex-prop {
+	&.is-variant {
+		display: flex;
+		flex-flow: row wrap;
+	}
+}
+
+.ecss-flex-prop {
+	& .__child {
+		display: flex;
+		flex-direction: column;
+	}
+}

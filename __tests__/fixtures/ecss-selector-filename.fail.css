@@ -1,0 +1,15 @@
+.not-ecss-selector-filename {
+	display: block;
+}
+
+[id=not-ecss-selector-filename] {
+	display: block;
+
+	&.is-variant {
+		color: red;
+	}
+}
+
+:where(.not-ecss-selector-filename) {
+	display: flex;
+}

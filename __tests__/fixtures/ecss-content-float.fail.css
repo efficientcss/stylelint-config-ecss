@@ -1,0 +1,13 @@
+.ecss-content-float {
+	float: left;
+}
+
+.ecss-content-float h2 {
+	float: left;
+}
+
+.ecss-content-float {
+	& .__child {
+		float: right;
+	}
+}

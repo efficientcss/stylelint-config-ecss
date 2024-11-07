@@ -1,0 +1,35 @@
+.filename {
+	display: block;
+}
+
+.filename {
+	display: block;
+
+	&.__input {
+		display: block;
+	}
+
+	& div {
+		display: block;
+	}
+
+	&.as-grid {
+		display: grid;
+	}
+}
+
+:is(.filename, .filename-bla) {
+	display: block;
+}
+
+:where(.filename, .filename-bla) {
+	display: block;
+}
+
+:where(.filename) {
+	display: block;
+}
+
+:is(.filename) {
+	display: block;
+}

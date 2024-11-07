@@ -1,0 +1,5 @@
+
+/* Invalid CSS for failing test */
+.invalid-selector {
+  color: red !important; /* This should trigger an error */
+}

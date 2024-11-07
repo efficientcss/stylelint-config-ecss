@@ -1,0 +1,17 @@
+.ecss-selector-unnecessary div h2 {
+	margin-top: 20px;
+}
+
+.ecss-selector-unnecessary ul li {
+	margin-top: 20px;
+}
+
+.ecss-selector-unnecessary {
+	& div h2 {
+		color: grey;
+	}
+
+	& footer p {
+		font-size: 16px;
+	}
+}

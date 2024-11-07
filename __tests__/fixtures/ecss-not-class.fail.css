@@ -1,0 +1,10 @@
+.ecss-not-class:not(.button) {
+	display: inline;
+}
+
+
+.ecss-not-class {
+	&:not(.container) {
+		display: inline;
+	}
+}

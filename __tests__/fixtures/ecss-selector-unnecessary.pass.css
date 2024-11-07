@@ -1,0 +1,14 @@
+.ecss-selector-unnecessary h2 {
+	margin-top: 20px;
+}
+
+.ecss-selector-unnecessary header {
+	background-color: blue;
+	padding: 20px;
+}
+
+.ecss-selector-unnecessary {
+	& h2 {
+		color: grey;
+	}
+}

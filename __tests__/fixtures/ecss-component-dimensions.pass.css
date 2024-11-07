@@ -1,0 +1,8 @@
+.ecss-component-dimensions {
+	min-width: 100px;
+	min-height: 200px;
+}
+
+.ecss-component-dimensions.is-variant {
+	max-width: 100px;
+}

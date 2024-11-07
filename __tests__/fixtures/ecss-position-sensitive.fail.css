@@ -1,0 +1,7 @@
+.ecss-position-sensitive {
+	position: absolute;
+
+	&.is-variant {
+		position: fixed;
+	}
+}

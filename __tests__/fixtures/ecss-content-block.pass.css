@@ -1,0 +1,9 @@
+.ecss-content-block p {
+	display: block;
+}
+
+.ecss-content-block {
+	& h2 {
+		display: block;
+	}
+}

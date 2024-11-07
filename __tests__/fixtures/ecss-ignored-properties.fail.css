@@ -1,0 +1,9 @@
+.ecss-ignored-properties {
+	display: inline;
+	width: 50px;
+}
+
+.ecss-ignored-properties {
+	position: static;
+	top: 50px;
+}

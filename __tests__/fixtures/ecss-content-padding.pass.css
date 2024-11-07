@@ -1,0 +1,12 @@
+.ecss-content-padding {
+	background-color: red;
+	padding: 20px;
+}
+
+.ecss-content-padding {
+	& header {
+		background-color: red;
+		padding: 20px;
+	}
+}
+
