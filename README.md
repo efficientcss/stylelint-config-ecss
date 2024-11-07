@@ -2,9 +2,9 @@
 
 > Linting rules for writing Efficient CSS.
 
-**ECSS sets simple rules for simple styling.** No more naming everything, no more technological dependencies. Only intentional, consistent, simple, expressive, predictable, sustainable CSS.
+**ECSS sets simple rules for efficient styling.** No more naming everything, no more technological dependencies. Only intentional, consistent, expressive, predictable, sustainable CSS.
 
-This config adds a more detailed messaging system.
+This config also adds a more detailed messaging system.
 
 For the complete documentation, see [ecss.info](https://ecss.info).
 
@@ -24,7 +24,7 @@ Add this package to the `extend`{.json} array in your Stylelint configuration or
 }
 ```
 
-You can disable ECSS rules by using the Stylelint `overrides` array.
+You can disable ECSS rules by using the Stylelint `overrides` array. The full list of rules is accessible in `index.js`.
 
 ```json
 {
@@ -33,8 +33,8 @@ You can disable ECSS rules by using the Stylelint `overrides` array.
 		{
 			"files": ["*"],
 			"rules": {
-				"declaration-empty-line-before": null,
-				"order/properties-order": null
+				"ecss/large-selector-rule": null,
+				"ecss/component-dimensions": null
 			}
 		}
 	]
