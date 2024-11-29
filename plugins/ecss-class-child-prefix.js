@@ -21,15 +21,16 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const unprefixedDescendantRegex = /^.*[\s?>?\s?|\s][.](?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__).*$/;
 
 		postcssRoot.walkRules((rule) => {
-			// Check if the selector matches the regex for unprefixed descendant classes
-			if (unprefixedDescendantRegex.test(rule.selector)) {
-				report({
-					message: messages.rejected,
-					messageArgs: [rule.selector],
-					node: rule,
-					result: postcssResult,
-					ruleName,
-				});
+			for (const selector of rule.selectors) {
+				if (unprefixedDescendantRegex.test(selector)) {
+					report({
+						message: messages.rejected,
+						messageArgs: [rule.selector],
+						node: rule,
+						result: postcssResult,
+						ruleName,
+					});
+				}
 			}
 		});
 	};
