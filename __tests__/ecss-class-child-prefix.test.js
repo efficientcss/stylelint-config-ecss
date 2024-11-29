@@ -1,4 +1,3 @@
-
 import { fileURLToPath } from 'node:url';
 import stylelint from "stylelint";
 import path from "path";
@@ -29,6 +28,6 @@ describe("should fail", () => {
 			config,
 		});
 		expect(result.errored).toBe(true);
-		expect(result.results[0].warnings).toHaveLength(4);
+		expect(result.results[0].warnings).toHaveLength(5);
 	});
 });
