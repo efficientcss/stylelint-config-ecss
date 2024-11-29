@@ -28,7 +28,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => async (postcss
 	const processedRoot = await preprocessCSS(postcssRoot.toString());
 
 	processedRoot.walkRules((rule) => {
-		rule.walkDecls(/^(width|height)$/, (decl) => {
+		rule.walkDecls(/^(?:max-)?(?:width|height)$/, (decl) => {
 			if (notGraphicalSelectorsRegex.test(rule.selector)) {
 				report({
 					message: messages.expected,
