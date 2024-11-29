@@ -18,7 +18,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const overlyStructuredChildrenRegex = /^((.*)[\s](div|footer|section|aside|article|ul|li).*|body.*)\b(p|ul|li|a|button|input|span|h1|h2|h3|h4|h5|h6)\b$/;
+		const overlyStructuredChildrenRegex = /^(?!.*(?:>|~)).*\b(?:div|footer|section|aside|article|ul|li|body)\b.*\b(?:p|ul|li|a|button|input|span|h[1-6])\b$/;
 
 		postcssRoot.walkRules((rule) => {
 			if (overlyStructuredChildrenRegex.test(rule.selector)) {
