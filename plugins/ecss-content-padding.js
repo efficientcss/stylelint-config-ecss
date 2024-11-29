@@ -21,7 +21,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
 
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls('padding', (decl) => {
+			rule.walkDecls(/padding/, (decl) => {
 				if (textTagRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
