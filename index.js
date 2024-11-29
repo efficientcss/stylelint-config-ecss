@@ -290,6 +290,18 @@ export default {
 			"message": (selector, prop) => { 
 				return printMessage("selector-id", selector, prop)}
 		}],
+		"selector-nested-pattern": ["^&", {
+			message: printMessage("nesting-pattern"),
+			"splitList": true
+		}],
+		"max-nesting-depth": [2, {
+			message: printMessage("nesting-level")
+		}],
+		"selector-max-specificity": ["0,2,4", {
+			"message": (selector) => { 
+				return printMessage("specificity-max", selector)},
+			"ignoreSelectors": [/:.*/]
+		}],
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
 			"ignoreProperties": ["font-weight", "background", "background-image", "content"],
