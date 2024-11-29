@@ -24,6 +24,9 @@
     "plugins/**",
     "index.js"
   ],
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/efficientcss/stylelint-config-ecss/issues"
