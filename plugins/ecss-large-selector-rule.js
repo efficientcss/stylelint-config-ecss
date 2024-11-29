@@ -17,14 +17,18 @@ const meta = {
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		const structureTagRegex = /^(div|header|footer|section|aside|article)$/;
+		const propertyRegex = /^(position|background|display|padding|margin|width|height|border|shadow)/;
 
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls(/^(position|background|display|padding|margin|width|height|border|shadow)/, (decl) => {
+
+			const selectedNodes = rule.nodes.filter((node) => 
+				node.type === 'decl' && node.prop.match(propertyRegex));
+			selectedNodes.forEach(node => {
 				if (structureTagRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, decl],
-						node: decl,
+						messageArgs: [rule.selector, node.prop],
+						node,
 						result: postcssResult,
 						ruleName,
 					});
