@@ -110,8 +110,8 @@ export default {
 			}
 		}],
 		"ecss/padding-constraints": [true, {
-			"message": (selector) => {
-				return printMessage("padding-constraints", selector);
+			"message": (selector, prop) => {
+				return printMessage("padding-constraints", selector, prop);
 			}
 		}],
 		"ecss/component-outside": [true, {
