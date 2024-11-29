@@ -22,7 +22,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 
 		postcssRoot.walkRules((rule) => {
 			if (componentSelectorsRegex.test(rule.selector)) {
-				rule.walkDecls(/^(width|height)$/, (decl) => {
+				rule.walkDecls(/^(?:max-)?(?:width|height)$/, (decl) => {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector, decl],
