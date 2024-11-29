@@ -13,3 +13,9 @@ header {
 footer {
 	border-color: blue;
 }
+
+aside {
+	& header {
+		display: flex;
+	}
+}

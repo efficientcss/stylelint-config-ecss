@@ -11,4 +11,12 @@
 	& h2 {
 		color: grey;
 	}
+
+	& > ul > li {
+		display: flex;
+	}
+}
+
+.ecss-selector-unnecessary ~ ul li {
+	display: block;
 }

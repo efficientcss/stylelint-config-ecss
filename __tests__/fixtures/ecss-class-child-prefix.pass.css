@@ -23,3 +23,12 @@
 		color: aqua;
 	}
 }
+
+.ecss-class-child-prefix .__child {
+	display: block;
+}
+
+.ecss-class-child-prefix,
+.ecss-class-child-prefix-two {
+	display: block;
+}

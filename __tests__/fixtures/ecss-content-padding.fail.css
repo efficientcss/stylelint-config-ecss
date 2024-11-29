@@ -8,5 +8,9 @@
 		background-color: red;
 		padding: 20px;
 	}
+
+	& p {
+		padding-bottom: 20px;
+	}
 }
 

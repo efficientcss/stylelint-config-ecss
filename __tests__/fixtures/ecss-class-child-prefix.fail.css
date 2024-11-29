@@ -15,3 +15,9 @@
 [id=ecss-class-child-prefix] .child-fail {
 	position: relative;
 }
+
+.ecss-class-child-prefix .child-fail,
+.ecss-class-child-prefix .__child-pass {
+	display: block;
+}
+

@@ -29,6 +29,6 @@ describe("should fail", () => {
 			config,
 		});
 		expect(result.errored).toBe(true);
-		expect(result.results[0].warnings).toHaveLength(6);
+		expect(result.results[0].warnings).toHaveLength(8);
 	});
 });

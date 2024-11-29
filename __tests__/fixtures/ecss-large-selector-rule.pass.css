@@ -18,3 +18,8 @@
 	border-color: blue;
 }
 
+article {
+	.__child {
+		display: block
+	}
+}

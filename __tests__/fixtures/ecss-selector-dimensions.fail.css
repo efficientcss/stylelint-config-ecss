@@ -4,7 +4,12 @@
 }
 
 .ecss-selector-dimensions {
-	width: 500px;
+	width: 100%;
+}
+
+.ecss-selector-dimensions {
+	max-height: 500px;
+	max-width: 500px;
 }
 
 .ecss-selector-dimensions {
