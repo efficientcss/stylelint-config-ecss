@@ -20,3 +20,17 @@
 .ecss-selector-unnecessary ~ ul li {
 	display: block;
 }
+
+.ecss-selector-unnecessary-section a {
+  color: #fcfcfc;
+}
+
+.ecss-selector-unnecessary-footer ul {
+  color: #fcfcfc;
+}
+
+
+.ecss-selector-unnecessary-footer > li a {
+  color: #fcfcfc;
+}
+

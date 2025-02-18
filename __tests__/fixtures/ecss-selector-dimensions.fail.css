@@ -1,15 +1,15 @@
 .ecss-selector-dimensions {
-	width: 500px;
-	height: 100vh;
+	height: 500px;
+	max-height: 100vh;
 }
 
 .ecss-selector-dimensions {
-	width: 100%;
+	height: 100%;
 }
 
 .ecss-selector-dimensions {
 	max-height: 500px;
-	max-width: 500px;
+	height: 500px;
 }
 
 .ecss-selector-dimensions {
@@ -20,6 +20,6 @@
 	}
 
 	&.is-variant {
-		width: 400px;
+		max-height: 400px;
 	}
 }

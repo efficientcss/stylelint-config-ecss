@@ -8,6 +8,8 @@
 }
 
 .ecss-selector-dimensions {
+	overflow: auto;
+	max-height: 100dvh;
 	min-height: 50dvh;
 
 	& .__logo {

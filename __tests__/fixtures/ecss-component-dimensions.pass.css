@@ -1,6 +1,10 @@
 .ecss-component-dimensions {
 	min-width: 100px;
 	min-height: 200px;
+
+	& .__child {
+		width: 100%;
+	}
 }
 
 .ecss-component-dimensions.is-variant {

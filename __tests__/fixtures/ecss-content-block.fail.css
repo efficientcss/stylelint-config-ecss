@@ -1,5 +1,5 @@
 .ecss-content-block p {
-	display: inline;
+	display: inline-flex;
 }
 
 .ecss-content-block {
@@ -7,3 +7,8 @@
 		display: flex;
 	}
 }
+
+.ecss-content-block h1 {
+	display: grid;
+}
+
