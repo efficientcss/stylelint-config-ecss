@@ -21,17 +21,22 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const componentSelectorsRegex = /^(?!& )(?!.*__)([.]|\\[[a-z0-9-_]*="?)(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea))[a-zA-Z0-9-_]+("?\\])?$/;
 
 		postcssRoot.walkRules((rule) => {
-			if (componentSelectorsRegex.test(rule.selector)) {
-				rule.walkDecls(/^(?:max-)?(?:width|height)$/, (decl) => {
+
+			const selectedNodes = rule.nodes.filter((node) => 
+				node.type === 'decl' && /^(?:max-)?(?:width|height)$/.test(node.prop)
+			);
+
+			selectedNodes.forEach(node => {
+				if (componentSelectorsRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, decl],
-						node: decl,
+						messageArgs: [rule.selector, node.decl],
+						node,
 						result: postcssResult,
 						ruleName,
 					});
-				});
-			}
+				}
+			});
 		});
 	};
 };
