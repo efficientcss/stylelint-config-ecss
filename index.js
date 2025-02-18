@@ -172,7 +172,7 @@ export default {
 		"ecss/selector-filename": [true, {
 			"message": (selector, prop) => { 
 				return printMessage("component-selector", selector, prop)},
-			"ignoreFiles": ["quarantine.css", "main.css", "base.css", "reset.css", "general.css"]
+			"ignoreFiles": ["quarantine.css", "main.css", "base.css", "reset.css", "general.css", "/style/"]
 		}],
 		"ecss/commented-code": [true, {
 			"message": printMessage("commented-code")
