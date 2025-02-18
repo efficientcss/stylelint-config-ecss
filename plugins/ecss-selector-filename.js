@@ -20,6 +20,7 @@ const meta = {
 }
 
 const isString = (value) => typeof value === 'string' || value instanceof String;
+const isRegExp = value => toString.call(value) === '[object RegExp]';
 
 const preprocessCSS = async (css) => {
 	const result = await postcss([nested]).process(css, { from: undefined });
@@ -33,7 +34,7 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 		{ actual: primary },
 		{
 			actual: secondaryOptions,
-			possible: { ignoreFiles: [isString] },
+			possible: { ignoreFiles: [isString, isRegExp] },
 			optional: true,
 		},
 	);
