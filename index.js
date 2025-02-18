@@ -13,6 +13,7 @@ export default {
 		"./plugins/ecss-not-class",
 		"./plugins/ecss-selector-dimensions",
 		"./plugins/ecss-relative-width",
+		"./plugins/ecss-width-100p",
 		"./plugins/ecss-flex-prop",
 		"./plugins/ecss-flex-children",
 		"./plugins/ecss-flex-shorthand",
@@ -87,6 +88,11 @@ export default {
 		"ecss/relative-width": [true, {
 			"message": (selector, prop) => {
 				return printMessage("relative-width", selector, prop);
+			}
+		}],
+		"ecss/width-100p": [true, {
+			"message": (selector, prop) => {
+				return printMessage("width-100p", selector, prop);
 			}
 		}],
 		"ecss/flex-prop": [true, {
