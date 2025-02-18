@@ -20,7 +20,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 
 		postcssRoot.walkRules((rule) => {
 			rule.walkDecls('display', (decl) => {
-				if (textTagRegex.test(rule.selector) && decl.value !== 'block') {
+				if (textTagRegex.test(rule.selector) && !decl.value.match(/^block$|^inline$|^inline-block$/)) {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector, decl],
