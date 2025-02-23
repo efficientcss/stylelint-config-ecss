@@ -2,6 +2,7 @@ import stylelint from "stylelint";
 import postcss from "postcss";
 import nested from "postcss-nested";
 import path from "path";
+import isKeyframeSelector from './utils/isKeyframeSelector.js';
 import optionsMatches from './utils/optionsMatches.js';
 import printUrl from '../lib/printUrl.js';
 
@@ -58,7 +59,7 @@ const rule = (primary, secondaryOptions) => async (root, result) => {
 
 	processedRoot.walkRules((rule) => {
 		rule.selectors.forEach((selector) => {
-			if (!selectorRegExp.test(selector)) {
+			if (!selectorRegExp.test(selector) && !isKeyframeSelector(selector)) {
 				report({
 					messageArgs: [selector, filename],
 					message: messages.rejected(selector, filename),

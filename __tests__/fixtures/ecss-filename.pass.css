@@ -1,8 +1,8 @@
-.filename {
+.ecss-filename {
 	display: block;
 }
 
-.filename {
+.ecss-filename {
 	display: block;
 
 	&.__input {
@@ -18,18 +18,27 @@
 	}
 }
 
-:is(.filename, .filename-bla) {
+:is(.ecss-filename, .ecss-filename-bla) {
 	display: block;
 }
 
-:where(.filename, .filename-bla) {
+:where(.ecss-filename, .ecss-filename-bla) {
 	display: block;
 }
 
-:where(.filename) {
+:where(.ecss-filename) {
 	display: block;
 }
 
-:is(.filename) {
+:is(.ecss-filename) {
 	display: block;
+}
+
+@keyframes test {
+	0% {
+		color: black;
+	}
+	100% {
+		color: white;
+	}
 }
