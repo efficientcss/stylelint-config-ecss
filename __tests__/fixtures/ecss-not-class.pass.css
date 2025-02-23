@@ -5,3 +5,7 @@
 .ecss-not-class :not(span) {
 	display: inline;
 }
+
+.ecss-not-class:not(:hover) .__conteneur {
+	display: block;
+}
