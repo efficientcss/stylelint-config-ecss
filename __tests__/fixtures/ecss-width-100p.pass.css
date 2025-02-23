@@ -1,0 +1,16 @@
+.ecss-width-100p {
+	display: flex;
+
+	& .__child {
+		width: 50%;
+
+	}
+}
+
+.ecss-width-100p__img {
+	min-width: 100%;
+}
+
+.ecss-width-100p img {
+	width: 100%;
+}

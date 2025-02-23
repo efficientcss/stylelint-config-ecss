@@ -1,0 +1,8 @@
+.ecss-width-100p {
+	display: flex;
+	width: 100%;
+
+	& .__child {
+		width: 100%;
+	}
+}
