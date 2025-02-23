@@ -3,10 +3,19 @@
 	min-height: 200px;
 
 	& .__child {
-		width: 100%;
+		width: 100em;
 	}
 }
 
 .ecss-component-dimensions.is-variant {
 	max-width: 100px;
+}
+
+.ecss-component-dimensions {
+	max-width: 300px;
+}
+
+.ecss-component-dimensions {
+	max-width: 100px;
+	max-height: 200px;
 }

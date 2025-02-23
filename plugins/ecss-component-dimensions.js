@@ -23,7 +23,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		postcssRoot.walkRules((rule) => {
 
 			const selectedNodes = rule.nodes.filter((node) => 
-				node.type === 'decl' && /^(?:max-)?(?:width|height)$/.test(node.prop)
+				node.type === 'decl' && /^(!?:max-)?(?:width|height)$/.test(node.prop)
 			);
 
 			selectedNodes.forEach(node => {
