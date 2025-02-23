@@ -30,7 +30,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				if (componentSelectorsRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, node.decl],
+						messageArgs: [rule.selector, node.prop],
 						node,
 						result: postcssResult,
 						ruleName,
