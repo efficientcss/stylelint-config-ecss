@@ -1,3 +1,7 @@
 nav .dropdown {
 	position: absolute;
 }
+
+footer .ecss-tag-scoped-class {
+	display: block;
+}
