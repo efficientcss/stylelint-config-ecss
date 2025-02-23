@@ -24,6 +24,10 @@
 	}
 }
 
+footer .ecss-class-child-prefix {
+	display:  block;
+}
+
 .ecss-class-child-prefix .__child {
 	display: block;
 }
