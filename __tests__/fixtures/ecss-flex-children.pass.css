@@ -7,9 +7,17 @@
 }
 
 .ecss-flex-children {
-	display: flex;
+	display: inline-flex;
 
 	& .__child {
 		flex-grow: 1;
+	}
+
+	&::before {
+		flex-grow: 1;
+	}
+
+	&:after {
+		flex-shrink: 2;
 	}
 }

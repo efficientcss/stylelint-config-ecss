@@ -25,7 +25,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				node.type === 'decl' && ['flex-grow', 'flex-basis', 'flex-shrink', 'align-self'].includes(node.prop)
 			);
 
-			const parentHasFlexDisplay = selectedNodes.length && hasPropertyValueInContext(rule, 'display', 'flex', 'parent');
+			const parentHasFlexDisplay = selectedNodes.length && hasPropertyValueInContext(rule, 'display', /flex/, 'parent');
 
 			selectedNodes.forEach(node => {
 				if (!parentHasFlexDisplay) {
