@@ -296,7 +296,7 @@ export default {
 			"message": (selector, prop) => { 
 				return printMessage("selector-id", selector, prop)}
 		}],
-		"selector-nested-pattern": ["^&", {
+		"selector-nested-pattern": ["&", {
 			message: printMessage("nesting-pattern"),
 			"splitList": true
 		}],
