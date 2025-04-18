@@ -9,3 +9,7 @@
 .ecss-not-class:not(:hover) .__conteneur {
 	display: block;
 }
+
+.ecss-not-class:not([class]) {
+	display: block;
+}

@@ -9,6 +9,6 @@
 	}
 }
 
-.ecss-not-class:not([hover]) .__conteneur {
+.ecss-not-class:not([hover], .class) :where(.__conteneur) {
 	display: block;
 }

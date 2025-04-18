@@ -23,7 +23,7 @@ const preprocessCSS = async (css) => {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
 	const processedRoot = await preprocessCSS(postcssRoot.toString());
-	const notWithClassesRegex = /:not\((?:\.|\[).*\)/;
+const notWithClassesRegex = /:not\([^)]*(?:\.\w|\[\w+=)/;
 
 	processedRoot.walkRules((rule) => {
 		if (notWithClassesRegex.test(rule.selector)) {
