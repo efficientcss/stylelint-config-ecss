@@ -7,7 +7,7 @@
  */
 export default function hasPropertyValueInContext(rule, propertyPattern, valuePattern, context) {
 
-	const isDescendant = /&\s*(?:>|\s+\.)/.test(rule.selector);
+	const isDescendant = /&\s*(?:>|\s+\.\w+|:{1,2}(?:before|after))/.test(rule.selector);
 	const isCombined = /&(:[\w-]+|::[\w-]+|\[.*?\]|\.[\w-]+|#\w+)/u.test(rule.selector);
 
 	let currentRule = context == 'parent' && !isCombined ? rule.parent : rule;
