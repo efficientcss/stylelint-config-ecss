@@ -1,12 +1,18 @@
 .ecss-class-numbered {
 	display: block;
 
-	&.col-4 {
+	&.as-col-4 {
 		display: block;
 	}
 
-	& .grid-3 {
+	& .__grid-3 {
 		color: blue;
+	}
+}
+
+.ecss-class-numbered {
+	&.as-h2 {
+		display: block;
 	}
 }
 
