@@ -205,9 +205,9 @@ export default {
 		}],
 
 		"csstree/validator": [{
-			"ignoreProperties": ["/container/"],
+			"ignoreProperties": ["text-box", "text-wrap", "/container/", "animation-timeline", "animation-range", "view-transition-name"],
 			"ignoreValue": "clamp",
-			"ignoreAtrules": ["container"]
+			"ignoreAtrules": ["container", "starting-style", "view-transition"]
 		}, {
 			"message": (selector, prop) => { 
 				return printMessage("syntax-invalid", selector, prop)}
