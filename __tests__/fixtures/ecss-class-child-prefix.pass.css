@@ -24,7 +24,11 @@
 	}
 }
 
-footer .ecss-class-child-prefix {
+:is(.ecss-class-child-prefix, .ecss-class-child-prefix) {
+	display: block;
+}
+
+.ecss-class-child-prefix {
 	display:  block;
 }
 
@@ -32,7 +36,6 @@ footer .ecss-class-child-prefix {
 	display: block;
 }
 
-.ecss-class-child-prefix,
-.ecss-class-child-prefix-two {
+.ecss-class-child-prefix, .ecss-class-child-prefix-two {
 	display: block;
 }
