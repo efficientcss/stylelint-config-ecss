@@ -7,20 +7,33 @@ const {
 
 const ruleName = 'ecss/content-block';
 const messages = ruleMessages(ruleName, {
-	expected: 'Text tags should remain as "block".',
+	expected: 'Text tags should remain as "block" unless including a pseudo-element.',
 });
 
 const meta = {
 	url: ''
 };
 
+const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
+const pseudoElementRegex = /^&:{1,2}(before|after)$/;
+
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
-
 		postcssRoot.walkRules((rule) => {
 			rule.walkDecls('display', (decl) => {
-				if (textTagRegex.test(rule.selector) && !decl.value.match(/^block$|^inline$|^inline-block$/)) {
+				const displayValue = decl.value;
+				const selector = rule.selector;
+
+				if (!textTagRegex.test(selector)) return;
+				if (/^(block|inline|inline-block)$/.test(displayValue)) return;
+
+				const hasPseudoElementChild = rule.nodes.some(
+					node =>
+					node.type === 'rule' &&
+					pseudoElementRegex.test(node.selector)
+				);
+
+				if (!hasPseudoElementChild) {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector, decl],

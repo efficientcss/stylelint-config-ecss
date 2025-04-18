@@ -17,3 +17,19 @@
 .ecss-content-block h3 {
 	display: inline-block;
 }
+
+.ecss-content-block p {
+	display: flex;
+
+	&::before {
+		flex-shrink: 1;
+	}
+}
+
+.ecss-content-block h2 {
+	display: inline-flex;
+
+	&::before {
+		flex-shrink: 1;
+	}
+}
