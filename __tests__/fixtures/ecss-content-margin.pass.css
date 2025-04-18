@@ -4,6 +4,10 @@
 
 .ecss-content-margin h2 {
 	margin-bottom: 20px;
+
+	&>i {
+		margin-left: 60px;
+	}
 }
 
 .ecss-content-margin {
@@ -18,4 +22,5 @@
 	& blockquote {
 		margin-block-end: 30px;
 	}
+
 }
