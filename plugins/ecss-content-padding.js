@@ -21,12 +21,15 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
 
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls(/padding/, (decl) => {
+			const selectedNodes = rule.nodes.filter((node) => 
+				node.type === 'decl' && /^padding/.test(node.prop)
+			);
+			selectedNodes.forEach(node => {
 				if (textTagRegex.test(rule.selector)) {
 					report({
 						message: messages.expected,
-						messageArgs: [rule.selector, decl],
-						node: decl,
+						messageArgs: [rule.selector, node],
+						node: node,
 						result: postcssResult,
 						ruleName,
 					});

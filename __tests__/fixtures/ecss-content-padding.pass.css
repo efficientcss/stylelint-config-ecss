@@ -10,3 +10,14 @@
 	}
 }
 
+.ecss-content-padding h2 i {
+	background-color: inherit;
+	padding: 10px;
+}
+
+.ecss-content-padding h2 {
+	&>i {
+		background-color: inherit;
+		padding: 10px;
+	}
+}
