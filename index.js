@@ -300,7 +300,9 @@ export default {
 			message: printMessage("nesting-pattern"),
 			"splitList": true
 		}],
-		"max-nesting-depth": [2, {
+		"max-nesting-depth": [3, {
+			"ignore": ["blockless-at-rules", "pseudo-classes"],
+			"ignoreRules": ["/:before$/", "/:after$/"],
 			message: printMessage("nesting-level")
 		}],
 		"selector-max-specificity": ["0,2,4", {
