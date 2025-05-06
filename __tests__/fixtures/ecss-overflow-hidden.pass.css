@@ -19,3 +19,7 @@
 		overflow: hidden;
 	}
 }
+
+.ecss-overflow-hidden picture {
+	overflow: hidden;
+}

@@ -5,3 +5,11 @@
 .ecss-spacing-large {
 	margin-left: 320px;
 }
+
+.ecss-spacing-large {
+	margin-inline-end: 400px;
+}
+
+.ecss-spacing-large div {
+	padding-inline-start: 300px;
+}
