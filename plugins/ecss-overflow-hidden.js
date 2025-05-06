@@ -23,11 +23,11 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 			const selectedNodes = rule.nodes.filter((node) => 
 				node.type === 'decl' && ['overflow'].includes(node.prop) && ['hidden'].includes(node.value)
 			);
-
+			const ignoreSelectors = /picture/;
 			const hasNeeded = hasPropertyValueInContext(rule, /radius|aspect/, /.*/, 'self');
 
 			selectedNodes.forEach(node => {
-				if (!hasNeeded) {
+				if (!hasNeeded && !ignoreSelectors.test(rule.selector)) {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector],
