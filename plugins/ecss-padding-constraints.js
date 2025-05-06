@@ -9,7 +9,7 @@ const {
 
 const ruleName = 'ecss/padding-constraints';
 const messages = ruleMessages(ruleName, {
-	expected: 'Paddings should first be uniform and require graphical constraints.',
+	expected: 'Paddings should require graphical constraints.',
 });
 
 const meta = {
