@@ -308,7 +308,7 @@ export default {
 		"selector-max-specificity": ["0,2,4", {
 			"message": (selector) => { 
 				return printMessage("specificity-max", selector)},
-			"ignoreSelectors": [/:.*/]
+			"ignoreSelectors": [/^:(?!.*\b(child|type)\b).+$/]
 		}],
 		"magic-numbers/magic-colors": null,
 		"magic-numbers/magic-numbers": [true, {
