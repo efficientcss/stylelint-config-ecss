@@ -18,7 +18,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const numberedClassRegex = /^(?!.*(?:h[1-6]|grid-\d+|col-\d+|\(\d+\))).*\d/;
+		const numberedClassRegex = /^(?!.*(?:h[1-6]|gri.*\d+|col.*\d+|\(\d+\))).*\d/;
 
 		postcssRoot.walkRules((rule) => {
 			if (numberedClassRegex.test(rule.selector)) {

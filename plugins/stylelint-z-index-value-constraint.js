@@ -73,7 +73,7 @@ const rule = (options, secondary) => {
 
 				if (options.max && Math.abs(value) > options.max) {
 					report({
-						messageArg: [rule.selector, options.max],
+						messageArg: [rule.selector, decl.value],
 						ruleName,
 						result,
 						node: decl,
@@ -86,7 +86,7 @@ const rule = (options, secondary) => {
 				if (options.min && Math.abs(value) < options.min) {
 					report({
 						ruleName,
-						messageArg: [rule.selector, options.min],
+						messageArg: [rule.selector, decl.value],
 						result,
 						node: decl,
 						message: messages.smallerThanMin(

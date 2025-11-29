@@ -8,3 +8,7 @@
 	top: 50px;
 }
 
+.ecss-ignored-properties {
+	display: inline;
+	min-width: initial;
+}

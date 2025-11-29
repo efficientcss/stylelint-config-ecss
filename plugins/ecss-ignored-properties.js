@@ -209,7 +209,7 @@ const rule = (actual) => {
 
 					decl.parent.nodes.forEach((node, nodeIndex) => {
 						if (
-							!node.prop ||
+							!node.prop || node.value === 'initial' ||
 							ignoredProperties.indexOf(node.prop.toLowerCase()) === -1 ||
 							index === nodeIndex
 						) {

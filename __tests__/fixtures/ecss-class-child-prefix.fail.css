@@ -21,3 +21,6 @@
 	display: block;
 }
 
+* .ecss-filename {
+	display: flex;
+}

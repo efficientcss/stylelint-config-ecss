@@ -205,7 +205,7 @@ export default {
 		}],
 
 		"csstree/validator": [{
-			"ignoreProperties": ["text-box", "text-wrap", "/container/", "animation-timeline", "animation-range", "view-transition-name"],
+			"ignoreProperties": ["text-box", "text-wrap", "/container/", "animation-timeline", "animation-range", "/view-transition/"],
 			"ignoreValue": "clamp",
 			"ignoreAtrules": ["container", "starting-style", "view-transition"]
 		}, {

@@ -33,3 +33,6 @@
 		flex-shrink: 1;
 	}
 }
+.ecss-content-block h1 {
+	display: contents;
+}

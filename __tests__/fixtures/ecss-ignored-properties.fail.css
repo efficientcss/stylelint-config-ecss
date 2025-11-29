@@ -1,9 +1,9 @@
 .ecss-ignored-properties {
 	display: inline;
-	width: 50px;
+	min-width: 80ch;
 }
 
 .ecss-ignored-properties {
-	position: static;
-	top: 50px;
+	position: fixed;
+	vertical-align: middle;
 }

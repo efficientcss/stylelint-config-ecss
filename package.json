@@ -33,19 +33,19 @@
   },
   "homepage": "https://ecss.info",
   "peerDependencies": {
-    "stylelint": "^16.0.0"
+    "stylelint": "^16.23.1"
   },
   "dependencies": {
-    "css-tree": "^2.3.1",
+    "css-tree": "^3.1.0",
     "is-plain-object": "^5.0.0",
-    "postcss-nested": "^6.2.0",
-    "stylelint-file-max-lines": "^1.0.0"
+    "stylelint-file-max-lines": "^1.0.0",
+    "postcss-nested": "^7.0.2"
   },
   "directories": {
     "lib": "lib",
     "test": "tests"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^30.1.3"
   }
 }

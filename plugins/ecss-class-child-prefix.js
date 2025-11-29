@@ -18,7 +18,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const unprefixedDescendantRegex = /(?<![(:,]\s*)(?:\s+|>\s*)\.(?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__)[a-zA-Z0-9_-]+/;
+		const unprefixedDescendantRegex = /(?<![(:,]\s*)(?:(?<![+~])\s+|>\s*)\.(?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__)[a-zA-Z0-9_-]+/;
 
 		postcssRoot.walkRules((rule) => {
 			for (const selector of rule.selectors) {

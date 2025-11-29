@@ -24,6 +24,14 @@
 	}
 }
 
+* ~ .ecss-class-child-prefix {
+	display: block;
+}
+
+* + .ecss-class-child-prefix {
+	display: block;
+}
+
 :is(.ecss-class-child-prefix, .ecss-class-child-prefix) {
 	display: block;
 }

@@ -42,3 +42,10 @@
 		color: white;
 	}
 }
+
+* ~ .ecss-filename {
+	display: flex;
+}
+*+.ecss-filename {
+	display: flex;
+}
