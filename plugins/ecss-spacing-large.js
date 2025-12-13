@@ -17,7 +17,7 @@ const meta = {
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		postcssRoot.walkRules((rule) => {
-			rule.walkDecls(/^(margin|padding)(-(left|right|inline(-end|start)?))?$/, (decl) => {
+			rule.walkDecls(/^(margin|padding)(-(left|right|inline(-start|-end)?))?$/, (decl) => {
 				if (/^-?(\d{2,}(em|rem)|\d{3,}px)/.test(decl.value)) {
 					report({
 						message: messages.expected,
