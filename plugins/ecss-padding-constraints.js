@@ -9,7 +9,7 @@ const {
 
 const ruleName = 'ecss/padding-constraints';
 const messages = ruleMessages(ruleName, {
-	expected: 'Paddings should require graphical constraints.',
+	expected: "Don't use padding as spacing. Use padding on containers (with background/border/overflow) or use margin/layout spacing.",
 });
 
 const meta = {
