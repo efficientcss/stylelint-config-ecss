@@ -25,3 +25,7 @@
 .ecss-class-numbered:nth-of-type(4) {
 	display: block;
 }
+
+.ecss-class-numbered._2-to-1 {
+	display: block;
+}

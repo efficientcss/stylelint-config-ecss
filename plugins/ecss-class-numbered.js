@@ -19,9 +19,12 @@ const meta = {
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
 		const numberedClassRegex = /^(?!.*(?:h[1-6]|gri.*\d+|col.*\d+|\(\d+\))).*\d/;
+		const singleUnderscoreClassRegex = /\._(?!_)[A-Za-z0-9-]+/g;
 
 		postcssRoot.walkRules((rule) => {
-			if (numberedClassRegex.test(rule.selector)) {
+			const selectorWithoutSingleUnderscoreClasses = rule.selector.replace(singleUnderscoreClassRegex, '');
+
+			if (numberedClassRegex.test(selectorWithoutSingleUnderscoreClasses)) {
 				report({
 					message: messages.expected,
 					messageArgs: [rule.selector],
