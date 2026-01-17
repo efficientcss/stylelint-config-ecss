@@ -10,9 +10,17 @@ export default function hasPropertyValueInContext(rule, propertyPattern, valuePa
 	const isDescendant = /&\s*(?:>|\s+\.\w+|:{1,2}(?:before|after))/.test(rule.selector);
 	const isCombined = /&(:[\w-]+|::[\w-]+|\[.*?\]|\.[\w-]+|#\w+)/u.test(rule.selector);
 
-	let currentRule = context == 'parent' && !isCombined ? rule.parent : rule;
+	const findNearestRule = (node) => {
+		let current = node;
+		while (current && current.type !== 'rule') {
+			current = current.parent;
+		}
+		return current;
+	};
 
-	while (currentRule && currentRule.type === 'rule') {
+	let currentRule = findNearestRule(context == 'parent' && !isCombined ? rule.parent : rule);
+
+	while (currentRule) {
 
 		const hasPropertyValue = currentRule.some((decl) => (
 			propertyPattern instanceof RegExp
@@ -28,7 +36,7 @@ export default function hasPropertyValueInContext(rule, propertyPattern, valuePa
 			return true;
 		}
 		if(context == 'self' && isCombined || context == 'parent' && isDescendant) {
-			currentRule = currentRule.parent;
+			currentRule = findNearestRule(currentRule.parent);
 		} else {
 			return false;
 		}

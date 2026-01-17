@@ -21,3 +21,13 @@
 		flex-shrink: 2;
 	}
 }
+
+.ecss-flex-children {
+	display: flex;
+
+	@media (min-width: 600px) {
+		& .__child {
+			flex-grow: 1;
+		}
+	}
+}

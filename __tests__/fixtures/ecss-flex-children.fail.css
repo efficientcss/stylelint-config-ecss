@@ -16,3 +16,11 @@
 .ecss-flex-children {
 	flex-shrink: 0;
 }
+
+.ecss-flex-children {
+	@media (min-width: 600px) {
+		& .__child {
+			flex-grow: 1;
+		}
+	}
+}
