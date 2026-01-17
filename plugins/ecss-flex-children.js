@@ -22,7 +22,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		postcssRoot.walkRules((rule) => {
 
 			const selectedNodes = rule.nodes.filter((node) => 
-				node.type === 'decl' && ['flex-grow', 'flex-basis', 'flex-shrink', 'align-self'].includes(node.prop)
+				node.type === 'decl' && ['flex-grow', 'flex-basis', 'flex-shrink'].includes(node.prop)
 			);
 
 			const parentHasFlexDisplay = selectedNodes.length && hasPropertyValueInContext(rule, 'display', /flex/, 'parent');
