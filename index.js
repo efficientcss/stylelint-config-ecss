@@ -31,7 +31,6 @@ export default {
 		"./plugins/ecss-content-padding",
 		"./plugins/ecss-selector-filename",
 		"./plugins/stylelint-z-index-value-constraint",
-		"./plugins/stylelint-csstree-validator",
 		"./plugins/ecss-ignored-properties",
 		"./plugins/ecss-selector-unnecessary",
 		"./plugins/stylelint-magic-numbers",
@@ -202,15 +201,6 @@ export default {
 		"unit-no-unknown": [true, {
 			"message": (selector, prop) => { 
 				return printMessage("unit-unknown", selector, prop)}
-		}],
-
-		"csstree/validator": [{
-			"ignoreProperties": ["text-box", "text-wrap", "/container/", "animation-timeline", "animation-range", "/view-transition/"],
-			"ignoreValue": "clamp",
-			"ignoreAtrules": ["container", "starting-style", "view-transition"]
-		}, {
-			"message": (selector, prop) => { 
-				return printMessage("syntax-invalid", selector, prop)}
 		}],
 		"number-max-precision": [5, {
 			"ignoreUnits": ["em", "rem", "/v/", "s"],
