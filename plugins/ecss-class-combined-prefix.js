@@ -18,7 +18,7 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const unprefixedCombinedClassRegex = /^(&|[.][a-zA-Z-_]*)[.](?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__).*$/;
+		const unprefixedCombinedClassRegex = /^(&|[.][a-zA-Z-_]*)[.](?!is-|as-|on-|to-|with-|and-|now-|fx-|for-|__|_).*$/;
 
 		postcssRoot.walkRules((rule) => {
 			if (unprefixedCombinedClassRegex.test(rule.selector)) {
