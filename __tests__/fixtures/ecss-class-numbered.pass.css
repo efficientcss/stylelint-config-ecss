@@ -29,3 +29,8 @@
 .ecss-class-numbered._2-to-1 {
 	display: block;
 }
+
+@keyframes {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}

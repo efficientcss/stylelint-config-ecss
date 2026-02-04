@@ -21,8 +21,18 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 		const numberedClassRegex = /^(?!.*(?:h[1-6]|gri.*\d+|col.*\d+|\(\d+\))).*\d/;
 		const singleUnderscoreClassRegex = /\._(?!_)[A-Za-z0-9-]+/g;
 
+		
 		postcssRoot.walkRules((rule) => {
-			const selectorWithoutSingleUnderscoreClasses = rule.selector.replace(singleUnderscoreClassRegex, '');
+			const parent = rule.parent;
+			
+			if (parent && parent.type === 'atrule' && /^keyframes$/i.test(parent.name)) {
+				return;
+			}
+
+			const selectorWithoutSingleUnderscoreClasses = rule.selector.replace(
+				singleUnderscoreClassRegex,
+				''
+			);
 
 			if (numberedClassRegex.test(selectorWithoutSingleUnderscoreClasses)) {
 				report({
@@ -34,6 +44,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				});
 			}
 		});
+
 	};
 };
 
