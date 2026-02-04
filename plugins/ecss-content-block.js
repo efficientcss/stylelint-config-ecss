@@ -1,4 +1,5 @@
 import stylelint from 'stylelint';
+import { text_selectors } from '../lib/selectors.js';
 
 const {
 	createPlugin,
@@ -14,7 +15,6 @@ const meta = {
 	url: ''
 };
 
-const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
 const pseudoElementRegex = /^&:{1,2}(before|after)$/;
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
@@ -24,7 +24,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				const displayValue = decl.value;
 				const selector = rule.selector;
 
-				if (!textTagRegex.test(selector)) return;
+				if (!text_selectors.test(selector)) return;
 				if (/^(contents|block|inline|inline-block|none)$/.test(displayValue)) return;
 
 				const hasPseudoElementChild = rule.nodes.some(

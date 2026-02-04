@@ -2,7 +2,9 @@ import stylelint from 'stylelint';
 import postcss from "postcss";
 import nested from "postcss-nested";
 import hasPropertyValueInContext from './utils/hasPropertyValueInContext.js';
+import isPseudoElementSelector from './utils/isPseudoElementSelector.js';
 import printUrl from '../lib/printUrl.js';
+import { component_selectors, notGraphical_selectors } from '../lib/selectors.js';
 
 
 const {
@@ -25,11 +27,12 @@ const preprocessCSS = async (css) => {
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
-	const notGraphicalSelectorsRegex = /^(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|figure|hr$|svg|line|logo|frame|button|input|select$|textarea)).*$/;
-	const componentSelectorsRegex = /^(?!& )(?!.*__)([.]|\\[[a-z0-9-_]*="?)(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea))[a-zA-Z0-9-_]+("?\\])?$/;
 	const processedRoot = await preprocessCSS(postcssRoot.toString());
 
 	processedRoot.walkRules((rule) => {
+		if (isPseudoElementSelector(rule.selector)) {
+			return;
+		}
 
 		const selectedNodes = rule.nodes.filter((node) => 
 			node.type === 'decl' && /^(?:max-)?(?:height)$/.test(node.prop)
@@ -38,7 +41,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => async (postcss
 		const hasNeededProp = selectedNodes.length && hasPropertyValueInContext(rule, /(text-indent|background|border|margin|box-sizing|overflow)/, /.*/, 'self');
 
 		selectedNodes.forEach(node => {
-			if (notGraphicalSelectorsRegex.test(rule.selector) && !componentSelectorsRegex.test(rule.selector) && !hasNeededProp) {
+			if (notGraphical_selectors.test(rule.selector) && !component_selectors.test(rule.selector) && !hasNeededProp) {
 				report({
 					message: messages.expected,
 					messageArgs: [rule.selector, node],

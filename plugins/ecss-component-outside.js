@@ -1,5 +1,6 @@
 import stylelint from 'stylelint';
 import printUrl from '../lib/printUrl.js';
+import { component_selectors } from '../lib/selectors.js';
 
 const {
 	createPlugin,
@@ -18,14 +19,12 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const componentSelectorsRegex = /^(?!& )(?!.*__)([.]|\\[[a-z0-9-_]*="?)(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea))[a-zA-Z0-9-_]+("?\\])?$/;
-
 		postcssRoot.walkRules((rule) => {
 			const selectedNodes = rule.nodes.filter((node) => 
 				node.type === 'decl' && ['margin'].includes(node.prop)
 			);
 
-			if (componentSelectorsRegex.test(rule.selector)) {
+			if (component_selectors.test(rule.selector)) {
 				selectedNodes.forEach(decl => {
 					report({
 						message: messages.expected,

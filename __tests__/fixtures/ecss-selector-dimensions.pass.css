@@ -20,3 +20,8 @@
 		height: 10rem;
 	}
 }
+
+::view-transition-old(root) {
+	height: 0;
+}
+

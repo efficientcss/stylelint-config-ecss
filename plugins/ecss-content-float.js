@@ -1,6 +1,8 @@
 import stylelint from 'stylelint';
 import postcss from "postcss";
 import nested from "postcss-nested";
+import isPseudoElementSelector from './utils/isPseudoElementSelector.js';
+import { notGraphical_selectors } from '../lib/selectors.js';
 
 const {
 	createPlugin,
@@ -22,12 +24,15 @@ const preprocessCSS = async (css) => {
 };
 
 const ruleFunction = (primaryOption, secondaryOption, context) => async (postcssRoot, postcssResult) => {
-	const notGraphicalSelectorsRegex = /^(?!.*(?:image|img|video|hr|picture|photo|icon|i$|shape|before$|after$|input|figure|hr$|svg|line|logo|frame|button|input|select|textarea)).*$/;
 	const processedRoot = await preprocessCSS(postcssRoot.toString());
 
 	processedRoot.walkRules((rule) => {
+		if (isPseudoElementSelector(rule.selector)) {
+			return;
+		}
+
 		rule.walkDecls('float', (decl) => {
-			if (notGraphicalSelectorsRegex.test(rule.selector)) {
+			if (notGraphical_selectors.test(rule.selector)) {
 				report({
 					message: messages.expected,
 					messageArgs: [rule.selector, decl],

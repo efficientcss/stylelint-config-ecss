@@ -1,5 +1,6 @@
 import stylelint from 'stylelint';
 import printUrl from '../lib/printUrl.js';
+import { text_selectors } from '../lib/selectors.js';
 
 const {
 	createPlugin,
@@ -18,15 +19,13 @@ const meta = {
 
 const ruleFunction = (primaryOption, secondaryOption, context) => {
 	return (postcssRoot, postcssResult) => {
-		const textTagRegex = /^(.*((\s|>|\()(p|h1|h2|h3|h4|h5|h6|blockquote)))\)?$/;
-
 		postcssRoot.walkRules((rule) => {
 			const selectedNodes = rule.nodes.filter((node) => 
 				node.type === 'decl' && /^margin/.test(node.prop)
 			);
 
 			selectedNodes.forEach(node => {
-				if (textTagRegex.test(rule.selector) && !/^(margin-top|margin-bottom|margin-block(?:-start|-end)?)$/.test(node.prop)) {
+				if (text_selectors.test(rule.selector) && !/^(margin-top|margin-bottom|margin-block(?:-start|-end)?)$/.test(node.prop)) {
 					report({
 						message: messages.expected,
 						messageArgs: [rule.selector, node],
