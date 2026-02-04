@@ -25,7 +25,7 @@ const ruleFunction = (primaryOption, secondaryOption, context) => {
 				const selector = rule.selector;
 
 				if (!textTagRegex.test(selector)) return;
-				if (/^(contents|block|inline|inline-block)$/.test(displayValue)) return;
+				if (/^(contents|block|inline|inline-block|none)$/.test(displayValue)) return;
 
 				const hasPseudoElementChild = rule.nodes.some(
 					node =>
